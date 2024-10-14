@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>IUB CGPA Calculator</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 60px;
+            color: #333;
+        }
+        h1 {
+            font-size: 3rem;
+            color: #8e44ad;
+            font-weight: bold;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 20px; /* Add spacing between form groups */
+        }
+        .form-group label {
+            font-weight: 600; /* Slightly bolder label */
+            font-size: 1.1rem; /* Increase font size for labels */
+            color: #34495e; /* Darker color for contrast */
+            display: block; /* Ensure labels take the full width */
+            margin-bottom: 8px; /* Add spacing below the label */
+        }
+        .form-control {
+            border-radius: 25px; /* More rounded corners */
+            padding: 10px 20px; /* Increased padding for better touch targets */
+            font-size: 1.2rem; /* Increase font size */
+            border: 2px solid #3498db; /* Border color that matches the theme */
+            transition: border 0.3s; /* Transition effect for border color */
+        }
+        .form-control:focus {
+            border-color: #8e44ad; /* Change border color on focus */
+            box-shadow: 0 0 8px rgba(142, 68, 173, 0.8); /* Shadow effect for focus */
+        }
+        .btn-primary {
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            transition: 0.3s ease;
+        }
+        .btn-primary:hover {
+            background: linear-gradient(120deg, #8e44ad, #3498db);
+            box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4);
+        }
+        .result {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2ecc71;
+            text-align: center;
+            margin-top: 25px;
+        }
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 10px;
+        }
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
+        }
+        .footer a {
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+        .footer a:hover {
+            text-decoration: underline;
+        }
+        .icon {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 20px;
+        }
+        .icon i {
+            transition: 0.3s ease;
+        }
+        .icon:hover i {
+            transform: rotate(360deg);
+        }
+        .two-inputs {
+            display: flex;
+            justify-content: space-between;
+        }
+        .two-inputs .form-group {
+            flex: 1; /* Allow each input to take equal space */
+            margin-right: 10px; /* Add spacing between the two inputs */
+        }
+        .two-inputs .form-group:last-child {
+            margin-right: 0; /* Remove margin for the last input */
+        }
+        .course-inputs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Spacing between course inputs */
+        }
+        .course-inputs input, .course-inputs select {
+            flex: 1; /* Allow inputs to take equal space */
+            margin-right: 10px; /* Spacing between inputs */
+        }
+        .course-inputs input:last-child, .course-inputs select:last-child {
+            margin-right: 0; /* Remove margin for the last input */
+        }
+        .course-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px; /* Spacing for titles */
+        }
+        .course-title span {
+            flex: 1; /* Distribute space evenly */
+            font-weight: bold;
+        }
+        .course-title .grade-title {
+            flex: 0.5; /* Make grade title slightly smaller */
+        }
+        .datetime {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: black; /* Set text color to black */
+            text-align:right;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container text-center">
+        <div class="icon">
+            <i class="fas fa-calculator"></i>
+        </div>
+        <h1 class="text-center">IUB CGPA Calculator</h1>
+
+        <h2 class="result" id="result"></h2>
+        <h3 class="result" id="totalCreditsResult"></h3>
+
+        <form id="cgpaForm" method="post">
+            <div class="two-inputs">
+                <div class="form-group">
+                    <label for="previous_cgpa">Previous CGPA:</label>
+                    <input type="number" step="0.01" class="form-control" id="previous_cgpa" placeholder="Enter CGPA">
+                </div>
+                <div class="form-group">
+                    <label for="completed_credits">Earned Credits:</label>
+                    <input type="number" class="form-control" id="completed_credits" placeholder="Enter tolal credits">
+                </div>
+            </div>
+            <div class="form-group text-center">
+                <label for="num_courses">Number of New Courses:</label>
+                <input type="number" class="form-control" id="num_courses" min="1" max="10" required placeholder="Enter number of courses this semester">
+            </div>
+
+            <!-- Course Titles Section -->
+            <div class="course-title">
+                <span>Course Name </span>
+                <span class="grade-title">Grade</span>
+                <span>Credit</span>
+            </div>
+
+            <div id="courseInputs"></div>
+            <button type="button" class="btn btn-primary btn-block" id="calculateBtn"><i class="fas fa-check-circle"></i> Calculate CGPA</button>
+        </form>
+    </div>
+
+    <div class="datetime" id="datetime"></div>
+
+    <div class="footer">
+        <p>&copy; 2024 IUB CGPA Calculator | <b>Alnilam<b> </p>
+    </div>
+
+    <!-- Bootstrap and jQuery JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const grades = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"];
+        
+        function createCourseInputs(numCourses) {
+            const courseInputsDiv = document.getElementById('courseInputs');
+            courseInputsDiv.innerHTML = "";  // Clear previous inputs
+
+            for (let i = 0; i < numCourses; i++) {
+                const courseHTML = `
+                    <div class="course-inputs">
+                        <input type="text" class="form-control" id="course_name_${i}" placeholder="Optional">
+                        <select class="form-control" id="grade_${i}">
+                            ${grades.map(grade => `<option value="${grade}">${grade}</option>`).join('')}
+                        </select>
+                        <input type="number" class="form-control" id="credit_${i}" min="1" required placeholder="Credit Hours">
+                    </div>`;
+                courseInputsDiv.innerHTML += courseHTML;
+            }
+        }
+
+        document.getElementById('num_courses').addEventListener('input', function() {
+            const numCourses = parseInt(this.value);
+            if (numCourses > 0 && numCourses <= 10) {
+                createCourseInputs(numCourses);
+            }
+        });
+
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            const previousCgpa = parseFloat(document.getElementById('previous_cgpa').value) || 0;
+            const completedCredits = parseFloat(document.getElementById('completed_credits').value) || 0;
+            let totalPoints = 0;
+            let totalCredits = 0;
+            let totalNewCredits = 0;
+
+            for (let i = 0; i < parseInt(document.getElementById('num_courses').value); i++) {
+                const grade = document.getElementById(`grade_${i}`).value;
+                const creditHours = parseFloat(document.getElementById(`credit_${i}`).value) || 0;
+
+                const gradePoints = getGradePoints(grade);
+                totalPoints += gradePoints * creditHours;
+                totalCredits += creditHours;
+                totalNewCredits += creditHours; // Keep track of total new credits
+            }
+
+            const newCgpa = (totalPoints + (previousCgpa * completedCredits)) / (totalCredits + completedCredits);
+            const formattedCgpa = isNaN(newCgpa) ? "Please enter valid data" : newCgpa.toFixed(2);
+            const totalEarnedCredits = completedCredits + totalNewCredits;
+
+            document.getElementById('result').innerText = `Your CGPA: ${formattedCgpa}`;
+            document.getElementById('totalCreditsResult').innerText = `Total Earned Credits: ${totalEarnedCredits}`;
+        });
+
+        function getGradePoints(grade) {
+            switch (grade) {
+                case "A": return 4.00;
+                case "A-": return 3.67;
+                case "B+": return 3.33;
+                case "B": return 3.00;
+                case "B-": return 2.67;
+                case "C+": return 2.33;
+                case "C": return 2.00;
+                case "C-": return 1.67;
+                case "D+": return 1.33;
+                case "D": return 1.00;
+                case "F": return 0.00;
+                default: return 0;
+            }
+        }
+
+        // Function to display current date and time
+        function showDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const dayName = days[now.getDay()]; // Get the day name
+            document.getElementById('datetime').innerText = `${dayName}, ${now.toLocaleString('en-US', options)}`;
+        }
+
+        setInterval(showDateTime, 1000); // Update date and time every second
+        showDateTime(); // Initial call to display date and time immediately
+    </script>
+</body>
+</html>
