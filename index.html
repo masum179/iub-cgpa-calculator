@@ -3,1386 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Primary SEO Meta Tags -->
-    <title>IUB CGPA Calculator & Retake Tracker | Independent University, Bangladesh</title>
-    <meta name="description" content="An intelligent, premium CGPA and Semester GPA calculator designed specifically for Independent University, Bangladesh (IUB) students. Automatically detects course retakes, tracks graduation honors, and charts your GPA progression.">
-    <meta name="keywords" content="IUB CGPA Calculator, IUB CGPA, IUB GPA Calculator, Independent University Bangladesh, CGPA Calculator, IUB Retake System, GPA Tracker, IUB Student Dashboard, IUB Bangladesh">
-    <meta name="author" content="IUB CGPA Portal">
-    <meta name="robots" content="index, follow">
-    
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="IUB CGPA Calculator & Retake Tracker">
-    <meta property="og:description" content="Calculate your IUB CGPA instantly. Features an intelligent retake engine, interactive SVG trend charts, and official graduation honors tracking. Optimized for dark and light modes.">
-    <meta property="og:image" content="https://raw.githubusercontent.com/masum179/iub-cgpa-calculator/main/screenshot.png">
-    
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:title" content="IUB CGPA Calculator & Retake Tracker">
-    <meta property="twitter:description" content="Calculate your IUB CGPA instantly. Features an intelligent retake engine, interactive SVG trend charts, and official graduation honors tracking. Optimized for dark and light modes.">
-
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- FontAwesome for Premium Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>IUB CGPA Calculator & Retake Tracker</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- FontAwesome for standard icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
     <style>
-        :root {
-            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            --border-radius-xl: 24px;
-            --border-radius-lg: 16px;
-            --border-radius-md: 12px;
-            --border-radius-sm: 8px;
-            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-        }
-
-        .theme-dark {
-            --bg-app: #080c14;
-            --bg-gradient: radial-gradient(circle at top right, #111827 0%, #080c14 100%);
-            --bg-card: rgba(17, 24, 39, 0.6);
-            --bg-card-hover: rgba(24, 33, 53, 0.7);
-            --border-card: rgba(255, 255, 255, 0.08);
-            --border-hover: rgba(255, 255, 255, 0.15);
-            --text-primary: #f8fafc;
-            --text-secondary: #94a3b8;
-            --text-muted: #64748b;
-            --accent: #3b82f6;
-            --accent-glow: rgba(59, 130, 246, 0.15);
-            --accent-solid: #2563eb;
-            --success: #10b981;
-            --success-glow: rgba(16, 185, 129, 0.15);
-            --warning: #f59e0b;
-            --warning-glow: rgba(245, 158, 11, 0.15);
-            --danger: #ef4444;
-            --danger-glow: rgba(239, 68, 68, 0.15);
-            --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
-            --shadow-glow: 0 0 24px rgba(59, 130, 246, 0.12);
-            --input-bg: rgba(15, 23, 42, 0.6);
-            --input-border: rgba(255, 255, 255, 0.1);
-            --input-focus: #3b82f6;
-            --badge-bg: rgba(255, 255, 255, 0.05);
-            --scrollbar-thumb: rgba(255, 255, 255, 0.15);
-        }
-
-        .theme-light {
-            --bg-app: #f4f6fa;
-            --bg-gradient: radial-gradient(circle at top right, #eef2f6 0%, #f4f6fa 100%);
-            --bg-card: rgba(255, 255, 255, 0.75);
-            --bg-card-hover: rgba(255, 255, 255, 0.9);
-            --border-card: rgba(0, 0, 0, 0.06);
-            --border-hover: rgba(0, 0, 0, 0.12);
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
-            --text-muted: #94a3b8;
-            --accent: #2563eb;
-            --accent-glow: rgba(37, 99, 235, 0.08);
-            --accent-solid: #1d4ed8;
-            --success: #059669;
-            --success-glow: rgba(5, 150, 105, 0.1);
-            --warning: #d97706;
-            --warning-glow: rgba(217, 119, 6, 0.1);
-            --danger: #dc2626;
-            --danger-glow: rgba(220, 38, 38, 0.1);
-            --shadow-card: 0 10px 30px -10px rgba(15, 23, 42, 0.06);
-            --shadow-glow: 0 0 24px rgba(37, 99, 235, 0.06);
-            --input-bg: rgba(255, 255, 255, 0.9);
-            --input-border: rgba(0, 0, 0, 0.1);
-            --input-focus: #2563eb;
-            --badge-bg: rgba(0, 0, 0, 0.03);
-            --scrollbar-thumb: rgba(0, 0, 0, 0.15);
-        }
-
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
+        /* Clean standard CSS styling (Simple, not fancy) */
         body {
-            background: var(--bg-gradient);
-            background-color: var(--bg-app);
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            min-height: 100vh;
-            overflow-x: hidden;
-            transition: background-color 0.3s, color 0.3s;
-            padding: 0 0 60px 0;
+            background-color: #f4f6f9;
+            color: #333333;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            transition: background-color 0.2s, color 0.2s;
+            padding-bottom: 60px;
         }
-
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .main-container {
+            max-width: 1100px;
+            margin-top: 30px;
         }
-        ::-webkit-scrollbar-track {
-            background: transparent;
+        .card {
+            border: 1px solid #e3e6f0;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+            margin-bottom: 25px;
+            background-color: #ffffff;
+            transition: background-color 0.2s;
         }
-        ::-webkit-scrollbar-thumb {
-            background: var(--scrollbar-thumb);
-            border-radius: 4px;
-        }
-
-        /* Glassmorphism utilities */
-        .glass-card {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: var(--border-radius-xl);
-            padding: 28px;
-            box-shadow: var(--shadow-card);
-            transition: var(--transition-smooth);
-        }
-
-        .glass-card:hover {
-            border-color: var(--border-hover);
-            transform: translateY(-2px);
-        }
-
-        .glow-card {
-            box-shadow: var(--shadow-glow), var(--shadow-card);
-        }
-
-        /* Structure */
-        .app-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 20px 24px;
-        }
-
-        /* Header */
-        header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 32px;
-            padding: 12px 0;
-        }
-
-        .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .brand-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: var(--border-radius-md);
-            background: linear-gradient(135deg, var(--accent), var(--accent-solid));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
-            color: #fff;
-            font-size: 1.3rem;
-        }
-
-        .brand-text h1 {
-            font-family: var(--font-display);
-            font-size: 1.4rem;
+        .card-header {
+            background-color: #f8f9fc;
+            border-bottom: 1px solid #e3e6f0;
             font-weight: 700;
-            letter-spacing: -0.02em;
-            color: var(--text-primary);
+            color: #4e73df;
         }
-
-        .brand-text span {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            font-weight: 500;
+        .results-box {
+            background-color: #eaecf4;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .results-val {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #4e73df;
+            line-height: 1.2;
+        }
+        .results-label {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #5a5c69;
             text-transform: uppercase;
             letter-spacing: 0.05em;
         }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        /* Buttons */
-        .btn-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--border-card);
-            background: var(--bg-card);
-            color: var(--text-primary);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: var(--transition-smooth);
-        }
-
-        .btn-icon:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-            transform: scale(1.05);
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--accent), var(--accent-solid));
-            border: none;
-            color: #fff;
-            font-family: var(--font-display);
-            font-weight: 600;
-            padding: 12px 24px;
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            transition: var(--transition-smooth);
-            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
-            filter: brightness(1.1);
-        }
-
-        .btn-secondary {
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            color: var(--text-primary);
-            font-family: var(--font-display);
-            font-weight: 500;
-            padding: 10px 18px;
-            border-radius: var(--border-radius-md);
-            cursor: pointer;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            transition: var(--transition-smooth);
-        }
-
-        .btn-secondary:hover {
-            border-color: var(--border-hover);
-            background: var(--bg-card-hover);
-        }
-
-        /* Dashboard Grid */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: 1fr 1.6fr;
-            gap: 32px;
-            align-items: start;
-        }
-
-        .col-left, .col-right {
-            display: flex;
-            flex-direction: column;
-            gap: 32px;
-        }
-
-        /* Dashboard Cards Row */
-        .stats-row {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .stat-card {
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            min-height: 120px;
-        }
-
-        .stat-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            color: var(--text-secondary);
-            font-size: 0.85rem;
-            font-weight: 500;
-        }
-
-        .stat-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: var(--border-radius-sm);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.95rem;
-        }
-
-        .stat-icon.blue { background: var(--accent-glow); color: var(--accent); }
-        .stat-icon.green { background: var(--success-glow); color: var(--success); }
-        .stat-icon.gold { background: var(--warning-glow); color: var(--warning); }
-        .stat-icon.red { background: var(--danger-glow); color: var(--danger); }
-
-        .stat-body {
-            margin-top: 14px;
-        }
-
-        .stat-val {
-            font-family: var(--font-display);
-            font-size: 1.8rem;
-            font-weight: 800;
-            line-height: 1;
-            color: var(--text-primary);
-        }
-
-        .stat-desc {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-            margin-top: 6px;
-            display: flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        /* Gauge card */
-        .gauge-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-        }
-
-        .cgpa-gauge-wrapper {
-            position: relative;
-            width: 140px;
-            height: 140px;
-            margin: 8px auto 16px;
-        }
-
-        .gauge-bg {
-            stroke: var(--border-card);
-        }
-
-        .gauge-fill {
-            stroke: var(--accent);
-            transform: rotate(-90deg);
-            transform-origin: 50% 50%;
-            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease;
-        }
-
-        .gauge-content {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .gauge-val {
-            font-family: var(--font-display);
-            font-size: 2.1rem;
-            font-weight: 800;
-            color: var(--text-primary);
-            line-height: 1;
-        }
-
-        .gauge-lbl {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            font-weight: 600;
-            letter-spacing: 0.1em;
-            color: var(--text-secondary);
-            margin-top: 2px;
-        }
-
-        .gauge-classification {
-            font-family: var(--font-display);
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-top: 4px;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            background: var(--input-bg);
-            height: 8px;
-            border-radius: 4px;
-            overflow: hidden;
-            margin-top: 8px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            background: linear-gradient(90deg, var(--accent), var(--accent-solid));
-            width: 0%;
-            border-radius: 4px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Forms */
-        .section-title {
-            font-family: var(--font-display);
-            font-size: 1.15rem;
-            font-weight: 700;
-            color: var(--text-primary);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .section-title i {
-            color: var(--accent);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 16px;
-            margin-bottom: 16px;
-        }
-
-        .form-group-full {
-            grid-column: span 2;
-        }
-
-        .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-        }
-
-        .form-group label {
-            font-size: 0.8rem;
-            font-weight: 600;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.02em;
-        }
-
-        .form-control {
-            background-color: var(--input-bg);
-            border: 1px solid var(--input-border);
-            border-radius: var(--border-radius-md);
-            padding: 11px 14px;
-            color: var(--text-primary);
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            outline: none;
-            transition: var(--transition-smooth);
-            width: 100%;
-        }
-
-        .form-control::placeholder {
-            color: var(--text-muted);
-        }
-
-        .form-control:focus {
-            border-color: var(--input-focus);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-
-        /* Toggle switches */
-        .toggle-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: var(--input-bg);
-            padding: 10px 14px;
-            border-radius: var(--border-radius-md);
-            border: 1px solid var(--input-border);
-            margin-bottom: 16px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-        }
-
-        .toggle-container:hover {
-            border-color: var(--input-focus);
-        }
-
-        .toggle-info {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .toggle-title {
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--text-primary);
-        }
-
-        .toggle-subtitle {
-            font-size: 0.72rem;
-            color: var(--text-secondary);
-        }
-
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 44px;
-            height: 24px;
-            pointer-events: none; /* Let container click trigger it */
-        }
-
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: var(--text-muted);
-            transition: .3s;
-            border-radius: 24px;
-        }
-
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .3s;
-            border-radius: 50%;
-        }
-
-        input:checked + .slider {
-            background-color: var(--accent);
-        }
-
-        input:checked + .slider:before {
-            transform: translateX(20px);
-        }
-
-        /* Feedback tips */
-        .form-feedback {
-            background: var(--accent-glow);
-            border-left: 3px solid var(--accent);
-            padding: 10px 14px;
-            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
-            font-size: 0.78rem;
-            line-height: 1.4;
-            color: var(--text-secondary);
-            margin-bottom: 18px;
-            display: none;
-            animation: fadeIn 0.3s ease;
-        }
-
-        .form-feedback.warning {
-            background: var(--danger-glow);
-            border-left-color: var(--danger);
-        }
-
-        .form-feedback i {
-            margin-right: 6px;
-        }
-
-        /* Chart card */
-        .chart-wrapper {
-            position: relative;
-            width: 100%;
-            height: 190px;
-            margin-top: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .no-chart-data {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            text-align: center;
-            max-width: 250px;
-        }
-
-        .chart-tooltip {
-            position: absolute;
-            background: var(--bg-card);
-            border: 1px solid var(--border-card);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            color: var(--text-primary);
-            padding: 6px 10px;
-            border-radius: var(--border-radius-sm);
-            font-size: 0.7rem;
-            font-weight: 600;
-            pointer-events: none;
-            opacity: 0;
-            transition: opacity 0.15s ease, transform 0.15s ease;
-            z-index: 10;
-            box-shadow: var(--shadow-card);
-            transform: translate(-50%, -100%) translateY(-10px);
-        }
-
-        /* Semester Cards Grid */
-        .timeline-container {
-            display: flex;
-            flex-direction: column;
-            gap: 24px;
-        }
-
-        .semester-card {
-            border-radius: var(--border-radius-lg);
-            border: 1px solid var(--border-card);
-            background: var(--bg-card);
-            overflow: hidden;
-            transition: var(--transition-smooth);
-        }
-
-        .semester-card:hover {
-            border-color: var(--border-hover);
-        }
-
-        .semester-header {
-            padding: 16px 20px;
-            background: rgba(255, 255, 255, 0.02);
-            border-bottom: 1px solid var(--border-card);
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        .sem-title-area {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .sem-chevron {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            transition: transform 0.3s ease;
-        }
-
-        .semester-card.collapsed .sem-chevron {
-            transform: rotate(-90deg);
-        }
-
-        .sem-name {
-            font-family: var(--font-display);
-            font-size: 1.05rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-
-        .sem-stats {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-
-        .badge {
-            background: var(--badge-bg);
-            border: 1px solid var(--border-card);
-            color: var(--text-secondary);
-            font-size: 0.72rem;
-            font-weight: 600;
-            padding: 4px 10px;
-            border-radius: 20px;
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-        }
-
-        .badge.highlight {
-            background: var(--accent-glow);
-            border-color: rgba(59, 130, 246, 0.2);
-            color: var(--accent);
-        }
-
-        .semester-body {
-            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
-            max-height: 800px;
-            opacity: 1;
-            overflow: hidden;
-        }
-
-        .semester-card.collapsed .semester-body {
-            max-height: 0;
-            opacity: 0;
-            border-bottom-width: 0;
-        }
-
-        .courses-list {
-            padding: 12px;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .course-row {
-            display: grid;
-            grid-template-columns: 1.1fr 2.5fr 0.8fr 1fr 1fr 1fr;
-            align-items: center;
-            padding: 10px 14px;
-            border-radius: var(--border-radius-md);
-            border: 1px solid transparent;
-            transition: var(--transition-smooth);
-            background: rgba(255, 255, 255, 0.015);
-        }
-
-        .course-row:hover {
-            background: rgba(255, 255, 255, 0.035);
-            border-color: var(--border-card);
-        }
-
-        .course-code {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 0.9rem;
-            letter-spacing: -0.01em;
-        }
-
-        .course-title-text {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-            padding-right: 8px;
-        }
-
-        .course-credits {
-            font-size: 0.85rem;
-            color: var(--text-secondary);
-            font-weight: 500;
-        }
-
-        .course-grade {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1rem;
-            color: var(--text-primary);
-        }
-
-        .course-status-badge {
-            justify-self: start;
-        }
-
-        .course-actions {
-            display: flex;
-            justify-content: flex-end;
-            gap: 6px;
-        }
-
-        /* Retake logic styles */
-        .course-row.replaced {
-            opacity: 0.45;
-            background: transparent;
-        }
-
-        .course-row.replaced .course-code, 
-        .course-row.replaced .course-title-text,
-        .course-row.replaced .course-grade {
-            text-decoration: line-through;
-            color: var(--text-muted);
-        }
-
-        .badge-replaced {
-            background: rgba(100, 116, 139, 0.1);
-            color: var(--text-secondary);
-            border: 1px solid rgba(100, 116, 139, 0.2);
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-        }
-
-        .badge-retake-improved {
-            background: var(--success-glow);
-            color: var(--success);
-            border: 1px solid rgba(16, 185, 129, 0.2);
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        .badge-retake-warn {
-            background: var(--danger-glow);
-            color: var(--danger);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 600;
-            text-transform: uppercase;
-            display: inline-flex;
-            align-items: center;
-            gap: 3px;
-        }
-
-        /* Banner warnings */
-        .global-warning-banner {
-            background: var(--danger-glow);
-            border: 1px solid rgba(239, 68, 68, 0.2);
-            border-radius: var(--border-radius-md);
-            padding: 14px 18px;
-            color: var(--text-primary);
-            font-size: 0.85rem;
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 24px;
-            animation: slideIn 0.3s ease;
-        }
-
-        .global-warning-banner i {
-            color: var(--danger);
-            font-size: 1.1rem;
-            margin-top: 1px;
-        }
-
-        .global-warning-banner div h4 {
-            font-weight: 600;
-            margin-bottom: 3px;
-        }
         
-        .global-warning-banner div p {
-            color: var(--text-secondary);
-            font-size: 0.8rem;
-            line-height: 1.4;
+        /* Retake row strikethroughs */
+        .replaced-row {
+            background-color: #f8f9fa !important;
+            opacity: 0.6;
+        }
+        .replaced-text {
+            text-decoration: line-through;
+            color: #858796;
         }
 
-        /* Modal dialog overlays */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(8px);
-            -webkit-backdrop-filter: blur(8px);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 1000;
-            opacity: 0;
-            pointer-events: none;
-            transition: opacity 0.3s ease;
+        /* Dark mode overrides (Simple, plain colors) */
+        body.dark-mode {
+            background-color: #121212;
+            color: #e0e0e0;
         }
-
-        .modal-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
+        body.dark-mode .card {
+            background-color: #1e1e1e;
+            border-color: #2d2d2d;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
         }
-
-        .modal-container {
-            width: 100%;
-            max-width: 500px;
-            max-height: 85vh;
-            overflow-y: auto;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
+        body.dark-mode .card-header {
+            background-color: #252525;
+            border-bottom-color: #2d2d2d;
+            color: #7594f5;
         }
-
-        .modal-overlay.active .modal-container {
-            transform: scale(1);
+        body.dark-mode .form-control, body.dark-mode select {
+            background-color: #2d2d2d;
+            border-color: #444444;
+            color: #e0e0e0;
         }
-
-        .modal-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-card);
-            padding-bottom: 14px;
-            margin-bottom: 20px;
+        body.dark-mode .form-control:focus {
+            background-color: #333333;
+            color: #ffffff;
+            border-color: #7594f5;
         }
-
-        .modal-header h2 {
-            font-family: var(--font-display);
-            font-size: 1.25rem;
-            font-weight: 700;
+        body.dark-mode .results-box {
+            background-color: #2a2a2a;
         }
-
-        .close-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-secondary);
-            font-size: 1.4rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 32px;
-            height: 32px;
-            border-radius: 50%;
-            transition: var(--transition-smooth);
+        body.dark-mode .results-val {
+            color: #7594f5;
         }
-
-        .close-btn:hover {
-            background: var(--badge-bg);
-            color: var(--text-primary);
+        body.dark-mode .results-label {
+            color: #a0a0a0;
         }
-
-        /* Dynamic items */
-        .grading-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
+        body.dark-mode .table {
+            color: #e0e0e0;
         }
-
-        .grading-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 12px;
-            border-radius: var(--border-radius-sm);
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid var(--border-card);
-            font-size: 0.85rem;
+        body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
+            background-color: rgba(255, 255, 255, 0.02);
         }
-
-        .grading-row strong {
-            font-family: var(--font-display);
+        body.dark-mode .table-hover tbody tr:hover {
+            background-color: rgba(255, 255, 255, 0.05);
         }
-
-        .honors-section {
-            margin-top: 24px;
-            padding-top: 20px;
-            border-top: 1px solid var(--border-card);
+        body.dark-mode .replaced-row {
+            background-color: #1f1f1f !important;
         }
-
-        .honors-title {
-            font-family: var(--font-display);
-            font-weight: 700;
-            font-size: 1rem;
-            margin-bottom: 12px;
+        body.dark-mode .table-bordered td, body.dark-mode .table-bordered th {
+            border-color: #2d2d2d;
         }
-
-        .honors-list {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
+        body.dark-mode .border-bottom {
+            border-bottom-color: #2d2d2d !important;
         }
-
-        .honors-item {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.85rem;
-            padding: 6px 12px;
-            border-radius: var(--border-radius-sm);
-        }
-
-        .honors-item.summa { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
-        .honors-item.magna { background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3b82f6; }
-        .honors-item.cum { background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; }
-
-        /* Empty states */
-        .empty-history {
-            text-align: center;
-            padding: 48px 24px;
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            border: 2px dashed var(--border-card);
-            border-radius: var(--border-radius-xl);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-        }
-
-        .empty-history i {
-            font-size: 2.2rem;
-            color: var(--text-muted);
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(4px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .animate-fade {
-            animation: fadeIn 0.4s ease;
-        }
-
-        /* Mobile adaptation */
-        @media (max-width: 900px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-                gap: 28px;
-            }
-            .app-container {
-                padding: 16px;
-            }
-        }
-
-        @media (max-width: 550px) {
-            .course-row {
-                grid-template-columns: 1fr 1fr;
-                gap: 8px;
-                padding: 12px;
-            }
-            .course-title-text {
-                grid-column: span 2;
-                white-space: normal;
-                padding-right: 0;
-            }
-            .course-actions {
-                grid-column: span 2;
-                justify-content: flex-start;
-                margin-top: 6px;
-                border-top: 1px solid var(--border-card);
-                padding-top: 8px;
-            }
-            .course-status-badge {
-                grid-column: span 2;
-                margin-top: 4px;
-            }
-            .stats-row {
-                grid-template-columns: 1fr;
-            }
+        body.dark-mode .alert-warning {
+            background-color: #332701;
+            border-color: #664d03;
+            color: #ffda6a;
         }
     </style>
 </head>
-<body class="theme-dark">
+<body>
 
-    <div class="app-container">
+    <div class="container main-container">
         
         <!-- Header -->
-        <header>
-            <div class="brand">
-                <div class="brand-icon">
-                    <i class="fa-solid fa-graduation-cap"></i>
-                </div>
-                <div class="brand-text">
-                    <h1>IUB CGPA Portal</h1>
-                    <span>Retake & Academic Hub</span>
-                </div>
-            </div>
-            <div class="header-controls">
-                <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
-                    <i class="fa-solid fa-moon"></i>
+        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+            <h2 class="m-0 font-weight-bold"><i class="fas fa-calculator text-primary mr-2"></i>IUB CGPA Calculator</h2>
+            <div>
+                <button class="btn btn-outline-secondary btn-sm mr-2" id="themeToggleBtn">
+                    <i class="fas fa-moon mr-1"></i> Dark Mode
                 </button>
-                <button class="btn-secondary" onclick="toggleGuideModal(true)" style="height: 40px; padding: 0 16px;">
-                    <i class="fa-solid fa-circle-question"></i> <span style="margin-left:4px;">How to Use</span>
-                </button>
-                <button class="btn-secondary" onclick="toggleGradingModal(true)" style="height: 40px; padding: 0 16px;">
-                    <i class="fa-solid fa-graduation-cap"></i> <span style="margin-left:4px;">IUB Scale</span>
+                <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#scaleModal">
+                    <i class="fas fa-info-circle mr-1"></i> IUB Grading Scale
                 </button>
             </div>
-        </header>
+        </div>
 
-        <!-- Dynamic Warning Banner Container -->
-        <div id="warningBannersContainer"></div>
+        <!-- Warning Alerts Container -->
+        <div id="warningAlerts"></div>
 
-        <!-- Main Grid -->
-        <div class="dashboard-grid">
-            
-            <!-- Left Column: Form & Key Stats -->
-            <div class="col-left">
+        <div class="row">
+            <!-- Left Column: Stats & Add Course Form -->
+            <div class="col-md-5">
                 
-                <!-- Gauge Card -->
-                <div class="glass-card glow-card gauge-card">
-                    <div class="cgpa-gauge-wrapper">
-                        <svg width="140" height="140" viewBox="0 0 140 140">
-                            <circle class="gauge-bg" cx="70" cy="70" r="58" stroke-width="10" fill="none"></circle>
-                            <circle class="gauge-fill" id="gaugeFill" cx="70" cy="70" r="58" stroke-width="10" fill="none"
-                                    stroke-dasharray="364.4" stroke-dashoffset="364.4" stroke-linecap="round"></circle>
-                        </svg>
-                        <div class="gauge-content">
-                            <span class="gauge-val" id="gaugeVal">0.00</span>
-                            <span class="gauge-lbl">CGPA</span>
-                        </div>
-                    </div>
-                    <div class="gauge-classification" id="gaugeClassification" style="color: var(--text-secondary);">No courses added</div>
-                </div>
-
-                <!-- Secondary Stats -->
-                <div class="stats-row">
-                    <!-- Earned Credits Card -->
-                    <div class="glass-card stat-card">
-                        <div class="stat-header">
-                            <span>Earned Credits</span>
-                            <div class="stat-icon blue">
-                                <i class="fa-solid fa-chart-simple"></i>
+                <!-- Simple Summary Stats -->
+                <div class="card">
+                    <div class="card-header">Academic Summary</div>
+                    <div class="card-body py-3">
+                        <div class="row">
+                            <div class="col-6 pr-2">
+                                <div class="results-box py-3 mb-0">
+                                    <div class="results-val" id="summaryCgpa">0.00</div>
+                                    <div class="results-label">CGPA</div>
+                                </div>
+                            </div>
+                            <div class="col-6 pl-2">
+                                <div class="results-box py-3 mb-0">
+                                    <div class="results-val" id="summaryCredits">0</div>
+                                    <div class="results-label">Earned Cr.</div>
+                                </div>
                             </div>
                         </div>
-                        <div class="stat-body">
-                            <span class="stat-val" id="statCredits">0</span>
-                            <div class="progress-container">
-                                <div class="progress-bar" id="creditsProgressBar"></div>
-                            </div>
-                            <span class="stat-desc">Target: 120 credits</span>
-                        </div>
-                    </div>
-
-                    <!-- Retake Stats Card -->
-                    <div class="glass-card stat-card">
-                        <div class="stat-header">
-                            <span>Retake Status</span>
-                            <div class="stat-icon gold">
-                                <i class="fa-solid fa-arrows-spin"></i>
-                            </div>
-                        </div>
-                        <div class="stat-body">
-                            <span class="stat-val" id="statRetakes">0</span>
-                            <span class="stat-desc" id="statRetakeSub">No retakes processed</span>
+                        <div class="mt-3 text-center text-muted small" id="retakeCountLabel">
+                            No retakes processed.
                         </div>
                     </div>
                 </div>
 
-                <!-- Add/Edit Course Form -->
-                <div class="glass-card">
-                    <h2 class="section-title" id="formTitle">
-                        <i class="fa-solid fa-circle-plus"></i> Add Course
-                    </h2>
-                    <form id="courseForm" onsubmit="handleFormSubmit(event)">
-                        <div class="form-grid">
+                <!-- Add Course Form -->
+                <div class="card">
+                    <div class="card-header" id="formHeader">Add Course</div>
+                    <div class="card-body">
+                        <form id="courseForm" onsubmit="onFormSubmit(event)">
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Course Code <span class="text-danger">*</span></label>
+                                <input type="text" id="courseCode" class="form-control form-control-sm" placeholder="e.g. CSE101" required oninput="checkRetakeMatches()">
+                            </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold small">Course Title <span class="text-muted font-italic">(Optional)</span></label>
+                                <input type="text" id="courseTitle" class="form-control form-control-sm" placeholder="e.g. Structured Programming">
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">Semester Season <span class="text-danger">*</span></label>
+                                    <select id="semesterSeason" class="form-control form-control-sm" onchange="checkRetakeMatches()">
+                                        <option value="Spring">Spring</option>
+                                        <option value="Summer">Summer</option>
+                                        <option value="Autumn">Autumn</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">Semester Year <span class="text-danger">*</span></label>
+                                    <select id="semesterYear" class="form-control form-control-sm" onchange="checkRetakeMatches()">
+                                        <!-- Populated via JS -->
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">Credit Hours <span class="text-danger">*</span></label>
+                                    <select id="courseCredits" class="form-control form-control-sm">
+                                        <option value="1">1</option>
+                                        <option value="1.5">1.5</option>
+                                        <option value="3" selected>3</option>
+                                        <option value="4">4</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label class="font-weight-bold small">Grade Received <span class="text-danger">*</span></label>
+                                    <select id="courseGrade" class="form-control form-control-sm" onchange="checkRetakeMatches()">
+                                        <option value="A">A (4.00)</option>
+                                        <option value="A-">A- (3.67)</option>
+                                        <option value="B+">B+ (3.33)</option>
+                                        <option value="B">B (3.00)</option>
+                                        <option value="B-">B- (2.67)</option>
+                                        <option value="C+">C+ (2.33)</option>
+                                        <option value="C">C (2.00)</option>
+                                        <option value="C-">C- (1.67)</option>
+                                        <option value="D+">D+ (1.33)</option>
+                                        <option value="D">D (1.00)</option>
+                                        <option value="F">F (0.00)</option>
+                                    </select>
+                                </div>
+                            </div>
                             
-                            <div class="form-group form-group-full">
-                                <label for="courseCode">Course Code</label>
-                                <input type="text" id="courseCode" class="form-control" placeholder="e.g. CSE101" required oninput="onCourseCodeInput()">
+                            <div class="form-group form-check mb-3">
+                                <input type="checkbox" class="form-check-input" id="isRetakeCheckbox">
+                                <label class="form-check-label small font-weight-bold" for="isRetakeCheckbox" style="cursor: pointer;">
+                                    Mark as Retake Course
+                                </label>
                             </div>
 
-                            <div class="form-group form-group-full">
-                                <label for="courseTitle">Course Title</label>
-                                <input type="text" id="courseTitle" class="form-control" placeholder="e.g. Structured Programming">
+                            <!-- Live form notification for automatic retake detection -->
+                            <div id="formLiveFeedback" class="alert alert-info py-2 px-3 small" style="display:none;"></div>
+
+                            <div class="d-flex">
+                                <button type="button" id="cancelEditBtn" class="btn btn-light btn-sm mr-2 flex-grow-1" style="display:none;" onclick="resetForm()">
+                                    Cancel
+                                </button>
+                                <button type="submit" id="submitBtn" class="btn btn-primary btn-sm flex-grow-2">
+                                    Add Course
+                                </button>
                             </div>
-
-                            <div class="form-group">
-                                <label for="semesterSeason">Semester Season</label>
-                                <select id="semesterSeason" class="form-control" required onchange="onSemesterSeasonChange()">
-                                    <option value="Spring">Spring</option>
-                                    <option value="Summer">Summer</option>
-                                    <option value="Autumn">Autumn</option>
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="semesterYear">Semester Year</label>
-                                <select id="semesterYear" class="form-control" required onchange="onSemesterYearChange()">
-                                    <!-- Populated dynamically via JS -->
-                                </select>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="courseCredits">Credits</label>
-                                <input type="number" id="courseCredits" class="form-control" min="1" max="6" value="3" required>
-                            </div>
-
-                            <div class="form-group">
-                                <label for="courseGrade">Grade</label>
-                                <select id="courseGrade" class="form-control" required onchange="onGradeChange()">
-                                    <option value="A">A (4.00)</option>
-                                    <option value="A-">A- (3.67)</option>
-                                    <option value="B+">B+ (3.33)</option>
-                                    <option value="B">B (3.00)</option>
-                                    <option value="B-">B- (2.67)</option>
-                                    <option value="C+">C+ (2.33)</option>
-                                    <option value="C">C (2.00)</option>
-                                    <option value="C-">C- (1.67)</option>
-                                    <option value="D+">D+ (1.33)</option>
-                                    <option value="D">D (1.00)</option>
-                                    <option value="F">F (0.00)</option>
-                                </select>
-                            </div>
-
-                        </div>
-
-                        <!-- Retake Toggle Switch -->
-                        <div class="toggle-container" onclick="toggleRetakeCheckbox()">
-                            <div class="toggle-info">
-                                <span class="toggle-title">Is this a retake?</span>
-                                <span class="toggle-subtitle">Replaces a previous attempt of the same course</span>
-                            </div>
-                            <label class="switch">
-                                <input type="checkbox" id="isRetakeCheckbox" onchange="onRetakeToggle()">
-                                <span class="slider"></span>
-                            </label>
-                        </div>
-
-                        <!-- Real-time form feedback -->
-                        <div id="formFeedbackTip" class="form-feedback"></div>
-
-                        <div style="display: flex; gap: 10px;">
-                            <button type="button" id="cancelEditBtn" class="btn-secondary" style="display:none; flex:1;" onclick="resetForm()">
-                                Cancel
-                            </button>
-                            <button type="submit" id="submitCourseBtn" class="btn-primary" style="flex:2;">
-                                <i class="fa-solid fa-check"></i> <span id="submitBtnText">Add Course</span>
-                            </button>
-                        </div>
-                    </form>
+                        </form>
+                    </div>
                 </div>
 
             </div>
 
-            <!-- Right Column: Chart & History -->
-            <div class="col-right">
+            <!-- Right Column: Course Table & Semester GPAs -->
+            <div class="col-md-7">
                 
-                <!-- Chart Card -->
-                <div class="glass-card">
-                    <h2 class="section-title">
-                        <i class="fa-solid fa-chart-line"></i> Cumulative CGPA Progression
-                    </h2>
-                    <div class="chart-wrapper" id="chartWrapper">
-                        <div class="no-chart-data">Add courses across different semesters to visualize your GPA progression.</div>
-                    </div>
-                </div>
-
-                <!-- Timeline / Course History -->
-                <div>
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                        <h2 class="section-title" style="margin-bottom:0;">
-                            <i class="fa-solid fa-timeline"></i> Academic Transcript
-                        </h2>
-                        <button class="btn-secondary" id="clearAllBtn" onclick="confirmResetAll()" style="font-size:0.8rem; padding: 6px 12px; height:auto;">
-                            <i class="fa-solid fa-trash-can"></i> Clear All
+                <!-- Course History Table -->
+                <div class="card">
+                    <div class="card-header d-flex justify-content-between align-items-center">
+                        <span>Course Records</span>
+                        <button class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size:0.75rem;" onclick="confirmResetAll()">
+                            Clear All
                         </button>
                     </div>
-
-                    <div id="timelineContainer" class="timeline-container">
-                        <!-- Loaded dynamically via JS -->
-                        <div class="empty-history">
-                            <i class="fa-solid fa-box-open"></i>
-                            <p>Your academic transcript is currently empty.<br>Use the form on the left to add your courses!</p>
+                    <div class="card-body p-0">
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover mb-0" id="courseTable">
+                                <thead>
+                                    <tr>
+                                        <th>Semester</th>
+                                        <th>Code</th>
+                                        <th>Title</th>
+                                        <th>Cr.</th>
+                                        <th>Grade</th>
+                                        <th>Status</th>
+                                        <th class="text-right">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tableBody">
+                                    <!-- Rendered dynamically -->
+                                </tbody>
+                            </table>
+                        </div>
+                        <div id="emptyState" class="text-center py-5 text-muted small">
+                            <i class="fas fa-clipboard-list fa-2x mb-2 d-block"></i>
+                            No courses added yet. Please use the form to insert records.
                         </div>
                     </div>
                 </div>
 
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- Chart Tooltip -->
-    <div id="chartTooltip" class="chart-tooltip"></div>
-
-    <!-- Grading Scale Info Modal -->
-    <div id="gradingModal" class="modal-overlay" onclick="handleBackdropClick(event, 'gradingModal')">
-        <div class="modal-container glass-card">
-            <div class="modal-header">
-                <h2>IUB Grading System</h2>
-                <button class="close-btn" onclick="toggleGradingModal(false)">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="grading-grid">
-                    <div class="grading-row"><strong>A</strong> <span>4.00</span></div>
-                    <div class="grading-row"><strong>A-</strong> <span>3.67</span></div>
-                    <div class="grading-row"><strong>B+</strong> <span>3.33</span></div>
-                    <div class="grading-row"><strong>B</strong> <span>3.00</span></div>
-                    <div class="grading-row"><strong>B-</strong> <span>2.67</span></div>
-                    <div class="grading-row"><strong>C+</strong> <span>2.33</span></div>
-                    <div class="grading-row"><strong>C</strong> <span>2.00</span></div>
-                    <div class="grading-row"><strong>C-</strong> <span>1.67</span></div>
-                    <div class="grading-row"><strong>D+</strong> <span>1.33</span></div>
-                    <div class="grading-row"><strong>D</strong> <span>1.00</span></div>
-                    <div class="grading-row"><strong>F</strong> <span>0.00</span></div>
-                </div>
-
-                <div class="honors-section">
-                    <h3 class="honors-title"><i class="fa-solid fa-award"></i> Graduation Honors Criteria</h3>
-                    <div class="honors-list">
-                        <div class="honors-item summa">
-                            <span>Summa Cum Laude</span>
-                            <strong>3.90 – 4.00</strong>
-                        </div>
-                        <div class="honors-item magna">
-                            <span>Magna Cum Laude</span>
-                            <strong>3.80 – 3.89</strong>
-                        </div>
-                        <div class="honors-item cum">
-                            <span>Cum Laude</span>
-                            <strong>3.70 – 3.79</strong>
-                        </div>
+                <!-- Semester wise breakdown -->
+                <div class="card">
+                    <div class="card-header">Semester GPA Breakdown</div>
+                    <div class="card-body py-2 px-3">
+                        <ul class="list-group list-group-flush" id="semesterList">
+                            <!-- Rendered dynamically -->
+                        </ul>
                     </div>
-                    <p style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 10px; line-height: 1.4;">
-                        * Note: To graduate with Honors, students typically must complete at least 100 credits at IUB and hold no "F" grade on record.
-                    </p>
                 </div>
+
             </div>
         </div>
+
     </div>
 
-    <!-- Guide Info Modal -->
-    <div id="guideModal" class="modal-overlay" onclick="handleBackdropClick(event, 'guideModal')">
-        <div class="modal-container glass-card" style="max-width: 550px;">
-            <div class="modal-header">
-                <h2>🎓 Student Quick Start Guide</h2>
-                <button class="close-btn" onclick="toggleGuideModal(false)">&times;</button>
-            </div>
-            <div class="modal-body" style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
-                <p style="margin-bottom: 16px; color: var(--text-primary); font-weight: 500;">Welcome to the IUB CGPA Portal! This tool is designed to make managing your grades and calculating retakes completely effortless. Here is a simple guide on how to use it:</p>
-                
-                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">1</span>
-                        <div>
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Add Your Courses</strong>
-                            Enter the Course Code (e.g., <code style="background: var(--badge-bg); padding: 2px 6px; border-radius: 4px;">CSE101</code>), select the Semester and Grade, and click <strong>Add Course</strong>. Repeat this for all courses you have taken.
+    <!-- IUB Grading Scale Modal -->
+    <div class="modal fade" id="scaleModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title font-weight-bold">IUB Grading Scheme & Honors</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <table class="table table-bordered table-sm text-center small mb-0">
+                                <thead>
+                                    <tr><th>Grade</th><th>Points</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>A</td><td>4.00</td></tr>
+                                    <tr><td>A-</td><td>3.67</td></tr>
+                                    <tr><td>B+</td><td>3.33</td></tr>
+                                    <tr><td>B</td><td>3.00</td></tr>
+                                    <tr><td>B-</td><td>2.67</td></tr>
+                                    <tr><td>C+</td><td>2.33</td></tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="col-6">
+                            <table class="table table-bordered table-sm text-center small mb-0">
+                                <thead>
+                                    <tr><th>Grade</th><th>Points</th></tr>
+                                </thead>
+                                <tbody>
+                                    <tr><td>C</td><td>2.00</td></tr>
+                                    <tr><td>C-</td><td>1.67</td></tr>
+                                    <tr><td>D+</td><td>1.33</td></tr>
+                                    <tr><td>D</td><td>1.00</td></tr>
+                                    <tr><td>F</td><td>0.00</td></tr>
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                     
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">2</span>
-                        <div>
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Intelligent Retake System</strong>
-                            If you retook a course:
-                            <ul style="margin-left: 18px; margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
-                                <li>Simply enter the course again in the newer semester.</li>
-                                <li>The system will <strong>automatically detect</strong> your previous attempt!</li>
-                                <li>The old attempt is struck through <del style="opacity: 0.5;">like this</del> and removed from your cumulative CGPA.</li>
-                                <li>Your new grade replaces it, boosting your CGPA!</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">3</span>
-                        <div>
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Track Your Statistics</strong>
-                            Your overarching **CGPA Gauge** dynamically color-codes based on your academic standing (e.g., green for honors). The **Progression Chart** renders your CGPA trend across semesters.
-                        </div>
-                    </div>
-
-                    <div style="display: flex; gap: 12px; align-items: flex-start;">
-                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">4</span>
-                        <div>
-                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Automatic Local Saving</strong>
-                            No login or registration required. All entered courses are saved in your browser storage instantly. You can close the tab and return at any time!
-                        </div>
+                    <div class="border-top mt-4 pt-3">
+                        <h6 class="font-weight-bold text-primary mb-2">Graduation Honors Criteria</h6>
+                        <ul class="list-unstyled small">
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Summa Cum Laude</span>
+                                <strong>3.90 – 4.00</strong>
+                            </li>
+                            <li class="d-flex justify-content-between border-bottom py-1">
+                                <span>Magna Cum Laude</span>
+                                <strong>3.80 – 3.89</strong>
+                            </li>
+                            <li class="d-flex justify-content-between py-1">
+                                <span>Cum Laude</span>
+                                <strong>3.70 – 3.79</strong>
+                            </li>
+                        </ul>
+                        <p class="text-muted small mt-2 font-italic">
+                            * To graduate with honors, a student must complete a minimum of 100 credits at IUB and hold no "F" grade on record.
+                        </p>
                     </div>
                 </div>
-
-                <button class="btn-primary" style="width: 100%;" onclick="toggleGuideModal(false)">
-                    Got it, let's go!
-                </button>
             </div>
         </div>
     </div>
 
-    <!-- Core Logic Script -->
+    <!-- Bootstrap & jQuery scripts -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+    <!-- State & Calculation Logic -->
     <script>
-        // State management
+        // State store
         let state = {
             courses: [],
-            theme: 'dark',
+            theme: 'light',
             editingId: null
         };
 
@@ -1402,137 +405,114 @@
 
         const SEASONS = { 'Spring': 1, 'Summer': 2, 'Autumn': 3 };
 
-        // Helper: unique ID generator
+        // Helper: unique random ID
         function generateId() {
             return '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        // Initialize App
+        // Initialize script
         window.addEventListener('DOMContentLoaded', () => {
-            initYearDropdowns();
-            loadStateFromLocalStorage();
-            applyTheme(state.theme);
+            initYearDropdown();
+            loadState();
             
-            // Set up theme toggle button
+            // Set theme switch triggers
             document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
             
-            // Listen to window resize for responsive SVG Chart update
-            window.addEventListener('resize', () => {
-                const calculations = runCgpaEngine();
-                renderTrendChart(calculations.semesterList, calculations.cumulativeHistory);
-            });
-            
-            updateDashboard();
-
-            // If they haven't visited before, show the quick start guide automatically!
-            if (!localStorage.getItem('iub_cgpa_tracker_visited')) {
-                toggleGuideModal(true);
-                localStorage.setItem('iub_cgpa_tracker_visited', 'true');
-            }
+            // Render initial screen
+            updateUI();
         });
 
-        // Initialize Semester Year dropdown
-        function initYearDropdowns() {
+        // Setup dynamic years range
+        function initYearDropdown() {
             const select = document.getElementById('semesterYear');
             const currentYear = new Date().getFullYear();
-            
-            // Populating years range (past 10 years to next 5 years)
             for (let y = currentYear + 4; y >= currentYear - 8; y--) {
-                const option = document.createElement('option');
-                option.value = y;
-                option.textContent = y;
-                if (y === currentYear) option.selected = true;
-                select.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = y;
+                opt.textContent = y;
+                if (y === currentYear) opt.selected = true;
+                select.appendChild(opt);
             }
         }
 
-        // LocalStorage loading/saving
-        function loadStateFromLocalStorage() {
-            const savedState = localStorage.getItem('iub_cgpa_tracker_state');
-            if (savedState) {
+        // Local storage saving/loading
+        function loadState() {
+            const data = localStorage.getItem('iub_cgpa_tracker_simple_state');
+            if (data) {
                 try {
-                    state = JSON.parse(savedState);
+                    state = JSON.parse(data);
                     if (!state.courses) state.courses = [];
-                    if (!state.theme) state.theme = 'dark';
-                    state.editingId = null; // Ensure editing state isn't locked on refresh
+                    if (!state.theme) state.theme = 'light';
+                    state.editingId = null;
                 } catch (e) {
-                    console.error("Error parsing localStorage state", e);
+                    console.error("Localstorage read error", e);
                 }
             } else {
-                // Prepopulate with mock demo data to give immediate visual wow
-                prepopulateMockData();
+                // Populate clean demo list on first open
+                prepopulateDemoCourses();
             }
         }
 
-        function saveStateToLocalStorage() {
-            localStorage.setItem('iub_cgpa_tracker_state', JSON.stringify({
+        function saveState() {
+            localStorage.setItem('iub_cgpa_tracker_simple_state', JSON.stringify({
                 courses: state.courses,
                 theme: state.theme
             }));
         }
 
-        // Demo pre-population
-        function prepopulateMockData() {
+        function prepopulateDemoCourses() {
             state.courses = [
-                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'B-', semester: 'Autumn 2024', isRetake: false },
+                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'C+', semester: 'Autumn 2024', isRetake: false },
                 { id: generateId(), code: 'ENG101', title: 'English Composition', credits: 3, grade: 'A', semester: 'Autumn 2024', isRetake: false },
-                { id: generateId(), code: 'MAT101', title: 'Coordinate Geometry', credits: 3, grade: 'C+', semester: 'Autumn 2024', isRetake: false },
-                
-                { id: generateId(), code: 'CSE104', title: 'Object Oriented Programming', credits: 3, grade: 'A-', semester: 'Spring 2025', isRetake: false },
-                { id: generateId(), code: 'MAT104', title: 'Differential Equations', credits: 3, grade: 'B+', semester: 'Spring 2025', isRetake: false },
-                
-                // Replaced by retake
-                { id: generateId(), code: 'CSE101', title: 'Structured Programming (Retake)', credits: 3, grade: 'A', semester: 'Summer 2025', isRetake: true }
+                { id: generateId(), code: 'MAT101', title: 'Calculus I', credits: 3, grade: 'B', semester: 'Autumn 2024', isRetake: false },
+                { id: generateId(), code: 'CSE104', title: 'OOP', credits: 3, grade: 'B+', semester: 'Spring 2025', isRetake: false },
+                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'A-', semester: 'Spring 2025', isRetake: true }
             ];
-            state.theme = 'dark';
-            saveStateToLocalStorage();
+            state.theme = 'light';
+            saveState();
         }
 
-        // Theme management
+        // Theme controllers
         function toggleTheme() {
-            const newTheme = state.theme === 'dark' ? 'light' : 'dark';
-            state.theme = newTheme;
-            applyTheme(newTheme);
-            saveStateToLocalStorage();
+            state.theme = state.theme === 'light' ? 'dark' : 'light';
+            applyTheme(state.theme);
+            saveState();
         }
 
         function applyTheme(theme) {
-            document.body.className = 'theme-' + theme;
-            const icon = document.querySelector('#themeToggleBtn i');
-            if (theme === 'light') {
-                icon.className = 'fa-solid fa-sun';
+            const btn = document.getElementById('themeToggleBtn');
+            if (theme === 'dark') {
+                document.body.classList.add('dark-mode');
+                btn.innerHTML = '<i class="fas fa-sun mr-1"></i> Light Mode';
+                btn.className = 'btn btn-outline-light btn-sm mr-2';
             } else {
-                icon.className = 'fa-solid fa-moon';
+                document.body.classList.remove('dark-mode');
+                btn.innerHTML = '<i class="fas fa-moon mr-1"></i> Dark Mode';
+                btn.className = 'btn btn-outline-secondary btn-sm mr-2';
             }
-            
-            // Re-render chart for color adaptation
-            const calculations = runCgpaEngine();
-            renderTrendChart(calculations.semesterList, calculations.cumulativeHistory);
         }
 
-        // Core calculation helper: semester sorting numeric conversion
+        // Semester comparator sorting utilities
         function parseSemester(semStr) {
-            if (!semStr) return { year: 0, seasonValue: 0, season: '' };
+            if (!semStr) return { year: 0, seasonValue: 0 };
             const parts = semStr.split(' ');
-            if (parts.length < 2) return { year: 0, seasonValue: 0, season: '' };
-            const season = parts[0];
-            const year = parseInt(parts[1]) || 0;
-            const seasonValue = SEASONS[season] || 0;
-            return { year, seasonValue, season };
+            if (parts.length < 2) return { year: 0, seasonValue: 0 };
+            return {
+                year: parseInt(parts[1]) || 0,
+                seasonValue: SEASONS[parts[0]] || 0
+            };
         }
 
         function compareSemesters(semA, semB) {
             const a = parseSemester(semA);
             const b = parseSemester(semB);
-            if (a.year !== b.year) {
-                return a.year - b.year;
-            }
+            if (a.year !== b.year) return a.year - b.year;
             return a.seasonValue - b.seasonValue;
         }
 
-        // CGPA Mathematical & Logic Engine
+        // Retake & CGPA Engine Calculations
         function runCgpaEngine() {
-            // Group courses by course code
+            // Group attempts by course code
             const codeGroups = {};
             state.courses.forEach(c => {
                 const code = c.code.trim().toUpperCase();
@@ -1540,8 +520,8 @@
                 codeGroups[code].push(c);
             });
 
-            // Deep clone state courses for working updates
-            const processedCourses = state.courses.map(c => ({
+            // Clone to execute mutations cleanly
+            const processedList = state.courses.map(c => ({
                 ...c,
                 isReplaced: false,
                 replacementSemester: null,
@@ -1549,98 +529,61 @@
                 hasPreviousAttempt: false,
                 previousGrade: null,
                 previousSemester: null,
-                gradeImproved: false,
-                gradeDowngraded: false
+                improved: false,
+                downgraded: false
             }));
 
-            // Process retake rules
+            // Compare multiple attempts
             Object.keys(codeGroups).forEach(code => {
                 const attempts = codeGroups[code];
                 if (attempts.length <= 1) return;
 
-                // Sort attempts chronologically
+                // Sort chronologically
                 attempts.sort((a, b) => compareSemesters(a.semester, b.semester));
 
-                // The last element is chronologically the latest attempt (active)
-                const latestAttempt = attempts[attempts.length - 1];
+                // Latest is active attempt
+                const latest = attempts[attempts.length - 1];
 
-                processedCourses.forEach(c => {
+                processedList.forEach(c => {
                     if (c.code.trim().toUpperCase() === code) {
-                        if (c.id !== latestAttempt.id) {
-                            // Earlier attempts are marked as replaced
+                        if (c.id !== latest.id) {
+                            // Old attempts get flagged as replaced
                             c.isReplaced = true;
-                            c.replacementSemester = latestAttempt.semester;
-                            c.replacementGrade = latestAttempt.grade;
+                            c.replacementSemester = latest.semester;
+                            c.replacementGrade = latest.grade;
                         } else {
-                            // This is the active retake attempt! Let's map its previous attempt
+                            // Active retake record
                             c.hasPreviousAttempt = true;
+                            const prev = attempts[attempts.length - 2];
+                            c.previousGrade = prev.grade;
+                            c.previousSemester = prev.semester;
                             
-                            // Get the immediate previous attempt
-                            const prevAttempt = attempts[attempts.length - 2];
-                            c.previousGrade = prevAttempt.grade;
-                            c.previousSemester = prevAttempt.semester;
-                            
-                            const oldGP = GRADES[prevAttempt.grade];
+                            const oldGP = GRADES[prev.grade];
                             const newGP = GRADES[c.grade];
-                            
-                            if (newGP > oldGP) {
-                                c.gradeImproved = true;
-                            } else if (newGP < oldGP) {
-                                c.gradeDowngraded = true;
-                            }
+                            if (newGP > oldGP) c.improved = true;
+                            if (newGP < oldGP) c.downgraded = true;
                         }
                     }
                 });
             });
 
-            // Sort all processed courses chronologically for history mapping
-            processedCourses.sort((a, b) => compareSemesters(a.semester, b.semester));
-
-            // Cumulative Calculation & Trend Timeline Creation
-            // Group active credits & points chronologically by semester to build trend chart
-            const semesterData = {};
-            
-            // Build raw mapping of semesters
-            processedCourses.forEach(c => {
-                if (!semesterData[c.semester]) {
-                    semesterData[c.semester] = [];
-                }
-                semesterData[c.semester].push(c);
-            });
-
-            // Get unique semesters sorted chronologically
-            const sortedSemesters = Object.keys(semesterData).sort(compareSemesters);
-
-            // Compute running cumulative stats semester-by-semester
-            // An attempt replaced *after* semester X should only affect CGPA of semester Y where Y >= X.
-            // Let's accurately calculate the cumulative CGPA at the end of each semester.
-            const cumulativeHistory = [];
-            const semesterGPAs = {};
-            const totalCreditsBySemester = {};
-
-            let earnedCredits = 0;
+            // Calculate overall CGPA
+            let totalPoints = 0;
+            let totalCredits = 0;
             let retakeCount = 0;
-            let retakeImprovements = 0;
-            let retakeDowngrades = 0;
             const downgradeWarnings = [];
 
-            // Core Cumulative Math
-            let overallActivePoints = 0;
-            let overallActiveCredits = 0;
+            processedList.forEach(c => {
+                if (c.isReplaced) return; // Disregard replaced attempts entirely from Cumulative CGPA
 
-            processedCourses.forEach(c => {
-                if (c.isReplaced) return; // Completely filter replaced from overall totals
-                
                 const gp = GRADES[c.grade];
                 const cr = parseFloat(c.credits) || 0;
-                overallActivePoints += (gp * cr);
-                overallActiveCredits += cr;
+                totalPoints += (gp * cr);
+                totalCredits += cr;
 
                 if (c.hasPreviousAttempt) {
                     retakeCount++;
-                    if (c.gradeImproved) retakeImprovements++;
-                    if (c.gradeDowngraded) {
-                        retakeDowngrades++;
+                    if (c.downgraded) {
                         downgradeWarnings.push({
                             code: c.code.toUpperCase(),
                             oldGrade: c.previousGrade,
@@ -1652,551 +595,111 @@
                 }
             });
 
-            const overallCgpa = overallActiveCredits > 0 ? (overallActivePoints / overallActiveCredits) : 0.00;
-            earnedCredits = overallActiveCredits;
+            const cgpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
 
-            // Compute specific Semester-wise GPAs (including replaced courses as they count locally in that semester)
-            sortedSemesters.forEach(sem => {
-                let semPoints = 0;
-                let semCredits = 0;
-
-                semesterData[sem].forEach(c => {
-                    const gp = GRADES[c.grade];
-                    const cr = parseFloat(c.credits) || 0;
-                    semPoints += (gp * cr);
-                    semCredits += cr;
-                });
-
-                semesterGPAs[sem] = semCredits > 0 ? (semPoints / semCredits) : 0.00;
-                totalCreditsBySemester[sem] = semCredits;
+            // Recalculate Semester-wise GPAs
+            const semestersMap = {};
+            processedList.forEach(c => {
+                if (!semestersMap[c.semester]) {
+                    semestersMap[c.semester] = { points: 0, credits: 0 };
+                }
+                const gp = GRADES[c.grade];
+                const cr = parseFloat(c.credits) || 0;
+                semestersMap[c.semester].points += (gp * cr);
+                semestersMap[c.semester].credits += cr;
             });
 
-            // Compute cumulative CGPA trend line.
-            // At each step k (semester k), CGPA = sum(active courses up to k) / sum(active credits up to k).
-            // A course is "active" at step k if it was taken at or before step k, AND not replaced by an attempt taken at or before step k.
-            let activeCoursesList = [];
-            sortedSemesters.forEach(sem => {
-                // Add courses of this semester to active list
-                const newCourses = semesterData[sem];
-                
-                // For each new course, check if it replaces something already in the list
-                newCourses.forEach(nc => {
-                    const code = nc.code.trim().toUpperCase();
-                    // Remove prior attempts of this code from activeCoursesList
-                    activeCoursesList = activeCoursesList.filter(ac => ac.code.trim().toUpperCase() !== code);
-                    activeCoursesList.push(nc);
-                });
-
-                // Calculate cumulative at this semester marker
-                let cumPoints = 0;
-                let cumCredits = 0;
-                activeCoursesList.forEach(c => {
-                    const gp = GRADES[c.grade];
-                    const cr = parseFloat(c.credits) || 0;
-                    cumPoints += (gp * cr);
-                    cumCredits += cr;
-                });
-
-                const cumCgpa = cumCredits > 0 ? (cumPoints / cumCredits) : 0.00;
-                cumulativeHistory.push(parseFloat(cumCgpa.toFixed(2)));
+            const semesterGPAs = {};
+            Object.keys(semestersMap).forEach(sem => {
+                const s = semestersMap[sem];
+                semesterGPAs[sem] = s.credits > 0 ? (s.points / s.credits) : 0;
             });
+
+            // Sort semester list keys chronologically
+            const sortedSemesters = Object.keys(semestersMap).sort(compareSemesters);
 
             return {
-                processedCourses,
-                semesterData,
-                semesterList: sortedSemesters,
-                semesterGPAs,
-                totalCreditsBySemester,
-                cumulativeHistory,
-                overallCgpa,
-                earnedCredits,
+                processedList,
+                cgpa,
+                totalCredits,
                 retakeCount,
-                retakeImprovements,
-                retakeDowngrades,
-                downgradeWarnings
+                downgradeWarnings,
+                semesterGPAs,
+                sortedSemesters
             };
         }
 
-        // Live Retake Detection Feedback in Form
-        function checkRealtimeRetakes() {
-            const codeInput = document.getElementById('courseCode');
-            const gradeSelect = document.getElementById('courseGrade');
-            const semesterSeason = document.getElementById('semesterSeason').value;
-            const semesterYear = document.getElementById('semesterYear').value;
-            const retakeCheckbox = document.getElementById('isRetakeCheckbox');
-            const feedbackTip = document.getElementById('formFeedbackTip');
+        // Live Retake Check as they type
+        function checkRetakeMatches() {
+            const codeInput = document.getElementById('courseCode').value.trim().toUpperCase();
+            const gradeSelect = document.getElementById('courseGrade').value;
+            const season = document.getElementById('semesterSeason').value;
+            const year = document.getElementById('semesterYear').value;
+            const isRetakeBox = document.getElementById('isRetakeCheckbox');
+            const feedback = document.getElementById('formLiveFeedback');
 
-            const currentSemester = `${semesterSeason} ${semesterYear}`;
-            const targetCode = codeInput.value.trim().toUpperCase();
+            const currentSem = `${season} ${year}`;
             
-            if (!targetCode) {
-                feedbackTip.style.display = 'none';
+            if (!codeInput) {
+                feedback.style.display = 'none';
                 return;
             }
 
-            // Find all historical entries of this course in other semesters
             const priorAttempts = state.courses.filter(c => 
-                c.code.trim().toUpperCase() === targetCode && 
-                c.id !== state.editingId && // Exclude currently editing item
-                compareSemesters(c.semester, currentSemester) < 0 // Only count strictly prior attempts
+                c.code.trim().toUpperCase() === codeInput &&
+                c.id !== state.editingId &&
+                compareSemesters(c.semester, currentSem) < 0
             );
 
             if (priorAttempts.length > 0) {
-                // Auto-detect a retake! Sort to find the latest previous attempt
                 priorAttempts.sort((a, b) => compareSemesters(a.semester, b.semester));
-                const prevAttempt = priorAttempts[priorAttempts.length - 1];
+                const prev = priorAttempts[priorAttempts.length - 1];
 
-                // Auto-check the retake checkbox if not already modified or as a smart default!
-                if (!retakeCheckbox.checked) {
-                    retakeCheckbox.checked = true;
-                    onRetakeToggle();
+                // Auto check retake toggle box to assist student
+                if (!isRetakeBox.checked) {
+                    isRetakeBox.checked = true;
                 }
 
-                const currentGrade = gradeSelect.value;
-                const prevGP = GRADES[prevAttempt.grade];
-                const currentGP = GRADES[currentGrade];
+                const prevGP = GRADES[prev.grade];
+                const curGP = GRADES[gradeSelect];
 
-                let tipHTML = `<i class="fa-solid fa-lightbulb"></i> <strong>Retake Detected:</strong> Replaces previous attempt from <strong>${prevAttempt.semester}</strong> (Grade: <strong>${prevAttempt.grade}</strong>).<br>`;
-                
-                if (currentGP > prevGP) {
-                    tipHTML += `<span style="color: var(--success); font-weight:600;"><i class="fa-solid fa-arrow-trend-up"></i> CGPA Improvement: ${prevAttempt.grade} ➔ ${currentGrade} (+${(currentGP - prevGP).toFixed(2)} GP)</span>`;
-                    feedbackTip.className = "form-feedback animate-fade";
-                } else if (currentGP === prevGP) {
-                    tipHTML += `<span style="color: var(--warning);"><i class="fa-solid fa-arrows-left-right"></i> Equal Grade: ${prevAttempt.grade} ➔ ${currentGrade} (No net change)</span>`;
-                    feedbackTip.className = "form-feedback animate-fade";
+                let feedbackText = `<strong>Previous Attempt Found:</strong> ${prev.semester} (Grade: ${prev.grade}).<br>`;
+                if (curGP > prevGP) {
+                    feedbackText += `<span class="text-success"><i class="fas fa-chevron-up"></i> Grade will improve from ${prev.grade} ➔ ${gradeSelect} (+${(curGP - prevGP).toFixed(2)} GP)</span>`;
+                } else if (curGP === prevGP) {
+                    feedbackText += `<span class="text-secondary"><i class="fas fa-arrows-alt-h"></i> Same grade received (${prev.grade} ➔ ${gradeSelect})</span>`;
                 } else {
-                    tipHTML += `<span style="color: var(--danger); font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Warning: Retake grade (${currentGrade}) is lower than previous attempt (${prevAttempt.grade}). Latest grade counts at IUB.</span>`;
-                    feedbackTip.className = "form-feedback warning animate-fade";
+                    feedbackText += `<span class="text-danger font-weight-bold"><i class="fas fa-exclamation-triangle"></i> Warning: Retake grade (${gradeSelect}) is lower than previous attempt (${prev.grade}). IUB rules use latest grade!</span>`;
                 }
 
-                feedbackTip.innerHTML = tipHTML;
-                feedbackTip.style.display = 'block';
+                feedback.innerHTML = feedbackText;
+                feedback.style.display = 'block';
             } else {
-                feedbackTip.style.display = 'none';
-            }
-        }
-
-        // Event hooks for form inputs
-        function onCourseCodeInput() {
-            checkRealtimeRetakes();
-        }
-
-        function onGradeChange() {
-            checkRealtimeRetakes();
-        }
-
-        function onSemesterSeasonChange() {
-            checkRealtimeRetakes();
-        }
-
-        function onSemesterYearChange() {
-            checkRealtimeRetakes();
-        }
-
-        function onRetakeToggle() {
-            // Can add micro-animations on toggle change
-        }
-
-        function toggleRetakeCheckbox() {
-            const cb = document.getElementById('isRetakeCheckbox');
-            cb.checked = !cb.checked;
-            onRetakeToggle();
-            checkRealtimeRetakes();
-        }
-
-        // Render functions for UI
-        function updateDashboard() {
-            const calc = runCgpaEngine();
-
-            // Render CGPA Gauge & Values
-            const formattedCgpa = calc.overallCgpa.toFixed(2);
-            document.getElementById('gaugeVal').textContent = formattedCgpa;
-            
-            // Set dial stroke offset
-            const percent = Math.min(1, calc.overallCgpa / 4.0);
-            const circumference = 2 * Math.PI * 58; // 364.42
-            const offset = circumference - (percent * circumference);
-            const gaugeFill = document.getElementById('gaugeFill');
-            gaugeFill.style.strokeDashoffset = offset;
-
-            // Set color coding & Classification
-            const classification = document.getElementById('gaugeClassification');
-            if (calc.processedCourses.length === 0) {
-                classification.textContent = "No courses added";
-                classification.style.color = "var(--text-muted)";
-                gaugeFill.style.stroke = "var(--accent)";
-            } else {
-                if (calc.overallCgpa >= 3.90) {
-                    classification.textContent = "Summa Cum Laude 🏆";
-                    classification.style.color = "var(--success)";
-                    gaugeFill.style.stroke = "var(--success)";
-                } else if (calc.overallCgpa >= 3.80) {
-                    classification.textContent = "Magna Cum Laude 🏅";
-                    classification.style.color = "var(--success)";
-                    gaugeFill.style.stroke = "var(--success)";
-                } else if (calc.overallCgpa >= 3.70) {
-                    classification.textContent = "Cum Laude 🎓";
-                    classification.style.color = "var(--accent)";
-                    gaugeFill.style.stroke = "var(--accent)";
-                } else if (calc.overallCgpa >= 3.00) {
-                    classification.textContent = "Excellent Standing";
-                    classification.style.color = "var(--text-primary)";
-                    gaugeFill.style.stroke = "var(--accent)";
-                } else if (calc.overallCgpa >= 2.00) {
-                    classification.textContent = "Satisfactory Standing";
-                    classification.style.color = "var(--warning)";
-                    gaugeFill.style.stroke = "var(--warning)";
-                } else {
-                    classification.textContent = "Probation Standing ⚠️";
-                    classification.style.color = "var(--danger)";
-                    gaugeFill.style.stroke = "var(--danger)";
-                }
-            }
-
-            // Render Secondary Credits Card
-            document.getElementById('statCredits').textContent = calc.earnedCredits;
-            const progressPercent = Math.min(100, (calc.earnedCredits / 120) * 100);
-            document.getElementById('creditsProgressBar').style.width = `${progressPercent}%`;
-
-            // Render Retakes Card
-            document.getElementById('statRetakes').textContent = calc.retakeCount;
-            const retakeSub = document.getElementById('statRetakeSub');
-            if (calc.retakeCount > 0) {
-                let txt = `${calc.retakeImprovements} Grade Improvements`;
-                if (calc.retakeDowngrades > 0) txt += `, ${calc.retakeDowngrades} Downgrades`;
-                retakeSub.textContent = txt;
-                retakeSub.style.color = calc.retakeDowngrades > 0 ? "var(--danger)" : "var(--success)";
-            } else {
-                retakeSub.textContent = "No retakes processed";
-                retakeSub.style.color = "var(--text-secondary)";
-            }
-
-            // Display Downgrade Warnings Banners globally
-            const warningsContainer = document.getElementById('warningBannersContainer');
-            warningsContainer.innerHTML = '';
-            calc.downgradeWarnings.forEach(w => {
-                const banner = document.createElement('div');
-                banner.className = 'global-warning-banner';
-                banner.innerHTML = `
-                    <i class="fa-solid fa-triangle-exclamation"></i>
-                    <div>
-                        <h4>Retake Degraded Grade: ${w.code}</h4>
-                        <p>Your retake attempt of <strong>${w.code}</strong> in <strong>${w.newSem}</strong> resulted in a <strong>${w.newGrade}</strong>, which is lower than your previous grade of <strong>${w.oldGrade}</strong> from <strong>${w.oldSem}</strong>. Because the latest attempt takes precedence, this lower grade is currently affecting your cumulative CGPA.</p>
-                    </div>
-                `;
-                warningsContainer.appendChild(banner);
-            });
-
-            // Render SVG Trend Chart
-            renderTrendChart(calc.semesterList, calc.cumulativeHistory);
-
-            // Render Transcript / History Timelines
-            renderTimeline(calc);
-        }
-
-        // Render dynamic SVG trend curve
-        function renderTrendChart(semestersList, cgpValues) {
-            const container = document.getElementById('chartWrapper');
-            if (!container) return;
-            
-            container.innerHTML = '';
-            
-            if (semestersList.length === 0) {
-                container.innerHTML = '<div class="no-chart-data">Add courses across different semesters to visualize your GPA progression.</div>';
-                return;
-            }
-            
-            const width = container.clientWidth || 500;
-            const height = 190;
-            const paddingLeft = 32;
-            const paddingRight = 20;
-            const paddingTop = 20;
-            const paddingBottom = 30;
-            
-            const chartW = width - paddingLeft - paddingRight;
-            const chartH = height - paddingTop - paddingBottom;
-            
-            // Scaler bounds
-            const minG = Math.max(0, Math.min(2.0, ...cgpValues) - 0.5);
-            const maxG = 4.0;
-            const rangeG = maxG - minG;
-            
-            const points = [];
-            for (let i = 0; i < semestersList.length; i++) {
-                const x = paddingLeft + (semestersList.length === 1 ? chartW / 2 : (i / (semestersList.length - 1)) * chartW);
-                const yVal = cgpValues[i];
-                const y = paddingTop + chartH - ((yVal - minG) / (rangeG || 1)) * chartH;
-                points.push({ x, y, val: yVal, sem: semestersList[i] });
-            }
-            
-            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-            svg.setAttribute('width', '100%');
-            svg.setAttribute('height', height);
-            svg.style.overflow = 'visible';
-            
-            // Gradients definitions
-            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-            defs.innerHTML = `
-                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"></stop>
-                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0"></stop>
-                </linearGradient>
-            `;
-            svg.appendChild(defs);
-            
-            // Draw grid y horizontal lines
-            const gridG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-            const gridVals = [2.0, 3.0, 4.0];
-            gridVals.forEach(gVal => {
-                if (gVal < minG) return;
-                const y = paddingTop + chartH - ((gVal - minG) / (rangeG || 1)) * chartH;
-                
-                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
-                line.setAttribute('x1', paddingLeft);
-                line.setAttribute('y1', y);
-                line.setAttribute('x2', width - paddingRight);
-                line.setAttribute('y2', y);
-                line.setAttribute('stroke', 'var(--border-card)');
-                line.setAttribute('stroke-dasharray', '4 4');
-                gridG.appendChild(line);
-                
-                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                text.setAttribute('x', paddingLeft - 8);
-                text.setAttribute('y', y + 3);
-                text.setAttribute('text-anchor', 'end');
-                text.setAttribute('fill', 'var(--text-muted)');
-                text.style.fontSize = '9px';
-                text.style.fontWeight = '600';
-                text.textContent = gVal.toFixed(1);
-                gridG.appendChild(text);
-            });
-            svg.appendChild(gridG);
-            
-            if (points.length > 0) {
-                let lineD = `M ${points[0].x} ${points[0].y}`;
-                let areaD = `M ${points[0].x} ${points[0].y}`;
-                
-                for (let i = 1; i < points.length; i++) {
-                    const prev = points[i-1];
-                    const curr = points[i];
-                    // Bezier points control
-                    const cpX1 = prev.x + (curr.x - prev.x) / 2;
-                    const cpY1 = prev.y;
-                    const cpX2 = prev.x + (curr.x - prev.x) / 2;
-                    const cpY2 = curr.y;
-                    
-                    lineD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
-                    areaD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
-                }
-                
-                areaD += ` L ${points[points.length-1].x} ${paddingTop + chartH}`;
-                areaD += ` L ${points[0].x} ${paddingTop + chartH} Z`;
-                
-                const areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                areaPath.setAttribute('d', areaD);
-                areaPath.setAttribute('fill', 'url(#chartGrad)');
-                svg.appendChild(areaPath);
-                
-                const linePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-                linePath.setAttribute('d', lineD);
-                linePath.setAttribute('fill', 'none');
-                linePath.setAttribute('stroke', 'var(--accent)');
-                linePath.setAttribute('stroke-width', '3');
-                linePath.setAttribute('stroke-linecap', 'round');
-                svg.appendChild(linePath);
-                
-                // Dots & triggers group
-                const dotsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                points.forEach((pt) => {
-                    const dotGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
-                    dotGroup.style.cursor = 'pointer';
-                    
-                    const outerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    outerCircle.setAttribute('cx', pt.x);
-                    outerCircle.setAttribute('cy', pt.y);
-                    outerCircle.setAttribute('r', '7');
-                    outerCircle.setAttribute('fill', 'var(--accent)');
-                    outerCircle.setAttribute('opacity', '0');
-                    outerCircle.style.transition = 'opacity 0.2s ease';
-                    dotGroup.appendChild(outerCircle);
-                    
-                    const innerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-                    innerCircle.setAttribute('cx', pt.x);
-                    innerCircle.setAttribute('cy', pt.y);
-                    innerCircle.setAttribute('r', '4');
-                    innerCircle.setAttribute('fill', 'var(--bg-app)');
-                    innerCircle.setAttribute('stroke', 'var(--accent)');
-                    innerCircle.setAttribute('stroke-width', '2');
-                    dotGroup.appendChild(innerCircle);
-                    
-                    dotGroup.addEventListener('mouseenter', () => {
-                        outerCircle.setAttribute('opacity', '0.35');
-                        showTooltip(pt.x, pt.y, `${pt.sem}: ${pt.val.toFixed(2)} CGPA`);
-                    });
-                    
-                    dotGroup.addEventListener('mouseleave', () => {
-                        outerCircle.setAttribute('opacity', '0');
-                        hideTooltip();
-                    });
-                    
-                    dotsG.appendChild(dotGroup);
-                    
-                    // Sem text bottom label
-                    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-                    label.setAttribute('x', pt.x);
-                    label.setAttribute('y', paddingTop + chartH + 18);
-                    label.setAttribute('text-anchor', 'middle');
-                    label.setAttribute('fill', 'var(--text-secondary)');
-                    label.style.fontSize = '9px';
-                    label.style.fontWeight = '500';
-                    
-                    const parts = pt.sem.split(' ');
-                    label.textContent = parts[0].substring(0, 3) + ' ' + (parts[1] ? parts[1].substring(2) : '');
-                    svg.appendChild(label);
-                });
-                svg.appendChild(dotsG);
-            }
-            
-            container.appendChild(svg);
-        }
-
-        function showTooltip(x, y, text) {
-            const tooltip = document.getElementById('chartTooltip');
-            const wrapper = document.getElementById('chartWrapper');
-            const wrapperRect = wrapper.getBoundingClientRect();
-            
-            tooltip.textContent = text;
-            tooltip.style.left = `${x + 10}px`;
-            tooltip.style.top = `${y}px`;
-            tooltip.style.opacity = '1';
-            tooltip.style.transform = 'translate(-50%, -100%) translateY(-6px)';
-        }
-
-        function hideTooltip() {
-            const tooltip = document.getElementById('chartTooltip');
-            tooltip.style.opacity = '0';
-        }
-
-        // Render dynamic timelines grouped by semesters
-        function renderTimeline(calc) {
-            const container = document.getElementById('timelineContainer');
-            container.innerHTML = '';
-
-            if (calc.semesterList.length === 0) {
-                container.innerHTML = `
-                    <div class="empty-history animate-fade">
-                        <i class="fa-solid fa-box-open"></i>
-                        <p>Your academic transcript is currently empty.<br>Use the form on the left to add your courses!</p>
-                    </div>
-                `;
-                return;
-            }
-
-            // Create cards for each sorted semester
-            calc.semesterList.forEach(sem => {
-                const courses = calc.semesterData[sem];
-                const semGpa = calc.semesterGPAs[sem];
-                const semCredits = calc.totalCreditsBySemester[sem];
-
-                const card = document.createElement('div');
-                card.className = 'semester-card animate-fade';
-                card.id = `sem-card-${sem.replace(' ', '-')}`;
-
-                // Check if card was previously collapsed by reading storage state (optional bonus)
-                // Let's keep cards open by default
-                
-                const headerHTML = `
-                    <div class="semester-header" onclick="toggleSemesterCollapse('${sem}')">
-                        <div class="sem-title-area">
-                            <i class="fa-solid fa-chevron-down sem-chevron" id="chevron-${sem.replace(' ', '-')}"></i>
-                            <span class="sem-name">${sem}</span>
-                        </div>
-                        <div class="sem-stats">
-                            <span class="badge highlight">GPA: ${semGpa.toFixed(2)}</span>
-                            <span class="badge">Credits: ${semCredits}</span>
-                        </div>
-                    </div>
-                `;
-
-                let coursesHTML = `<div class="courses-list">`;
-                courses.forEach(c => {
-                    let statusBadgeHTML = '';
-                    let rowClass = 'course-row';
-
-                    if (c.isReplaced) {
-                        rowClass += ' replaced';
-                        statusBadgeHTML = `<span class="badge-replaced" title="Replaced by ${c.replacementSemester} attempt"><i class="fa-solid fa-ban"></i> Replaced (${c.replacementGrade})</span>`;
-                    } else if (c.hasPreviousAttempt) {
-                        if (c.gradeImproved) {
-                            statusBadgeHTML = `<span class="badge-retake-improved" title="Improved from ${c.previousGrade} in ${c.previousSemester}"><i class="fa-solid fa-arrow-trend-up"></i> Retake Improved (${c.previousGrade} ➔ ${c.grade})</span>`;
-                        } else if (c.gradeDowngraded) {
-                            statusBadgeHTML = `<span class="badge-retake-warn" title="Lower than previous grade of ${c.previousGrade} taken in ${c.previousSemester}"><i class="fa-solid fa-triangle-exclamation"></i> Retake Degraded (${c.previousGrade} ➔ ${c.grade})</span>`;
-                        } else {
-                            statusBadgeHTML = `<span class="badge-replaced" style="color: var(--warning); border-color: rgba(245,158,11,0.2);" title="Equal to previous grade of ${c.previousGrade} taken in ${c.previousSemester}"><i class="fa-solid fa-arrows-left-right"></i> Retake Equal (${c.previousGrade} ➔ ${c.grade})</span>`;
-                        }
-                    } else if (c.isRetake) {
-                        // Marked as retake but no previous matching attempt registered yet
-                        statusBadgeHTML = `<span class="badge-replaced" style="color: var(--accent); border-color: rgba(59,130,246,0.2);"><i class="fa-solid fa-arrows-spin"></i> Retake (No Match)</span>`;
-                    }
-
-                    coursesHTML += `
-                        <div class="${rowClass}">
-                            <span class="course-code">${c.code.toUpperCase()}</span>
-                            <span class="course-title-text" title="${c.title || 'N/A'}">${c.title || 'Course Title'}</span>
-                            <span class="course-credits">${c.credits} Cr</span>
-                            <span class="course-grade">${c.grade}</span>
-                            <div class="course-status-badge">${statusBadgeHTML}</div>
-                            <div class="course-actions">
-                                <button class="btn-icon" style="width:28px; height:28px; font-size:0.75rem;" onclick="editCourse('${c.id}')" title="Edit Course">
-                                    <i class="fa-solid fa-pen"></i>
-                                </button>
-                                <button class="btn-icon" style="width:28px; height:28px; font-size:0.75rem; color: var(--danger);" onclick="deleteCourse('${c.id}')" title="Delete Course">
-                                    <i class="fa-solid fa-trash-can"></i>
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-                coursesHTML += `</div>`;
-
-                card.innerHTML = headerHTML + `
-                    <div class="semester-body" id="body-${sem.replace(' ', '-')}">
-                        ${coursesHTML}
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
-
-        function toggleSemesterCollapse(sem) {
-            const card = document.getElementById(`sem-card-${sem.replace(' ', '-')}`);
-            if (card) {
-                card.classList.toggle('collapsed');
+                feedback.style.display = 'none';
             }
         }
 
         // Form Submit Handler
-        function handleFormSubmit(e) {
+        function onFormSubmit(e) {
             e.preventDefault();
 
             const code = document.getElementById('courseCode').value.trim();
             const title = document.getElementById('courseTitle').value.trim();
             const season = document.getElementById('semesterSeason').value;
             const year = document.getElementById('semesterYear').value;
-            const credits = parseInt(document.getElementById('courseCredits').value);
+            const credits = parseFloat(document.getElementById('courseCredits').value);
             const grade = document.getElementById('courseGrade').value;
             const isRetake = document.getElementById('isRetakeCheckbox').checked;
 
             const semester = `${season} ${year}`;
 
             if (state.editingId) {
-                // Update operation
-                const idx = state.courses.findIndex(c => c.id === state.editingId);
-                if (idx !== -1) {
-                    state.courses[idx] = {
-                        ...state.courses[idx],
+                const index = state.courses.findIndex(c => c.id === state.editingId);
+                if (index !== -1) {
+                    state.courses[index] = {
+                        ...state.courses[index],
                         code,
-                        title,
+                        title, // Replaced
                         credits,
                         grade,
                         semester,
@@ -2204,11 +707,10 @@
                     };
                 }
                 state.editingId = null;
-                document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Add Course';
-                document.getElementById('submitBtnText').textContent = 'Add Course';
+                document.getElementById('formHeader').textContent = 'Add Course';
+                document.getElementById('submitBtn').textContent = 'Add Course';
                 document.getElementById('cancelEditBtn').style.display = 'none';
             } else {
-                // Insert operation
                 const newCourse = {
                     id: generateId(),
                     code,
@@ -2221,19 +723,128 @@
                 state.courses.push(newCourse);
             }
 
-            saveStateToLocalStorage();
+            saveState();
             resetFormInputs();
-            updateDashboard();
+            updateUI();
         }
 
-        // CRUD Edit
+        // Render dashboard values
+        function updateUI() {
+            const data = runCgpaEngine();
+
+            applyTheme(state.theme);
+
+            // Set main summary cards
+            document.getElementById('summaryCgpa').textContent = data.cgpa.toFixed(2);
+            document.getElementById('summaryCredits').textContent = data.totalCredits;
+            
+            const retakeLabel = document.getElementById('retakeCountLabel');
+            if (data.retakeCount > 0) {
+                retakeLabel.textContent = `${data.retakeCount} retake course(s) successfully processed and calculated.`;
+                retakeLabel.className = "mt-3 text-center text-success font-weight-bold small";
+            } else {
+                retakeLabel.textContent = "No retakes processed.";
+                retakeLabel.className = "mt-3 text-center text-muted small";
+            }
+
+            // Warnings Alert displays
+            const warningAlertsDiv = document.getElementById('warningAlerts');
+            warningAlertsDiv.innerHTML = '';
+            data.downgradeWarnings.forEach(w => {
+                const alert = document.createElement('div');
+                alert.className = 'alert alert-warning alert-dismissible fade show small font-weight-bold';
+                alert.role = 'alert';
+                alert.innerHTML = `
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    Retake Downgrade Alert: ${w.code} latest grade (${w.newGrade} in ${w.newSem}) is lower than the previous attempt (${w.oldGrade} in ${w.oldSem}). Under IUB precedence rules, this lower grade is used for CGPA calculations.
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                `;
+                warningAlertsDiv.appendChild(alert);
+            });
+
+            // Render Table Rows
+            const tbody = document.getElementById('tableBody');
+            const emptyState = document.getElementById('emptyState');
+            tbody.innerHTML = '';
+
+            if (data.processedList.length === 0) {
+                emptyState.style.display = 'block';
+            } else {
+                emptyState.style.display = 'none';
+                
+                // Sort chronologically for table listing
+                data.processedList.sort((a,b) => compareSemesters(a.semester, b.semester));
+
+                data.processedList.forEach(c => {
+                    const tr = document.createElement('tr');
+                    let statusBadge = '<span class="badge badge-light border">Normal</span>';
+                    let trClass = '';
+                    let textClass = '';
+
+                    if (c.isReplaced) {
+                        trClass = 'replaced-row';
+                        textClass = 'replaced-text';
+                        statusBadge = `<span class="badge badge-secondary" title="Replaced by attempt in ${c.replacementSemester}">Replaced (${c.replacementGrade})</span>`;
+                    } else if (c.hasPreviousAttempt) {
+                        if (c.improved) {
+                            statusBadge = `<span class="badge badge-success" title="Improved from ${c.previousGrade} in ${c.previousSemester}">Improved (${c.previousGrade}➔${c.grade})</span>`;
+                        } else if (c.downgraded) {
+                            statusBadge = `<span class="badge badge-danger" title="Downgraded from ${c.previousGrade} in ${c.previousSemester}">Degraded (${c.previousGrade}➔${c.grade})</span>`;
+                        } else {
+                            statusBadge = `<span class="badge badge-warning" title="Equal to previous attempt grade ${c.previousGrade} in ${c.previousSemester}">Retake Equal</span>`;
+                        }
+                    } else if (c.isRetake) {
+                        statusBadge = `<span class="badge badge-primary">Retake</span>`;
+                    }
+
+                    tr.className = trClass;
+                    tr.innerHTML = `
+                        <td class="${textClass}">${c.semester}</td>
+                        <td class="font-weight-bold ${textClass}">${c.code.toUpperCase()}</td>
+                        <td class="small ${textClass}">${c.title ? c.title : '<span class="text-muted font-italic">-</span>'}</td>
+                        <td class="${textClass}">${c.credits}</td>
+                        <td class="font-weight-bold ${textClass}">${c.grade}</td>
+                        <td>${statusBadge}</td>
+                        <td class="text-right">
+                            <button class="btn btn-outline-primary btn-sm py-0 px-2 mr-1" onclick="editCourse('${c.id}')" title="Edit">
+                                <i class="fas fa-edit"></i>
+                            </button>
+                            <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="deleteCourse('${c.id}')" title="Delete">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            // Render Semester wise list GPAs
+            const semListUl = document.getElementById('semesterList');
+            semListUl.innerHTML = '';
+            
+            if (data.sortedSemesters.length === 0) {
+                semListUl.innerHTML = '<li class="list-group-item text-center text-muted small py-3">No semester GPAs to compute.</li>';
+            } else {
+                data.sortedSemesters.forEach(sem => {
+                    const li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent';
+                    li.innerHTML = `
+                        <span class="font-weight-bold small">${sem}</span>
+                        <span class="badge badge-pill badge-primary px-3 py-2 font-weight-bold">GPA: ${data.semesterGPAs[sem].toFixed(2)}</span>
+                    `;
+                    semListUl.appendChild(li);
+                });
+            }
+        }
+
+        // CRUD Actions
         function editCourse(id) {
             const course = state.courses.find(c => c.id === id);
             if (!course) return;
 
             state.editingId = id;
-            
-            // Populate form
             document.getElementById('courseCode').value = course.code;
             document.getElementById('courseTitle').value = course.title || '';
             document.getElementById('courseCredits').value = course.credits;
@@ -2246,38 +857,33 @@
                 document.getElementById('semesterYear').value = parts[1];
             }
 
-            // Adjust button labels
-            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Course';
-            document.getElementById('submitBtnText').textContent = 'Update Course';
-            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
-
-            // Scroll form into focus on small screens
-            document.getElementById('courseForm').scrollIntoView({ behavior: 'smooth' });
+            document.getElementById('formHeader').textContent = 'Edit Course';
+            document.getElementById('submitBtn').textContent = 'Update Course';
+            document.getElementById('cancelEditBtn').style.display = 'inline-block';
             
-            checkRealtimeRetakes();
+            // Scroll form card into focus on mobile
+            document.getElementById('courseForm').scrollIntoView({ behavior: 'smooth' });
+
+            checkRetakeMatches();
         }
 
-        // CRUD Delete
         function deleteCourse(id) {
             state.courses = state.courses.filter(c => c.id !== id);
-            saveStateToLocalStorage();
-            
-            // If deleting the course currently being edited, reset the form
+            saveState();
             if (state.editingId === id) {
                 resetForm();
             }
-            
-            updateDashboard();
+            updateUI();
         }
 
         // Reset helpers
         function resetForm() {
             state.editingId = null;
-            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Add Course';
-            document.getElementById('submitBtnText').textContent = 'Add Course';
+            document.getElementById('formHeader').textContent = 'Add Course';
+            document.getElementById('submitBtn').textContent = 'Add Course';
             document.getElementById('cancelEditBtn').style.display = 'none';
             resetFormInputs();
-            checkRealtimeRetakes();
+            checkRetakeMatches();
         }
 
         function resetFormInputs() {
@@ -2286,42 +892,15 @@
             document.getElementById('courseCredits').value = '3';
             document.getElementById('courseGrade').selectedIndex = 0;
             document.getElementById('isRetakeCheckbox').checked = false;
-            // Let semester remain at current selected value for convenient batch entry!
         }
 
         function confirmResetAll() {
-            if (confirm("Are you sure you want to delete all transcript records? This action cannot be undone.")) {
+            if (confirm("Are you sure you want to delete all course records? This action cannot be undone.")) {
                 state.courses = [];
                 state.editingId = null;
-                saveStateToLocalStorage();
+                saveState();
                 resetForm();
-                updateDashboard();
-            }
-        }
-
-        // Modal triggers
-        function toggleGradingModal(show) {
-            const overlay = document.getElementById('gradingModal');
-            if (show) {
-                overlay.className = 'modal-overlay active';
-            } else {
-                overlay.className = 'modal-overlay';
-            }
-        }
-
-        function toggleGuideModal(show) {
-            const overlay = document.getElementById('guideModal');
-            if (show) {
-                overlay.className = 'modal-overlay active';
-            } else {
-                overlay.className = 'modal-overlay';
-            }
-        }
-
-        function handleBackdropClick(e, overlayId) {
-            if (e.target.id === overlayId) {
-                if (overlayId === 'gradingModal') toggleGradingModal(false);
-                if (overlayId === 'guideModal') toggleGuideModal(false);
+                updateUI();
             }
         }
     </script>
