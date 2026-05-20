@@ -1078,8 +1078,11 @@
                 <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
                     <i class="fa-solid fa-moon"></i>
                 </button>
+                <button class="btn-secondary" onclick="toggleGuideModal(true)" style="height: 40px; padding: 0 16px;">
+                    <i class="fa-solid fa-circle-question"></i> <span style="margin-left:4px;">How to Use</span>
+                </button>
                 <button class="btn-secondary" onclick="toggleGradingModal(true)" style="height: 40px; padding: 0 16px;">
-                    <i class="fa-solid fa-circle-info"></i> <span style="margin-left:4px;">IUB Scale</span>
+                    <i class="fa-solid fa-graduation-cap"></i> <span style="margin-left:4px;">IUB Scale</span>
                 </button>
             </div>
         </header>
@@ -1317,6 +1320,63 @@
         </div>
     </div>
 
+    <!-- Guide Info Modal -->
+    <div id="guideModal" class="modal-overlay" onclick="handleBackdropClick(event, 'guideModal')">
+        <div class="modal-container glass-card" style="max-width: 550px;">
+            <div class="modal-header">
+                <h2>🎓 Student Quick Start Guide</h2>
+                <button class="close-btn" onclick="toggleGuideModal(false)">&times;</button>
+            </div>
+            <div class="modal-body" style="color: var(--text-secondary); line-height: 1.6; font-size: 0.9rem;">
+                <p style="margin-bottom: 16px; color: var(--text-primary); font-weight: 500;">Welcome to the IUB CGPA Portal! This tool is designed to make managing your grades and calculating retakes completely effortless. Here is a simple guide on how to use it:</p>
+                
+                <div style="display: flex; flex-direction: column; gap: 16px; margin-bottom: 20px;">
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">1</span>
+                        <div>
+                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Add Your Courses</strong>
+                            Enter the Course Code (e.g., <code style="background: var(--badge-bg); padding: 2px 6px; border-radius: 4px;">CSE101</code>), select the Semester and Grade, and click <strong>Add Course</strong>. Repeat this for all courses you have taken.
+                        </div>
+                    </div>
+                    
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">2</span>
+                        <div>
+                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Intelligent Retake System</strong>
+                            If you retook a course:
+                            <ul style="margin-left: 18px; margin-top: 4px; display: flex; flex-direction: column; gap: 4px;">
+                                <li>Simply enter the course again in the newer semester.</li>
+                                <li>The system will <strong>automatically detect</strong> your previous attempt!</li>
+                                <li>The old attempt is struck through <del style="opacity: 0.5;">like this</del> and removed from your cumulative CGPA.</li>
+                                <li>Your new grade replaces it, boosting your CGPA!</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">3</span>
+                        <div>
+                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Track Your Statistics</strong>
+                            Your overarching **CGPA Gauge** dynamically color-codes based on your academic standing (e.g., green for honors). The **Progression Chart** renders your CGPA trend across semesters.
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; align-items: flex-start;">
+                        <span style="background: var(--accent); color: white; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; flex-shrink: 0; font-family: var(--font-display);">4</span>
+                        <div>
+                            <strong style="color: var(--text-primary); display: block; margin-bottom: 2px;">Automatic Local Saving</strong>
+                            No login or registration required. All entered courses are saved in your browser storage instantly. You can close the tab and return at any time!
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-primary" style="width: 100%;" onclick="toggleGuideModal(false)">
+                    Got it, let's go!
+                </button>
+            </div>
+        </div>
+    </div>
+
     <!-- Core Logic Script -->
     <script>
         // State management
@@ -1363,6 +1423,12 @@
             });
             
             updateDashboard();
+
+            // If they haven't visited before, show the quick start guide automatically!
+            if (!localStorage.getItem('iub_cgpa_tracker_visited')) {
+                toggleGuideModal(true);
+                localStorage.setItem('iub_cgpa_tracker_visited', 'true');
+            }
         });
 
         // Initialize Semester Year dropdown
@@ -2237,15 +2303,25 @@
         function toggleGradingModal(show) {
             const overlay = document.getElementById('gradingModal');
             if (show) {
-                overlay.classList.add('active');
+                overlay.className = 'modal-overlay active';
             } else {
-                overlay.classList.remove('active');
+                overlay.className = 'modal-overlay';
+            }
+        }
+
+        function toggleGuideModal(show) {
+            const overlay = document.getElementById('guideModal');
+            if (show) {
+                overlay.className = 'modal-overlay active';
+            } else {
+                overlay.className = 'modal-overlay';
             }
         }
 
         function handleBackdropClick(e, overlayId) {
             if (e.target.id === overlayId) {
-                toggleGradingModal(false);
+                if (overlayId === 'gradingModal') toggleGradingModal(false);
+                if (overlayId === 'guideModal') toggleGuideModal(false);
             }
         }
     </script>
