@@ -3,273 +3,2233 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IUB CGPA Calculator</title>
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <title>IUB CGPA Portal & Retake Tracker</title>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Premium Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <style>
-        body {
-            background: linear-gradient(120deg, #3498db, #8e44ad);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #fff;
+        :root {
+            --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --border-radius-xl: 24px;
+            --border-radius-lg: 16px;
+            --border-radius-md: 12px;
+            --border-radius-sm: 8px;
+            --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+            --font-body: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
         }
-        .container {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            margin-top: 60px;
-            color: #333;
+
+        .theme-dark {
+            --bg-app: #080c14;
+            --bg-gradient: radial-gradient(circle at top right, #111827 0%, #080c14 100%);
+            --bg-card: rgba(17, 24, 39, 0.6);
+            --bg-card-hover: rgba(24, 33, 53, 0.7);
+            --border-card: rgba(255, 255, 255, 0.08);
+            --border-hover: rgba(255, 255, 255, 0.15);
+            --text-primary: #f8fafc;
+            --text-secondary: #94a3b8;
+            --text-muted: #64748b;
+            --accent: #3b82f6;
+            --accent-glow: rgba(59, 130, 246, 0.15);
+            --accent-solid: #2563eb;
+            --success: #10b981;
+            --success-glow: rgba(16, 185, 129, 0.15);
+            --warning: #f59e0b;
+            --warning-glow: rgba(245, 158, 11, 0.15);
+            --danger: #ef4444;
+            --danger-glow: rgba(239, 68, 68, 0.15);
+            --shadow-card: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+            --shadow-glow: 0 0 24px rgba(59, 130, 246, 0.12);
+            --input-bg: rgba(15, 23, 42, 0.6);
+            --input-border: rgba(255, 255, 255, 0.1);
+            --input-focus: #3b82f6;
+            --badge-bg: rgba(255, 255, 255, 0.05);
+            --scrollbar-thumb: rgba(255, 255, 255, 0.15);
         }
-        h1 {
-            font-size: 3rem;
-            color: #8e44ad;
-            font-weight: bold;
-            text-align: center;
-            margin-bottom: 20px;
+
+        .theme-light {
+            --bg-app: #f4f6fa;
+            --bg-gradient: radial-gradient(circle at top right, #eef2f6 0%, #f4f6fa 100%);
+            --bg-card: rgba(255, 255, 255, 0.75);
+            --bg-card-hover: rgba(255, 255, 255, 0.9);
+            --border-card: rgba(0, 0, 0, 0.06);
+            --border-hover: rgba(0, 0, 0, 0.12);
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #94a3b8;
+            --accent: #2563eb;
+            --accent-glow: rgba(37, 99, 235, 0.08);
+            --accent-solid: #1d4ed8;
+            --success: #059669;
+            --success-glow: rgba(5, 150, 105, 0.1);
+            --warning: #d97706;
+            --warning-glow: rgba(217, 119, 6, 0.1);
+            --danger: #dc2626;
+            --danger-glow: rgba(220, 38, 38, 0.1);
+            --shadow-card: 0 10px 30px -10px rgba(15, 23, 42, 0.06);
+            --shadow-glow: 0 0 24px rgba(37, 99, 235, 0.06);
+            --input-bg: rgba(255, 255, 255, 0.9);
+            --input-border: rgba(0, 0, 0, 0.1);
+            --input-focus: #2563eb;
+            --badge-bg: rgba(0, 0, 0, 0.03);
+            --scrollbar-thumb: rgba(0, 0, 0, 0.15);
         }
-        .form-group {
-            margin-bottom: 20px; /* Add spacing between form groups */
-        }
-        .form-group label {
-            font-weight: 600; /* Slightly bolder label */
-            font-size: 1.1rem; /* Increase font size for labels */
-            color: #34495e; /* Darker color for contrast */
-            display: block; /* Ensure labels take the full width */
-            margin-bottom: 8px; /* Add spacing below the label */
-        }
-        .form-control {
-            border-radius: 25px; /* More rounded corners */
-            padding: 10px 20px; /* Increased padding for better touch targets */
-            font-size: 1.2rem; /* Increase font size */
-            border: 2px solid #3498db; /* Border color that matches the theme */
-            transition: border 0.3s; /* Transition effect for border color */
-        }
-        .form-control:focus {
-            border-color: #8e44ad; /* Change border color on focus */
-            box-shadow: 0 0 8px rgba(142, 68, 173, 0.8); /* Shadow effect for focus */
-        }
-        .btn-primary {
-            background: linear-gradient(120deg, #3498db, #8e44ad);
-            border: none;
-            padding: 12px 30px;
-            font-size: 1.2rem;
-            border-radius: 30px;
-            transition: 0.3s ease;
-        }
-        .btn-primary:hover {
-            background: linear-gradient(120deg, #8e44ad, #3498db);
-            box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4);
-        }
-        .result {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #2ecc71;
-            text-align: center;
-            margin-top: 25px;
-        }
-        .footer {
-            background-color: #2c3e50;
-            color: white;
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 40px;
-            border-radius: 10px;
-        }
-        .footer p {
+
+        * {
             margin: 0;
-            font-size: 1rem;
+            padding: 0;
+            box-sizing: border-box;
         }
-        .footer a {
-            color: #ecf0f1;
-            text-decoration: none;
+
+        body {
+            background: var(--bg-gradient);
+            background-color: var(--bg-app);
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            overflow-x: hidden;
+            transition: background-color 0.3s, color 0.3s;
+            padding: 0 0 60px 0;
         }
-        .footer a:hover {
-            text-decoration: underline;
+
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .icon {
-            font-size: 2rem;
-            color: #3498db;
-            margin-bottom: 20px;
+        ::-webkit-scrollbar-track {
+            background: transparent;
         }
-        .icon i {
-            transition: 0.3s ease;
+        ::-webkit-scrollbar-thumb {
+            background: var(--scrollbar-thumb);
+            border-radius: 4px;
         }
-        .icon:hover i {
-            transform: rotate(360deg);
+
+        /* Glassmorphism utilities */
+        .glass-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: var(--border-radius-xl);
+            padding: 28px;
+            box-shadow: var(--shadow-card);
+            transition: var(--transition-smooth);
         }
-        .two-inputs {
+
+        .glass-card:hover {
+            border-color: var(--border-hover);
+            transform: translateY(-2px);
+        }
+
+        .glow-card {
+            box-shadow: var(--shadow-glow), var(--shadow-card);
+        }
+
+        /* Structure */
+        .app-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px 24px;
+        }
+
+        /* Header */
+        header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            padding: 12px 0;
         }
-        .two-inputs .form-group {
-            flex: 1; /* Allow each input to take equal space */
-            margin-right: 10px; /* Add spacing between the two inputs */
-        }
-        .two-inputs .form-group:last-child {
-            margin-right: 0; /* Remove margin for the last input */
-        }
-        .course-inputs {
+
+        .brand {
             display: flex;
             align-items: center;
-            margin-bottom: 15px; /* Spacing between course inputs */
+            gap: 12px;
         }
-        .course-inputs input, .course-inputs select {
-            flex: 1; /* Allow inputs to take equal space */
-            margin-right: 10px; /* Spacing between inputs */
+
+        .brand-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--border-radius-md);
+            background: linear-gradient(135deg, var(--accent), var(--accent-solid));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.4);
+            color: #fff;
+            font-size: 1.3rem;
         }
-        .course-inputs input:last-child, .course-inputs select:last-child {
-            margin-right: 0; /* Remove margin for the last input */
+
+        .brand-text h1 {
+            font-family: var(--font-display);
+            font-size: 1.4rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            color: var(--text-primary);
         }
-        .course-title {
+
+        .brand-text span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        /* Buttons */
+        .btn-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--border-card);
+            background: var(--bg-card);
+            color: var(--text-primary);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-icon:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+            transform: scale(1.05);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-solid));
+            border: none;
+            color: #fff;
+            font-family: var(--font-display);
+            font-weight: 600;
+            padding: 12px 24px;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(59, 130, 246, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            color: var(--text-primary);
+            font-family: var(--font-display);
+            font-weight: 500;
+            padding: 10px 18px;
+            border-radius: var(--border-radius-md);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: var(--transition-smooth);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--border-hover);
+            background: var(--bg-card-hover);
+        }
+
+        /* Dashboard Grid */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .col-left, .col-right {
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* Dashboard Cards Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .stat-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 120px;
+        }
+
+        .stat-header {
             display: flex;
             justify-content: space-between;
-            margin-bottom: 10px; /* Spacing for titles */
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            font-weight: 500;
         }
-        .course-title span {
-            flex: 1; /* Distribute space evenly */
-            font-weight: bold;
+
+        .stat-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--border-radius-sm);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.95rem;
         }
-        .course-title .grade-title {
-            flex: 0.5; /* Make grade title slightly smaller */
+
+        .stat-icon.blue { background: var(--accent-glow); color: var(--accent); }
+        .stat-icon.green { background: var(--success-glow); color: var(--success); }
+        .stat-icon.gold { background: var(--warning-glow); color: var(--warning); }
+        .stat-icon.red { background: var(--danger-glow); color: var(--danger); }
+
+        .stat-body {
+            margin-top: 14px;
         }
-        .datetime {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: black; /* Set text color to black */
-            text-align:right;
-            margin-top: 15px;
+
+        .stat-val {
+            font-family: var(--font-display);
+            font-size: 1.8rem;
+            font-weight: 800;
+            line-height: 1;
+            color: var(--text-primary);
+        }
+
+        .stat-desc {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Gauge card */
+        .gauge-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .cgpa-gauge-wrapper {
+            position: relative;
+            width: 140px;
+            height: 140px;
+            margin: 8px auto 16px;
+        }
+
+        .gauge-bg {
+            stroke: var(--border-card);
+        }
+
+        .gauge-fill {
+            stroke: var(--accent);
+            transform: rotate(-90deg);
+            transform-origin: 50% 50%;
+            transition: stroke-dashoffset 0.8s cubic-bezier(0.4, 0, 0.2, 1), stroke 0.3s ease;
+        }
+
+        .gauge-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .gauge-val {
+            font-family: var(--font-display);
+            font-size: 2.1rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .gauge-lbl {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        .gauge-classification {
+            font-family: var(--font-display);
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* Progress Bar */
+        .progress-container {
+            width: 100%;
+            background: var(--input-bg);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 8px;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent), var(--accent-solid));
+            width: 0%;
+            border-radius: 4px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Forms */
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.15rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-title i {
+            color: var(--accent);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+
+        .form-group-full {
+            grid-column: span 2;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .form-group label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.02em;
+        }
+
+        .form-control {
+            background-color: var(--input-bg);
+            border: 1px solid var(--input-border);
+            border-radius: var(--border-radius-md);
+            padding: 11px 14px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition-smooth);
+            width: 100%;
+        }
+
+        .form-control::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-control:focus {
+            border-color: var(--input-focus);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+
+        /* Toggle switches */
+        .toggle-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--input-bg);
+            padding: 10px 14px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid var(--input-border);
+            margin-bottom: 16px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+
+        .toggle-container:hover {
+            border-color: var(--input-focus);
+        }
+
+        .toggle-info {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .toggle-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .toggle-subtitle {
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+            pointer-events: none; /* Let container click trigger it */
+        }
+
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--text-muted);
+            transition: .3s;
+            border-radius: 24px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(20px);
+        }
+
+        /* Feedback tips */
+        .form-feedback {
+            background: var(--accent-glow);
+            border-left: 3px solid var(--accent);
+            padding: 10px 14px;
+            border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+            font-size: 0.78rem;
+            line-height: 1.4;
+            color: var(--text-secondary);
+            margin-bottom: 18px;
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .form-feedback.warning {
+            background: var(--danger-glow);
+            border-left-color: var(--danger);
+        }
+
+        .form-feedback i {
+            margin-right: 6px;
+        }
+
+        /* Chart card */
+        .chart-wrapper {
+            position: relative;
+            width: 100%;
+            height: 190px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .no-chart-data {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-align: center;
+            max-width: 250px;
+        }
+
+        .chart-tooltip {
+            position: absolute;
+            background: var(--bg-card);
+            border: 1px solid var(--border-card);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            color: var(--text-primary);
+            padding: 6px 10px;
+            border-radius: var(--border-radius-sm);
+            font-size: 0.7rem;
+            font-weight: 600;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.15s ease, transform 0.15s ease;
+            z-index: 10;
+            box-shadow: var(--shadow-card);
+            transform: translate(-50%, -100%) translateY(-10px);
+        }
+
+        /* Semester Cards Grid */
+        .timeline-container {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .semester-card {
+            border-radius: var(--border-radius-lg);
+            border: 1px solid var(--border-card);
+            background: var(--bg-card);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+
+        .semester-card:hover {
+            border-color: var(--border-hover);
+        }
+
+        .semester-header {
+            padding: 16px 20px;
+            background: rgba(255, 255, 255, 0.02);
+            border-bottom: 1px solid var(--border-card);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        .sem-title-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .sem-chevron {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            transition: transform 0.3s ease;
+        }
+
+        .semester-card.collapsed .sem-chevron {
+            transform: rotate(-90deg);
+        }
+
+        .sem-name {
+            font-family: var(--font-display);
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .sem-stats {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .badge {
+            background: var(--badge-bg);
+            border: 1px solid var(--border-card);
+            color: var(--text-secondary);
+            font-size: 0.72rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge.highlight {
+            background: var(--accent-glow);
+            border-color: rgba(59, 130, 246, 0.2);
+            color: var(--accent);
+        }
+
+        .semester-body {
+            transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
+            max-height: 800px;
+            opacity: 1;
+            overflow: hidden;
+        }
+
+        .semester-card.collapsed .semester-body {
+            max-height: 0;
+            opacity: 0;
+            border-bottom-width: 0;
+        }
+
+        .courses-list {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .course-row {
+            display: grid;
+            grid-template-columns: 1.1fr 2.5fr 0.8fr 1fr 1fr 1fr;
+            align-items: center;
+            padding: 10px 14px;
+            border-radius: var(--border-radius-md);
+            border: 1px solid transparent;
+            transition: var(--transition-smooth);
+            background: rgba(255, 255, 255, 0.015);
+        }
+
+        .course-row:hover {
+            background: rgba(255, 255, 255, 0.035);
+            border-color: var(--border-card);
+        }
+
+        .course-code {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 0.9rem;
+            letter-spacing: -0.01em;
+        }
+
+        .course-title-text {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            padding-right: 8px;
+        }
+
+        .course-credits {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 500;
+        }
+
+        .course-grade {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+
+        .course-status-badge {
+            justify-self: start;
+        }
+
+        .course-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 6px;
+        }
+
+        /* Retake logic styles */
+        .course-row.replaced {
+            opacity: 0.45;
+            background: transparent;
+        }
+
+        .course-row.replaced .course-code, 
+        .course-row.replaced .course-title-text,
+        .course-row.replaced .course-grade {
+            text-decoration: line-through;
+            color: var(--text-muted);
+        }
+
+        .badge-replaced {
+            background: rgba(100, 116, 139, 0.1);
+            color: var(--text-secondary);
+            border: 1px solid rgba(100, 116, 139, 0.2);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .badge-retake-improved {
+            background: var(--success-glow);
+            color: var(--success);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        .badge-retake-warn {
+            background: var(--danger-glow);
+            color: var(--danger);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+        }
+
+        /* Banner warnings */
+        .global-warning-banner {
+            background: var(--danger-glow);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: var(--border-radius-md);
+            padding: 14px 18px;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 24px;
+            animation: slideIn 0.3s ease;
+        }
+
+        .global-warning-banner i {
+            color: var(--danger);
+            font-size: 1.1rem;
+            margin-top: 1px;
+        }
+
+        .global-warning-banner div h4 {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+        
+        .global-warning-banner div p {
+            color: var(--text-secondary);
+            font-size: 0.8rem;
+            line-height: 1.4;
+        }
+
+        /* Modal dialog overlays */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-container {
+            width: 100%;
+            max-width: 500px;
+            max-height: 85vh;
+            overflow-y: auto;
+            transform: scale(0.95);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-card);
+            padding-bottom: 14px;
+            margin-bottom: 20px;
+        }
+
+        .modal-header h2 {
+            font-family: var(--font-display);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .close-btn {
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            transition: var(--transition-smooth);
+        }
+
+        .close-btn:hover {
+            background: var(--badge-bg);
+            color: var(--text-primary);
+        }
+
+        /* Dynamic items */
+        .grading-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .grading-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 12px;
+            border-radius: var(--border-radius-sm);
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-card);
+            font-size: 0.85rem;
+        }
+
+        .grading-row strong {
+            font-family: var(--font-display);
+        }
+
+        .honors-section {
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-card);
+        }
+
+        .honors-title {
+            font-family: var(--font-display);
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 12px;
+        }
+
+        .honors-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .honors-item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            padding: 6px 12px;
+            border-radius: var(--border-radius-sm);
+        }
+
+        .honors-item.summa { background: rgba(16, 185, 129, 0.08); border-left: 3px solid #10b981; }
+        .honors-item.magna { background: rgba(59, 130, 246, 0.08); border-left: 3px solid #3b82f6; }
+        .honors-item.cum { background: rgba(245, 158, 11, 0.08); border-left: 3px solid #f59e0b; }
+
+        /* Empty states */
+        .empty-history {
+            text-align: center;
+            padding: 48px 24px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            border: 2px dashed var(--border-card);
+            border-radius: var(--border-radius-xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .empty-history i {
+            font-size: 2.2rem;
+            color: var(--text-muted);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .animate-fade {
+            animation: fadeIn 0.4s ease;
+        }
+
+        /* Mobile adaptation */
+        @media (max-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+                gap: 28px;
+            }
+            .app-container {
+                padding: 16px;
+            }
+        }
+
+        @media (max-width: 550px) {
+            .course-row {
+                grid-template-columns: 1fr 1fr;
+                gap: 8px;
+                padding: 12px;
+            }
+            .course-title-text {
+                grid-column: span 2;
+                white-space: normal;
+                padding-right: 0;
+            }
+            .course-actions {
+                grid-column: span 2;
+                justify-content: flex-start;
+                margin-top: 6px;
+                border-top: 1px solid var(--border-card);
+                padding-top: 8px;
+            }
+            .course-status-badge {
+                grid-column: span 2;
+                margin-top: 4px;
+            }
+            .stats-row {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
-<body>
-    <div class="container text-center">
-        <div class="icon">
-            <i class="fas fa-calculator"></i>
-        </div>
-        <h1 class="text-center">IUB CGPA Calculator</h1>
+<body class="theme-dark">
 
-        <h2 class="result" id="result"></h2>
-        <h3 class="result" id="totalCreditsResult"></h3>
-
-        <form id="cgpaForm" method="post">
-            <div class="two-inputs">
-                <div class="form-group">
-                    <label for="previous_cgpa">Previous CGPA:</label>
-                    <input type="number" step="0.01" class="form-control" id="previous_cgpa" placeholder="Enter CGPA">
-                </div>
-                <div class="form-group">
-                    <label for="completed_credits">Earned Credits:</label>
-                    <input type="number" class="form-control" id="completed_credits" placeholder="Enter tolal credits">
-                </div>
-            </div>
-            <div class="form-group text-center">
-                <label for="num_courses">Number of New Courses:</label>
-                <input type="number" class="form-control" id="num_courses" min="1" max="10" required placeholder="Enter number of courses this semester">
-            </div>
-
-            <!-- Course Titles Section -->
-            <div class="course-title">
-                <span>Course Name </span>
-                <span class="grade-title">Grade</span>
-                <span>Credit</span>
-            </div>
-
-            <div id="courseInputs"></div>
-            <button type="button" class="btn btn-primary btn-block" id="calculateBtn"><i class="fas fa-check-circle"></i> Calculate CGPA</button>
-        </form>
-    </div>
-
-    <div class="datetime" id="datetime"></div>
-
-    <div class="footer">
-        <p>&copy; 2024 IUB CGPA Calculator | <b>Alnilam<b> </p>
-    </div>
-
-    <!-- Bootstrap and jQuery JS -->
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        const grades = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"];
+    <div class="app-container">
         
-        function createCourseInputs(numCourses) {
-            const courseInputsDiv = document.getElementById('courseInputs');
-            courseInputsDiv.innerHTML = "";  // Clear previous inputs
+        <!-- Header -->
+        <header>
+            <div class="brand">
+                <div class="brand-icon">
+                    <i class="fa-solid fa-graduation-cap"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>IUB CGPA Portal</h1>
+                    <span>Retake & Academic Hub</span>
+                </div>
+            </div>
+            <div class="header-controls">
+                <button class="btn-icon" id="themeToggleBtn" title="Toggle Light/Dark Theme">
+                    <i class="fa-solid fa-moon"></i>
+                </button>
+                <button class="btn-secondary" onclick="toggleGradingModal(true)" style="height: 40px; padding: 0 16px;">
+                    <i class="fa-solid fa-circle-info"></i> <span style="margin-left:4px;">IUB Scale</span>
+                </button>
+            </div>
+        </header>
 
-            for (let i = 0; i < numCourses; i++) {
-                const courseHTML = `
-                    <div class="course-inputs">
-                        <input type="text" class="form-control" id="course_name_${i}" placeholder="Optional">
-                        <select class="form-control" id="grade_${i}">
-                            ${grades.map(grade => `<option value="${grade}">${grade}</option>`).join('')}
-                        </select>
-                        <input type="number" class="form-control" id="credit_${i}" min="1" required placeholder="Credit Hours">
-                    </div>`;
-                courseInputsDiv.innerHTML += courseHTML;
-            }
+        <!-- Dynamic Warning Banner Container -->
+        <div id="warningBannersContainer"></div>
+
+        <!-- Main Grid -->
+        <div class="dashboard-grid">
+            
+            <!-- Left Column: Form & Key Stats -->
+            <div class="col-left">
+                
+                <!-- Gauge Card -->
+                <div class="glass-card glow-card gauge-card">
+                    <div class="cgpa-gauge-wrapper">
+                        <svg width="140" height="140" viewBox="0 0 140 140">
+                            <circle class="gauge-bg" cx="70" cy="70" r="58" stroke-width="10" fill="none"></circle>
+                            <circle class="gauge-fill" id="gaugeFill" cx="70" cy="70" r="58" stroke-width="10" fill="none"
+                                    stroke-dasharray="364.4" stroke-dashoffset="364.4" stroke-linecap="round"></circle>
+                        </svg>
+                        <div class="gauge-content">
+                            <span class="gauge-val" id="gaugeVal">0.00</span>
+                            <span class="gauge-lbl">CGPA</span>
+                        </div>
+                    </div>
+                    <div class="gauge-classification" id="gaugeClassification" style="color: var(--text-secondary);">No courses added</div>
+                </div>
+
+                <!-- Secondary Stats -->
+                <div class="stats-row">
+                    <!-- Earned Credits Card -->
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <span>Earned Credits</span>
+                            <div class="stat-icon blue">
+                                <i class="fa-solid fa-chart-simple"></i>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <span class="stat-val" id="statCredits">0</span>
+                            <div class="progress-container">
+                                <div class="progress-bar" id="creditsProgressBar"></div>
+                            </div>
+                            <span class="stat-desc">Target: 120 credits</span>
+                        </div>
+                    </div>
+
+                    <!-- Retake Stats Card -->
+                    <div class="glass-card stat-card">
+                        <div class="stat-header">
+                            <span>Retake Status</span>
+                            <div class="stat-icon gold">
+                                <i class="fa-solid fa-arrows-spin"></i>
+                            </div>
+                        </div>
+                        <div class="stat-body">
+                            <span class="stat-val" id="statRetakes">0</span>
+                            <span class="stat-desc" id="statRetakeSub">No retakes processed</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add/Edit Course Form -->
+                <div class="glass-card">
+                    <h2 class="section-title" id="formTitle">
+                        <i class="fa-solid fa-circle-plus"></i> Add Course
+                    </h2>
+                    <form id="courseForm" onsubmit="handleFormSubmit(event)">
+                        <div class="form-grid">
+                            
+                            <div class="form-group form-group-full">
+                                <label for="courseCode">Course Code</label>
+                                <input type="text" id="courseCode" class="form-control" placeholder="e.g. CSE101" required oninput="onCourseCodeInput()">
+                            </div>
+
+                            <div class="form-group form-group-full">
+                                <label for="courseTitle">Course Title</label>
+                                <input type="text" id="courseTitle" class="form-control" placeholder="e.g. Structured Programming">
+                            </div>
+
+                            <div class="form-group">
+                                <label for="semesterSeason">Semester Season</label>
+                                <select id="semesterSeason" class="form-control" required onchange="onSemesterSeasonChange()">
+                                    <option value="Spring">Spring</option>
+                                    <option value="Summer">Summer</option>
+                                    <option value="Autumn">Autumn</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="semesterYear">Semester Year</label>
+                                <select id="semesterYear" class="form-control" required onchange="onSemesterYearChange()">
+                                    <!-- Populated dynamically via JS -->
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="courseCredits">Credits</label>
+                                <input type="number" id="courseCredits" class="form-control" min="1" max="6" value="3" required>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="courseGrade">Grade</label>
+                                <select id="courseGrade" class="form-control" required onchange="onGradeChange()">
+                                    <option value="A">A (4.00)</option>
+                                    <option value="A-">A- (3.67)</option>
+                                    <option value="B+">B+ (3.33)</option>
+                                    <option value="B">B (3.00)</option>
+                                    <option value="B-">B- (2.67)</option>
+                                    <option value="C+">C+ (2.33)</option>
+                                    <option value="C">C (2.00)</option>
+                                    <option value="C-">C- (1.67)</option>
+                                    <option value="D+">D+ (1.33)</option>
+                                    <option value="D">D (1.00)</option>
+                                    <option value="F">F (0.00)</option>
+                                </select>
+                            </div>
+
+                        </div>
+
+                        <!-- Retake Toggle Switch -->
+                        <div class="toggle-container" onclick="toggleRetakeCheckbox()">
+                            <div class="toggle-info">
+                                <span class="toggle-title">Is this a retake?</span>
+                                <span class="toggle-subtitle">Replaces a previous attempt of the same course</span>
+                            </div>
+                            <label class="switch">
+                                <input type="checkbox" id="isRetakeCheckbox" onchange="onRetakeToggle()">
+                                <span class="slider"></span>
+                            </label>
+                        </div>
+
+                        <!-- Real-time form feedback -->
+                        <div id="formFeedbackTip" class="form-feedback"></div>
+
+                        <div style="display: flex; gap: 10px;">
+                            <button type="button" id="cancelEditBtn" class="btn-secondary" style="display:none; flex:1;" onclick="resetForm()">
+                                Cancel
+                            </button>
+                            <button type="submit" id="submitCourseBtn" class="btn-primary" style="flex:2;">
+                                <i class="fa-solid fa-check"></i> <span id="submitBtnText">Add Course</span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+
+            <!-- Right Column: Chart & History -->
+            <div class="col-right">
+                
+                <!-- Chart Card -->
+                <div class="glass-card">
+                    <h2 class="section-title">
+                        <i class="fa-solid fa-chart-line"></i> Cumulative CGPA Progression
+                    </h2>
+                    <div class="chart-wrapper" id="chartWrapper">
+                        <div class="no-chart-data">Add courses across different semesters to visualize your GPA progression.</div>
+                    </div>
+                </div>
+
+                <!-- Timeline / Course History -->
+                <div>
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+                        <h2 class="section-title" style="margin-bottom:0;">
+                            <i class="fa-solid fa-timeline"></i> Academic Transcript
+                        </h2>
+                        <button class="btn-secondary" id="clearAllBtn" onclick="confirmResetAll()" style="font-size:0.8rem; padding: 6px 12px; height:auto;">
+                            <i class="fa-solid fa-trash-can"></i> Clear All
+                        </button>
+                    </div>
+
+                    <div id="timelineContainer" class="timeline-container">
+                        <!-- Loaded dynamically via JS -->
+                        <div class="empty-history">
+                            <i class="fa-solid fa-box-open"></i>
+                            <p>Your academic transcript is currently empty.<br>Use the form on the left to add your courses!</p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Chart Tooltip -->
+    <div id="chartTooltip" class="chart-tooltip"></div>
+
+    <!-- Grading Scale Info Modal -->
+    <div id="gradingModal" class="modal-overlay" onclick="handleBackdropClick(event, 'gradingModal')">
+        <div class="modal-container glass-card">
+            <div class="modal-header">
+                <h2>IUB Grading System</h2>
+                <button class="close-btn" onclick="toggleGradingModal(false)">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="grading-grid">
+                    <div class="grading-row"><strong>A</strong> <span>4.00</span></div>
+                    <div class="grading-row"><strong>A-</strong> <span>3.67</span></div>
+                    <div class="grading-row"><strong>B+</strong> <span>3.33</span></div>
+                    <div class="grading-row"><strong>B</strong> <span>3.00</span></div>
+                    <div class="grading-row"><strong>B-</strong> <span>2.67</span></div>
+                    <div class="grading-row"><strong>C+</strong> <span>2.33</span></div>
+                    <div class="grading-row"><strong>C</strong> <span>2.00</span></div>
+                    <div class="grading-row"><strong>C-</strong> <span>1.67</span></div>
+                    <div class="grading-row"><strong>D+</strong> <span>1.33</span></div>
+                    <div class="grading-row"><strong>D</strong> <span>1.00</span></div>
+                    <div class="grading-row"><strong>F</strong> <span>0.00</span></div>
+                </div>
+
+                <div class="honors-section">
+                    <h3 class="honors-title"><i class="fa-solid fa-award"></i> Graduation Honors Criteria</h3>
+                    <div class="honors-list">
+                        <div class="honors-item summa">
+                            <span>Summa Cum Laude</span>
+                            <strong>3.90 – 4.00</strong>
+                        </div>
+                        <div class="honors-item magna">
+                            <span>Magna Cum Laude</span>
+                            <strong>3.80 – 3.89</strong>
+                        </div>
+                        <div class="honors-item cum">
+                            <span>Cum Laude</span>
+                            <strong>3.70 – 3.79</strong>
+                        </div>
+                    </div>
+                    <p style="font-size: 0.72rem; color: var(--text-secondary); margin-top: 10px; line-height: 1.4;">
+                        * Note: To graduate with Honors, students typically must complete at least 100 credits at IUB and hold no "F" grade on record.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Core Logic Script -->
+    <script>
+        // State management
+        let state = {
+            courses: [],
+            theme: 'dark',
+            editingId: null
+        };
+
+        const GRADES = {
+            "A": 4.00,
+            "A-": 3.67,
+            "B+": 3.33,
+            "B": 3.00,
+            "B-": 2.67,
+            "C+": 2.33,
+            "C": 2.00,
+            "C-": 1.67,
+            "D+": 1.33,
+            "D": 1.00,
+            "F": 0.00
+        };
+
+        const SEASONS = { 'Spring': 1, 'Summer': 2, 'Autumn': 3 };
+
+        // Helper: unique ID generator
+        function generateId() {
+            return '_' + Math.random().toString(36).substr(2, 9);
         }
 
-        document.getElementById('num_courses').addEventListener('input', function() {
-            const numCourses = parseInt(this.value);
-            if (numCourses > 0 && numCourses <= 10) {
-                createCourseInputs(numCourses);
-            }
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            initYearDropdowns();
+            loadStateFromLocalStorage();
+            applyTheme(state.theme);
+            
+            // Set up theme toggle button
+            document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
+            
+            // Listen to window resize for responsive SVG Chart update
+            window.addEventListener('resize', () => {
+                const calculations = runCgpaEngine();
+                renderTrendChart(calculations.semesterList, calculations.cumulativeHistory);
+            });
+            
+            updateDashboard();
         });
 
-        document.getElementById('calculateBtn').addEventListener('click', function() {
-            const previousCgpa = parseFloat(document.getElementById('previous_cgpa').value) || 0;
-            const completedCredits = parseFloat(document.getElementById('completed_credits').value) || 0;
-            let totalPoints = 0;
-            let totalCredits = 0;
-            let totalNewCredits = 0;
-
-            for (let i = 0; i < parseInt(document.getElementById('num_courses').value); i++) {
-                const grade = document.getElementById(`grade_${i}`).value;
-                const creditHours = parseFloat(document.getElementById(`credit_${i}`).value) || 0;
-
-                const gradePoints = getGradePoints(grade);
-                totalPoints += gradePoints * creditHours;
-                totalCredits += creditHours;
-                totalNewCredits += creditHours; // Keep track of total new credits
-            }
-
-            const newCgpa = (totalPoints + (previousCgpa * completedCredits)) / (totalCredits + completedCredits);
-            const formattedCgpa = isNaN(newCgpa) ? "Please enter valid data" : newCgpa.toFixed(2);
-            const totalEarnedCredits = completedCredits + totalNewCredits;
-
-            document.getElementById('result').innerText = `Your CGPA: ${formattedCgpa}`;
-            document.getElementById('totalCreditsResult').innerText = `Total Earned Credits: ${totalEarnedCredits}`;
-        });
-
-        function getGradePoints(grade) {
-            switch (grade) {
-                case "A": return 4.00;
-                case "A-": return 3.67;
-                case "B+": return 3.33;
-                case "B": return 3.00;
-                case "B-": return 2.67;
-                case "C+": return 2.33;
-                case "C": return 2.00;
-                case "C-": return 1.67;
-                case "D+": return 1.33;
-                case "D": return 1.00;
-                case "F": return 0.00;
-                default: return 0;
+        // Initialize Semester Year dropdown
+        function initYearDropdowns() {
+            const select = document.getElementById('semesterYear');
+            const currentYear = new Date().getFullYear();
+            
+            // Populating years range (past 10 years to next 5 years)
+            for (let y = currentYear + 4; y >= currentYear - 8; y--) {
+                const option = document.createElement('option');
+                option.value = y;
+                option.textContent = y;
+                if (y === currentYear) option.selected = true;
+                select.appendChild(option);
             }
         }
 
-        // Function to display current date and time
-        function showDateTime() {
-            const now = new Date();
-            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
-            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-            const dayName = days[now.getDay()]; // Get the day name
-            document.getElementById('datetime').innerText = `${dayName}, ${now.toLocaleString('en-US', options)}`;
+        // LocalStorage loading/saving
+        function loadStateFromLocalStorage() {
+            const savedState = localStorage.getItem('iub_cgpa_tracker_state');
+            if (savedState) {
+                try {
+                    state = JSON.parse(savedState);
+                    if (!state.courses) state.courses = [];
+                    if (!state.theme) state.theme = 'dark';
+                    state.editingId = null; // Ensure editing state isn't locked on refresh
+                } catch (e) {
+                    console.error("Error parsing localStorage state", e);
+                }
+            } else {
+                // Prepopulate with mock demo data to give immediate visual wow
+                prepopulateMockData();
+            }
         }
 
-        setInterval(showDateTime, 1000); // Update date and time every second
-        showDateTime(); // Initial call to display date and time immediately
+        function saveStateToLocalStorage() {
+            localStorage.setItem('iub_cgpa_tracker_state', JSON.stringify({
+                courses: state.courses,
+                theme: state.theme
+            }));
+        }
+
+        // Demo pre-population
+        function prepopulateMockData() {
+            state.courses = [
+                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'B-', semester: 'Autumn 2024', isRetake: false },
+                { id: generateId(), code: 'ENG101', title: 'English Composition', credits: 3, grade: 'A', semester: 'Autumn 2024', isRetake: false },
+                { id: generateId(), code: 'MAT101', title: 'Coordinate Geometry', credits: 3, grade: 'C+', semester: 'Autumn 2024', isRetake: false },
+                
+                { id: generateId(), code: 'CSE104', title: 'Object Oriented Programming', credits: 3, grade: 'A-', semester: 'Spring 2025', isRetake: false },
+                { id: generateId(), code: 'MAT104', title: 'Differential Equations', credits: 3, grade: 'B+', semester: 'Spring 2025', isRetake: false },
+                
+                // Replaced by retake
+                { id: generateId(), code: 'CSE101', title: 'Structured Programming (Retake)', credits: 3, grade: 'A', semester: 'Summer 2025', isRetake: true }
+            ];
+            state.theme = 'dark';
+            saveStateToLocalStorage();
+        }
+
+        // Theme management
+        function toggleTheme() {
+            const newTheme = state.theme === 'dark' ? 'light' : 'dark';
+            state.theme = newTheme;
+            applyTheme(newTheme);
+            saveStateToLocalStorage();
+        }
+
+        function applyTheme(theme) {
+            document.body.className = 'theme-' + theme;
+            const icon = document.querySelector('#themeToggleBtn i');
+            if (theme === 'light') {
+                icon.className = 'fa-solid fa-sun';
+            } else {
+                icon.className = 'fa-solid fa-moon';
+            }
+            
+            // Re-render chart for color adaptation
+            const calculations = runCgpaEngine();
+            renderTrendChart(calculations.semesterList, calculations.cumulativeHistory);
+        }
+
+        // Core calculation helper: semester sorting numeric conversion
+        function parseSemester(semStr) {
+            if (!semStr) return { year: 0, seasonValue: 0, season: '' };
+            const parts = semStr.split(' ');
+            if (parts.length < 2) return { year: 0, seasonValue: 0, season: '' };
+            const season = parts[0];
+            const year = parseInt(parts[1]) || 0;
+            const seasonValue = SEASONS[season] || 0;
+            return { year, seasonValue, season };
+        }
+
+        function compareSemesters(semA, semB) {
+            const a = parseSemester(semA);
+            const b = parseSemester(semB);
+            if (a.year !== b.year) {
+                return a.year - b.year;
+            }
+            return a.seasonValue - b.seasonValue;
+        }
+
+        // CGPA Mathematical & Logic Engine
+        function runCgpaEngine() {
+            // Group courses by course code
+            const codeGroups = {};
+            state.courses.forEach(c => {
+                const code = c.code.trim().toUpperCase();
+                if (!codeGroups[code]) codeGroups[code] = [];
+                codeGroups[code].push(c);
+            });
+
+            // Deep clone state courses for working updates
+            const processedCourses = state.courses.map(c => ({
+                ...c,
+                isReplaced: false,
+                replacementSemester: null,
+                replacementGrade: null,
+                hasPreviousAttempt: false,
+                previousGrade: null,
+                previousSemester: null,
+                gradeImproved: false,
+                gradeDowngraded: false
+            }));
+
+            // Process retake rules
+            Object.keys(codeGroups).forEach(code => {
+                const attempts = codeGroups[code];
+                if (attempts.length <= 1) return;
+
+                // Sort attempts chronologically
+                attempts.sort((a, b) => compareSemesters(a.semester, b.semester));
+
+                // The last element is chronologically the latest attempt (active)
+                const latestAttempt = attempts[attempts.length - 1];
+
+                processedCourses.forEach(c => {
+                    if (c.code.trim().toUpperCase() === code) {
+                        if (c.id !== latestAttempt.id) {
+                            // Earlier attempts are marked as replaced
+                            c.isReplaced = true;
+                            c.replacementSemester = latestAttempt.semester;
+                            c.replacementGrade = latestAttempt.grade;
+                        } else {
+                            // This is the active retake attempt! Let's map its previous attempt
+                            c.hasPreviousAttempt = true;
+                            
+                            // Get the immediate previous attempt
+                            const prevAttempt = attempts[attempts.length - 2];
+                            c.previousGrade = prevAttempt.grade;
+                            c.previousSemester = prevAttempt.semester;
+                            
+                            const oldGP = GRADES[prevAttempt.grade];
+                            const newGP = GRADES[c.grade];
+                            
+                            if (newGP > oldGP) {
+                                c.gradeImproved = true;
+                            } else if (newGP < oldGP) {
+                                c.gradeDowngraded = true;
+                            }
+                        }
+                    }
+                });
+            });
+
+            // Sort all processed courses chronologically for history mapping
+            processedCourses.sort((a, b) => compareSemesters(a.semester, b.semester));
+
+            // Cumulative Calculation & Trend Timeline Creation
+            // Group active credits & points chronologically by semester to build trend chart
+            const semesterData = {};
+            
+            // Build raw mapping of semesters
+            processedCourses.forEach(c => {
+                if (!semesterData[c.semester]) {
+                    semesterData[c.semester] = [];
+                }
+                semesterData[c.semester].push(c);
+            });
+
+            // Get unique semesters sorted chronologically
+            const sortedSemesters = Object.keys(semesterData).sort(compareSemesters);
+
+            // Compute running cumulative stats semester-by-semester
+            // An attempt replaced *after* semester X should only affect CGPA of semester Y where Y >= X.
+            // Let's accurately calculate the cumulative CGPA at the end of each semester.
+            const cumulativeHistory = [];
+            const semesterGPAs = {};
+            const totalCreditsBySemester = {};
+
+            let earnedCredits = 0;
+            let retakeCount = 0;
+            let retakeImprovements = 0;
+            let retakeDowngrades = 0;
+            const downgradeWarnings = [];
+
+            // Core Cumulative Math
+            let overallActivePoints = 0;
+            let overallActiveCredits = 0;
+
+            processedCourses.forEach(c => {
+                if (c.isReplaced) return; // Completely filter replaced from overall totals
+                
+                const gp = GRADES[c.grade];
+                const cr = parseFloat(c.credits) || 0;
+                overallActivePoints += (gp * cr);
+                overallActiveCredits += cr;
+
+                if (c.hasPreviousAttempt) {
+                    retakeCount++;
+                    if (c.gradeImproved) retakeImprovements++;
+                    if (c.gradeDowngraded) {
+                        retakeDowngrades++;
+                        downgradeWarnings.push({
+                            code: c.code.toUpperCase(),
+                            oldGrade: c.previousGrade,
+                            newGrade: c.grade,
+                            oldSem: c.previousSemester,
+                            newSem: c.semester
+                        });
+                    }
+                }
+            });
+
+            const overallCgpa = overallActiveCredits > 0 ? (overallActivePoints / overallActiveCredits) : 0.00;
+            earnedCredits = overallActiveCredits;
+
+            // Compute specific Semester-wise GPAs (including replaced courses as they count locally in that semester)
+            sortedSemesters.forEach(sem => {
+                let semPoints = 0;
+                let semCredits = 0;
+
+                semesterData[sem].forEach(c => {
+                    const gp = GRADES[c.grade];
+                    const cr = parseFloat(c.credits) || 0;
+                    semPoints += (gp * cr);
+                    semCredits += cr;
+                });
+
+                semesterGPAs[sem] = semCredits > 0 ? (semPoints / semCredits) : 0.00;
+                totalCreditsBySemester[sem] = semCredits;
+            });
+
+            // Compute cumulative CGPA trend line.
+            // At each step k (semester k), CGPA = sum(active courses up to k) / sum(active credits up to k).
+            // A course is "active" at step k if it was taken at or before step k, AND not replaced by an attempt taken at or before step k.
+            let activeCoursesList = [];
+            sortedSemesters.forEach(sem => {
+                // Add courses of this semester to active list
+                const newCourses = semesterData[sem];
+                
+                // For each new course, check if it replaces something already in the list
+                newCourses.forEach(nc => {
+                    const code = nc.code.trim().toUpperCase();
+                    // Remove prior attempts of this code from activeCoursesList
+                    activeCoursesList = activeCoursesList.filter(ac => ac.code.trim().toUpperCase() !== code);
+                    activeCoursesList.push(nc);
+                });
+
+                // Calculate cumulative at this semester marker
+                let cumPoints = 0;
+                let cumCredits = 0;
+                activeCoursesList.forEach(c => {
+                    const gp = GRADES[c.grade];
+                    const cr = parseFloat(c.credits) || 0;
+                    cumPoints += (gp * cr);
+                    cumCredits += cr;
+                });
+
+                const cumCgpa = cumCredits > 0 ? (cumPoints / cumCredits) : 0.00;
+                cumulativeHistory.push(parseFloat(cumCgpa.toFixed(2)));
+            });
+
+            return {
+                processedCourses,
+                semesterData,
+                semesterList: sortedSemesters,
+                semesterGPAs,
+                totalCreditsBySemester,
+                cumulativeHistory,
+                overallCgpa,
+                earnedCredits,
+                retakeCount,
+                retakeImprovements,
+                retakeDowngrades,
+                downgradeWarnings
+            };
+        }
+
+        // Live Retake Detection Feedback in Form
+        function checkRealtimeRetakes() {
+            const codeInput = document.getElementById('courseCode');
+            const gradeSelect = document.getElementById('courseGrade');
+            const semesterSeason = document.getElementById('semesterSeason').value;
+            const semesterYear = document.getElementById('semesterYear').value;
+            const retakeCheckbox = document.getElementById('isRetakeCheckbox');
+            const feedbackTip = document.getElementById('formFeedbackTip');
+
+            const currentSemester = `${semesterSeason} ${semesterYear}`;
+            const targetCode = codeInput.value.trim().toUpperCase();
+            
+            if (!targetCode) {
+                feedbackTip.style.display = 'none';
+                return;
+            }
+
+            // Find all historical entries of this course in other semesters
+            const priorAttempts = state.courses.filter(c => 
+                c.code.trim().toUpperCase() === targetCode && 
+                c.id !== state.editingId && // Exclude currently editing item
+                compareSemesters(c.semester, currentSemester) < 0 // Only count strictly prior attempts
+            );
+
+            if (priorAttempts.length > 0) {
+                // Auto-detect a retake! Sort to find the latest previous attempt
+                priorAttempts.sort((a, b) => compareSemesters(a.semester, b.semester));
+                const prevAttempt = priorAttempts[priorAttempts.length - 1];
+
+                // Auto-check the retake checkbox if not already modified or as a smart default!
+                if (!retakeCheckbox.checked) {
+                    retakeCheckbox.checked = true;
+                    onRetakeToggle();
+                }
+
+                const currentGrade = gradeSelect.value;
+                const prevGP = GRADES[prevAttempt.grade];
+                const currentGP = GRADES[currentGrade];
+
+                let tipHTML = `<i class="fa-solid fa-lightbulb"></i> <strong>Retake Detected:</strong> Replaces previous attempt from <strong>${prevAttempt.semester}</strong> (Grade: <strong>${prevAttempt.grade}</strong>).<br>`;
+                
+                if (currentGP > prevGP) {
+                    tipHTML += `<span style="color: var(--success); font-weight:600;"><i class="fa-solid fa-arrow-trend-up"></i> CGPA Improvement: ${prevAttempt.grade} ➔ ${currentGrade} (+${(currentGP - prevGP).toFixed(2)} GP)</span>`;
+                    feedbackTip.className = "form-feedback animate-fade";
+                } else if (currentGP === prevGP) {
+                    tipHTML += `<span style="color: var(--warning);"><i class="fa-solid fa-arrows-left-right"></i> Equal Grade: ${prevAttempt.grade} ➔ ${currentGrade} (No net change)</span>`;
+                    feedbackTip.className = "form-feedback animate-fade";
+                } else {
+                    tipHTML += `<span style="color: var(--danger); font-weight:600;"><i class="fa-solid fa-triangle-exclamation"></i> Warning: Retake grade (${currentGrade}) is lower than previous attempt (${prevAttempt.grade}). Latest grade counts at IUB.</span>`;
+                    feedbackTip.className = "form-feedback warning animate-fade";
+                }
+
+                feedbackTip.innerHTML = tipHTML;
+                feedbackTip.style.display = 'block';
+            } else {
+                feedbackTip.style.display = 'none';
+            }
+        }
+
+        // Event hooks for form inputs
+        function onCourseCodeInput() {
+            checkRealtimeRetakes();
+        }
+
+        function onGradeChange() {
+            checkRealtimeRetakes();
+        }
+
+        function onSemesterSeasonChange() {
+            checkRealtimeRetakes();
+        }
+
+        function onSemesterYearChange() {
+            checkRealtimeRetakes();
+        }
+
+        function onRetakeToggle() {
+            // Can add micro-animations on toggle change
+        }
+
+        function toggleRetakeCheckbox() {
+            const cb = document.getElementById('isRetakeCheckbox');
+            cb.checked = !cb.checked;
+            onRetakeToggle();
+            checkRealtimeRetakes();
+        }
+
+        // Render functions for UI
+        function updateDashboard() {
+            const calc = runCgpaEngine();
+
+            // Render CGPA Gauge & Values
+            const formattedCgpa = calc.overallCgpa.toFixed(2);
+            document.getElementById('gaugeVal').textContent = formattedCgpa;
+            
+            // Set dial stroke offset
+            const percent = Math.min(1, calc.overallCgpa / 4.0);
+            const circumference = 2 * Math.PI * 58; // 364.42
+            const offset = circumference - (percent * circumference);
+            const gaugeFill = document.getElementById('gaugeFill');
+            gaugeFill.style.strokeDashoffset = offset;
+
+            // Set color coding & Classification
+            const classification = document.getElementById('gaugeClassification');
+            if (calc.processedCourses.length === 0) {
+                classification.textContent = "No courses added";
+                classification.style.color = "var(--text-muted)";
+                gaugeFill.style.stroke = "var(--accent)";
+            } else {
+                if (calc.overallCgpa >= 3.90) {
+                    classification.textContent = "Summa Cum Laude 🏆";
+                    classification.style.color = "var(--success)";
+                    gaugeFill.style.stroke = "var(--success)";
+                } else if (calc.overallCgpa >= 3.80) {
+                    classification.textContent = "Magna Cum Laude 🏅";
+                    classification.style.color = "var(--success)";
+                    gaugeFill.style.stroke = "var(--success)";
+                } else if (calc.overallCgpa >= 3.70) {
+                    classification.textContent = "Cum Laude 🎓";
+                    classification.style.color = "var(--accent)";
+                    gaugeFill.style.stroke = "var(--accent)";
+                } else if (calc.overallCgpa >= 3.00) {
+                    classification.textContent = "Excellent Standing";
+                    classification.style.color = "var(--text-primary)";
+                    gaugeFill.style.stroke = "var(--accent)";
+                } else if (calc.overallCgpa >= 2.00) {
+                    classification.textContent = "Satisfactory Standing";
+                    classification.style.color = "var(--warning)";
+                    gaugeFill.style.stroke = "var(--warning)";
+                } else {
+                    classification.textContent = "Probation Standing ⚠️";
+                    classification.style.color = "var(--danger)";
+                    gaugeFill.style.stroke = "var(--danger)";
+                }
+            }
+
+            // Render Secondary Credits Card
+            document.getElementById('statCredits').textContent = calc.earnedCredits;
+            const progressPercent = Math.min(100, (calc.earnedCredits / 120) * 100);
+            document.getElementById('creditsProgressBar').style.width = `${progressPercent}%`;
+
+            // Render Retakes Card
+            document.getElementById('statRetakes').textContent = calc.retakeCount;
+            const retakeSub = document.getElementById('statRetakeSub');
+            if (calc.retakeCount > 0) {
+                let txt = `${calc.retakeImprovements} Grade Improvements`;
+                if (calc.retakeDowngrades > 0) txt += `, ${calc.retakeDowngrades} Downgrades`;
+                retakeSub.textContent = txt;
+                retakeSub.style.color = calc.retakeDowngrades > 0 ? "var(--danger)" : "var(--success)";
+            } else {
+                retakeSub.textContent = "No retakes processed";
+                retakeSub.style.color = "var(--text-secondary)";
+            }
+
+            // Display Downgrade Warnings Banners globally
+            const warningsContainer = document.getElementById('warningBannersContainer');
+            warningsContainer.innerHTML = '';
+            calc.downgradeWarnings.forEach(w => {
+                const banner = document.createElement('div');
+                banner.className = 'global-warning-banner';
+                banner.innerHTML = `
+                    <i class="fa-solid fa-triangle-exclamation"></i>
+                    <div>
+                        <h4>Retake Degraded Grade: ${w.code}</h4>
+                        <p>Your retake attempt of <strong>${w.code}</strong> in <strong>${w.newSem}</strong> resulted in a <strong>${w.newGrade}</strong>, which is lower than your previous grade of <strong>${w.oldGrade}</strong> from <strong>${w.oldSem}</strong>. Because the latest attempt takes precedence, this lower grade is currently affecting your cumulative CGPA.</p>
+                    </div>
+                `;
+                warningsContainer.appendChild(banner);
+            });
+
+            // Render SVG Trend Chart
+            renderTrendChart(calc.semesterList, calc.cumulativeHistory);
+
+            // Render Transcript / History Timelines
+            renderTimeline(calc);
+        }
+
+        // Render dynamic SVG trend curve
+        function renderTrendChart(semestersList, cgpValues) {
+            const container = document.getElementById('chartWrapper');
+            if (!container) return;
+            
+            container.innerHTML = '';
+            
+            if (semestersList.length === 0) {
+                container.innerHTML = '<div class="no-chart-data">Add courses across different semesters to visualize your GPA progression.</div>';
+                return;
+            }
+            
+            const width = container.clientWidth || 500;
+            const height = 190;
+            const paddingLeft = 32;
+            const paddingRight = 20;
+            const paddingTop = 20;
+            const paddingBottom = 30;
+            
+            const chartW = width - paddingLeft - paddingRight;
+            const chartH = height - paddingTop - paddingBottom;
+            
+            // Scaler bounds
+            const minG = Math.max(0, Math.min(2.0, ...cgpValues) - 0.5);
+            const maxG = 4.0;
+            const rangeG = maxG - minG;
+            
+            const points = [];
+            for (let i = 0; i < semestersList.length; i++) {
+                const x = paddingLeft + (semestersList.length === 1 ? chartW / 2 : (i / (semestersList.length - 1)) * chartW);
+                const yVal = cgpValues[i];
+                const y = paddingTop + chartH - ((yVal - minG) / (rangeG || 1)) * chartH;
+                points.push({ x, y, val: yVal, sem: semestersList[i] });
+            }
+            
+            const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svg.setAttribute('width', '100%');
+            svg.setAttribute('height', height);
+            svg.style.overflow = 'visible';
+            
+            // Gradients definitions
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.innerHTML = `
+                <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="var(--accent)" stop-opacity="0.25"></stop>
+                    <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0"></stop>
+                </linearGradient>
+            `;
+            svg.appendChild(defs);
+            
+            // Draw grid y horizontal lines
+            const gridG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+            const gridVals = [2.0, 3.0, 4.0];
+            gridVals.forEach(gVal => {
+                if (gVal < minG) return;
+                const y = paddingTop + chartH - ((gVal - minG) / (rangeG || 1)) * chartH;
+                
+                const line = document.createElementNS('http://www.w3.org/2000/svg', 'line');
+                line.setAttribute('x1', paddingLeft);
+                line.setAttribute('y1', y);
+                line.setAttribute('x2', width - paddingRight);
+                line.setAttribute('y2', y);
+                line.setAttribute('stroke', 'var(--border-card)');
+                line.setAttribute('stroke-dasharray', '4 4');
+                gridG.appendChild(line);
+                
+                const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                text.setAttribute('x', paddingLeft - 8);
+                text.setAttribute('y', y + 3);
+                text.setAttribute('text-anchor', 'end');
+                text.setAttribute('fill', 'var(--text-muted)');
+                text.style.fontSize = '9px';
+                text.style.fontWeight = '600';
+                text.textContent = gVal.toFixed(1);
+                gridG.appendChild(text);
+            });
+            svg.appendChild(gridG);
+            
+            if (points.length > 0) {
+                let lineD = `M ${points[0].x} ${points[0].y}`;
+                let areaD = `M ${points[0].x} ${points[0].y}`;
+                
+                for (let i = 1; i < points.length; i++) {
+                    const prev = points[i-1];
+                    const curr = points[i];
+                    // Bezier points control
+                    const cpX1 = prev.x + (curr.x - prev.x) / 2;
+                    const cpY1 = prev.y;
+                    const cpX2 = prev.x + (curr.x - prev.x) / 2;
+                    const cpY2 = curr.y;
+                    
+                    lineD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
+                    areaD += ` C ${cpX1} ${cpY1}, ${cpX2} ${cpY2}, ${curr.x} ${curr.y}`;
+                }
+                
+                areaD += ` L ${points[points.length-1].x} ${paddingTop + chartH}`;
+                areaD += ` L ${points[0].x} ${paddingTop + chartH} Z`;
+                
+                const areaPath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                areaPath.setAttribute('d', areaD);
+                areaPath.setAttribute('fill', 'url(#chartGrad)');
+                svg.appendChild(areaPath);
+                
+                const linePath = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                linePath.setAttribute('d', lineD);
+                linePath.setAttribute('fill', 'none');
+                linePath.setAttribute('stroke', 'var(--accent)');
+                linePath.setAttribute('stroke-width', '3');
+                linePath.setAttribute('stroke-linecap', 'round');
+                svg.appendChild(linePath);
+                
+                // Dots & triggers group
+                const dotsG = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                points.forEach((pt) => {
+                    const dotGroup = document.createElementNS('http://www.w3.org/2000/svg', 'g');
+                    dotGroup.style.cursor = 'pointer';
+                    
+                    const outerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    outerCircle.setAttribute('cx', pt.x);
+                    outerCircle.setAttribute('cy', pt.y);
+                    outerCircle.setAttribute('r', '7');
+                    outerCircle.setAttribute('fill', 'var(--accent)');
+                    outerCircle.setAttribute('opacity', '0');
+                    outerCircle.style.transition = 'opacity 0.2s ease';
+                    dotGroup.appendChild(outerCircle);
+                    
+                    const innerCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+                    innerCircle.setAttribute('cx', pt.x);
+                    innerCircle.setAttribute('cy', pt.y);
+                    innerCircle.setAttribute('r', '4');
+                    innerCircle.setAttribute('fill', 'var(--bg-app)');
+                    innerCircle.setAttribute('stroke', 'var(--accent)');
+                    innerCircle.setAttribute('stroke-width', '2');
+                    dotGroup.appendChild(innerCircle);
+                    
+                    dotGroup.addEventListener('mouseenter', () => {
+                        outerCircle.setAttribute('opacity', '0.35');
+                        showTooltip(pt.x, pt.y, `${pt.sem}: ${pt.val.toFixed(2)} CGPA`);
+                    });
+                    
+                    dotGroup.addEventListener('mouseleave', () => {
+                        outerCircle.setAttribute('opacity', '0');
+                        hideTooltip();
+                    });
+                    
+                    dotsG.appendChild(dotGroup);
+                    
+                    // Sem text bottom label
+                    const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+                    label.setAttribute('x', pt.x);
+                    label.setAttribute('y', paddingTop + chartH + 18);
+                    label.setAttribute('text-anchor', 'middle');
+                    label.setAttribute('fill', 'var(--text-secondary)');
+                    label.style.fontSize = '9px';
+                    label.style.fontWeight = '500';
+                    
+                    const parts = pt.sem.split(' ');
+                    label.textContent = parts[0].substring(0, 3) + ' ' + (parts[1] ? parts[1].substring(2) : '');
+                    svg.appendChild(label);
+                });
+                svg.appendChild(dotsG);
+            }
+            
+            container.appendChild(svg);
+        }
+
+        function showTooltip(x, y, text) {
+            const tooltip = document.getElementById('chartTooltip');
+            const wrapper = document.getElementById('chartWrapper');
+            const wrapperRect = wrapper.getBoundingClientRect();
+            
+            tooltip.textContent = text;
+            tooltip.style.left = `${x + 10}px`;
+            tooltip.style.top = `${y}px`;
+            tooltip.style.opacity = '1';
+            tooltip.style.transform = 'translate(-50%, -100%) translateY(-6px)';
+        }
+
+        function hideTooltip() {
+            const tooltip = document.getElementById('chartTooltip');
+            tooltip.style.opacity = '0';
+        }
+
+        // Render dynamic timelines grouped by semesters
+        function renderTimeline(calc) {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = '';
+
+            if (calc.semesterList.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-history animate-fade">
+                        <i class="fa-solid fa-box-open"></i>
+                        <p>Your academic transcript is currently empty.<br>Use the form on the left to add your courses!</p>
+                    </div>
+                `;
+                return;
+            }
+
+            // Create cards for each sorted semester
+            calc.semesterList.forEach(sem => {
+                const courses = calc.semesterData[sem];
+                const semGpa = calc.semesterGPAs[sem];
+                const semCredits = calc.totalCreditsBySemester[sem];
+
+                const card = document.createElement('div');
+                card.className = 'semester-card animate-fade';
+                card.id = `sem-card-${sem.replace(' ', '-')}`;
+
+                // Check if card was previously collapsed by reading storage state (optional bonus)
+                // Let's keep cards open by default
+                
+                const headerHTML = `
+                    <div class="semester-header" onclick="toggleSemesterCollapse('${sem}')">
+                        <div class="sem-title-area">
+                            <i class="fa-solid fa-chevron-down sem-chevron" id="chevron-${sem.replace(' ', '-')}"></i>
+                            <span class="sem-name">${sem}</span>
+                        </div>
+                        <div class="sem-stats">
+                            <span class="badge highlight">GPA: ${semGpa.toFixed(2)}</span>
+                            <span class="badge">Credits: ${semCredits}</span>
+                        </div>
+                    </div>
+                `;
+
+                let coursesHTML = `<div class="courses-list">`;
+                courses.forEach(c => {
+                    let statusBadgeHTML = '';
+                    let rowClass = 'course-row';
+
+                    if (c.isReplaced) {
+                        rowClass += ' replaced';
+                        statusBadgeHTML = `<span class="badge-replaced" title="Replaced by ${c.replacementSemester} attempt"><i class="fa-solid fa-ban"></i> Replaced (${c.replacementGrade})</span>`;
+                    } else if (c.hasPreviousAttempt) {
+                        if (c.gradeImproved) {
+                            statusBadgeHTML = `<span class="badge-retake-improved" title="Improved from ${c.previousGrade} in ${c.previousSemester}"><i class="fa-solid fa-arrow-trend-up"></i> Retake Improved (${c.previousGrade} ➔ ${c.grade})</span>`;
+                        } else if (c.gradeDowngraded) {
+                            statusBadgeHTML = `<span class="badge-retake-warn" title="Lower than previous grade of ${c.previousGrade} taken in ${c.previousSemester}"><i class="fa-solid fa-triangle-exclamation"></i> Retake Degraded (${c.previousGrade} ➔ ${c.grade})</span>`;
+                        } else {
+                            statusBadgeHTML = `<span class="badge-replaced" style="color: var(--warning); border-color: rgba(245,158,11,0.2);" title="Equal to previous grade of ${c.previousGrade} taken in ${c.previousSemester}"><i class="fa-solid fa-arrows-left-right"></i> Retake Equal (${c.previousGrade} ➔ ${c.grade})</span>`;
+                        }
+                    } else if (c.isRetake) {
+                        // Marked as retake but no previous matching attempt registered yet
+                        statusBadgeHTML = `<span class="badge-replaced" style="color: var(--accent); border-color: rgba(59,130,246,0.2);"><i class="fa-solid fa-arrows-spin"></i> Retake (No Match)</span>`;
+                    }
+
+                    coursesHTML += `
+                        <div class="${rowClass}">
+                            <span class="course-code">${c.code.toUpperCase()}</span>
+                            <span class="course-title-text" title="${c.title || 'N/A'}">${c.title || 'Course Title'}</span>
+                            <span class="course-credits">${c.credits} Cr</span>
+                            <span class="course-grade">${c.grade}</span>
+                            <div class="course-status-badge">${statusBadgeHTML}</div>
+                            <div class="course-actions">
+                                <button class="btn-icon" style="width:28px; height:28px; font-size:0.75rem;" onclick="editCourse('${c.id}')" title="Edit Course">
+                                    <i class="fa-solid fa-pen"></i>
+                                </button>
+                                <button class="btn-icon" style="width:28px; height:28px; font-size:0.75rem; color: var(--danger);" onclick="deleteCourse('${c.id}')" title="Delete Course">
+                                    <i class="fa-solid fa-trash-can"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                });
+                coursesHTML += `</div>`;
+
+                card.innerHTML = headerHTML + `
+                    <div class="semester-body" id="body-${sem.replace(' ', '-')}">
+                        ${coursesHTML}
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function toggleSemesterCollapse(sem) {
+            const card = document.getElementById(`sem-card-${sem.replace(' ', '-')}`);
+            if (card) {
+                card.classList.toggle('collapsed');
+            }
+        }
+
+        // Form Submit Handler
+        function handleFormSubmit(e) {
+            e.preventDefault();
+
+            const code = document.getElementById('courseCode').value.trim();
+            const title = document.getElementById('courseTitle').value.trim();
+            const season = document.getElementById('semesterSeason').value;
+            const year = document.getElementById('semesterYear').value;
+            const credits = parseInt(document.getElementById('courseCredits').value);
+            const grade = document.getElementById('courseGrade').value;
+            const isRetake = document.getElementById('isRetakeCheckbox').checked;
+
+            const semester = `${season} ${year}`;
+
+            if (state.editingId) {
+                // Update operation
+                const idx = state.courses.findIndex(c => c.id === state.editingId);
+                if (idx !== -1) {
+                    state.courses[idx] = {
+                        ...state.courses[idx],
+                        code,
+                        title,
+                        credits,
+                        grade,
+                        semester,
+                        isRetake
+                    };
+                }
+                state.editingId = null;
+                document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Add Course';
+                document.getElementById('submitBtnText').textContent = 'Add Course';
+                document.getElementById('cancelEditBtn').style.display = 'none';
+            } else {
+                // Insert operation
+                const newCourse = {
+                    id: generateId(),
+                    code,
+                    title,
+                    credits,
+                    grade,
+                    semester,
+                    isRetake
+                };
+                state.courses.push(newCourse);
+            }
+
+            saveStateToLocalStorage();
+            resetFormInputs();
+            updateDashboard();
+        }
+
+        // CRUD Edit
+        function editCourse(id) {
+            const course = state.courses.find(c => c.id === id);
+            if (!course) return;
+
+            state.editingId = id;
+            
+            // Populate form
+            document.getElementById('courseCode').value = course.code;
+            document.getElementById('courseTitle').value = course.title || '';
+            document.getElementById('courseCredits').value = course.credits;
+            document.getElementById('courseGrade').value = course.grade;
+            document.getElementById('isRetakeCheckbox').checked = course.isRetake;
+
+            const parts = course.semester.split(' ');
+            if (parts.length >= 2) {
+                document.getElementById('semesterSeason').value = parts[0];
+                document.getElementById('semesterYear').value = parts[1];
+            }
+
+            // Adjust button labels
+            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-pen-to-square"></i> Edit Course';
+            document.getElementById('submitBtnText').textContent = 'Update Course';
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+
+            // Scroll form into focus on small screens
+            document.getElementById('courseForm').scrollIntoView({ behavior: 'smooth' });
+            
+            checkRealtimeRetakes();
+        }
+
+        // CRUD Delete
+        function deleteCourse(id) {
+            state.courses = state.courses.filter(c => c.id !== id);
+            saveStateToLocalStorage();
+            
+            // If deleting the course currently being edited, reset the form
+            if (state.editingId === id) {
+                resetForm();
+            }
+            
+            updateDashboard();
+        }
+
+        // Reset helpers
+        function resetForm() {
+            state.editingId = null;
+            document.getElementById('formTitle').innerHTML = '<i class="fa-solid fa-circle-plus"></i> Add Course';
+            document.getElementById('submitBtnText').textContent = 'Add Course';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            resetFormInputs();
+            checkRealtimeRetakes();
+        }
+
+        function resetFormInputs() {
+            document.getElementById('courseCode').value = '';
+            document.getElementById('courseTitle').value = '';
+            document.getElementById('courseCredits').value = '3';
+            document.getElementById('courseGrade').selectedIndex = 0;
+            document.getElementById('isRetakeCheckbox').checked = false;
+            // Let semester remain at current selected value for convenient batch entry!
+        }
+
+        function confirmResetAll() {
+            if (confirm("Are you sure you want to delete all transcript records? This action cannot be undone.")) {
+                state.courses = [];
+                state.editingId = null;
+                saveStateToLocalStorage();
+                resetForm();
+                updateDashboard();
+            }
+        }
+
+        // Modal triggers
+        function toggleGradingModal(show) {
+            const overlay = document.getElementById('gradingModal');
+            if (show) {
+                overlay.classList.add('active');
+            } else {
+                overlay.classList.remove('active');
+            }
+        }
+
+        function handleBackdropClick(e, overlayId) {
+            if (e.target.id === overlayId) {
+                toggleGradingModal(false);
+            }
+        }
     </script>
 </body>
 </html>
