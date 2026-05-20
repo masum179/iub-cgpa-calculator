@@ -3,906 +3,273 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IUB CGPA Calculator & Retake Tracker</title>
+    <title>IUB CGPA Calculator</title>
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <!-- FontAwesome for standard icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
     <style>
-        /* Clean standard CSS styling (Simple, not fancy) */
         body {
-            background-color: #f4f6f9;
-            color: #333333;
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            transition: background-color 0.2s, color 0.2s;
-            padding-bottom: 60px;
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #fff;
         }
-        .main-container {
-            max-width: 1100px;
-            margin-top: 30px;
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            margin-top: 60px;
+            color: #333;
         }
-        .card {
-            border: 1px solid #e3e6f0;
-            border-radius: 8px;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.04);
-            margin-bottom: 25px;
-            background-color: #ffffff;
-            transition: background-color 0.2s;
-        }
-        .card-header {
-            background-color: #f8f9fc;
-            border-bottom: 1px solid #e3e6f0;
-            font-weight: 700;
-            color: #4e73df;
-        }
-        .results-box {
-            background-color: #eaecf4;
-            border-radius: 6px;
-            padding: 20px;
-            margin-bottom: 20px;
+        h1 {
+            font-size: 3rem;
+            color: #8e44ad;
+            font-weight: bold;
             text-align: center;
+            margin-bottom: 20px;
         }
-        .results-val {
-            font-size: 2.5rem;
-            font-weight: 800;
-            color: #4e73df;
-            line-height: 1.2;
+        .form-group {
+            margin-bottom: 20px; /* Add spacing between form groups */
         }
-        .results-label {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: #5a5c69;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
+        .form-group label {
+            font-weight: 600; /* Slightly bolder label */
+            font-size: 1.1rem; /* Increase font size for labels */
+            color: #34495e; /* Darker color for contrast */
+            display: block; /* Ensure labels take the full width */
+            margin-bottom: 8px; /* Add spacing below the label */
         }
-        
-        /* Retake row strikethroughs */
-        .replaced-row {
-            background-color: #f8f9fa !important;
-            opacity: 0.6;
+        .form-control {
+            border-radius: 25px; /* More rounded corners */
+            padding: 10px 20px; /* Increased padding for better touch targets */
+            font-size: 1.2rem; /* Increase font size */
+            border: 2px solid #3498db; /* Border color that matches the theme */
+            transition: border 0.3s; /* Transition effect for border color */
         }
-        .replaced-text {
-            text-decoration: line-through;
-            color: #858796;
+        .form-control:focus {
+            border-color: #8e44ad; /* Change border color on focus */
+            box-shadow: 0 0 8px rgba(142, 68, 173, 0.8); /* Shadow effect for focus */
         }
-
-        /* Dark mode overrides (Simple, plain colors) */
-        body.dark-mode {
-            background-color: #121212;
-            color: #e0e0e0;
+        .btn-primary {
+            background: linear-gradient(120deg, #3498db, #8e44ad);
+            border: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            border-radius: 30px;
+            transition: 0.3s ease;
         }
-        body.dark-mode .card {
-            background-color: #1e1e1e;
-            border-color: #2d2d2d;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+        .btn-primary:hover {
+            background: linear-gradient(120deg, #8e44ad, #3498db);
+            box-shadow: 0 6px 15px rgba(142, 68, 173, 0.4);
         }
-        body.dark-mode .card-header {
-            background-color: #252525;
-            border-bottom-color: #2d2d2d;
-            color: #7594f5;
+        .result {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #2ecc71;
+            text-align: center;
+            margin-top: 25px;
         }
-        body.dark-mode .form-control, body.dark-mode select {
-            background-color: #2d2d2d;
-            border-color: #444444;
-            color: #e0e0e0;
+        .footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+            margin-top: 40px;
+            border-radius: 10px;
         }
-        body.dark-mode .form-control:focus {
-            background-color: #333333;
-            color: #ffffff;
-            border-color: #7594f5;
+        .footer p {
+            margin: 0;
+            font-size: 1rem;
         }
-        body.dark-mode .results-box {
-            background-color: #2a2a2a;
+        .footer a {
+            color: #ecf0f1;
+            text-decoration: none;
         }
-        body.dark-mode .results-val {
-            color: #7594f5;
+        .footer a:hover {
+            text-decoration: underline;
         }
-        body.dark-mode .results-label {
-            color: #a0a0a0;
+        .icon {
+            font-size: 2rem;
+            color: #3498db;
+            margin-bottom: 20px;
         }
-        body.dark-mode .table {
-            color: #e0e0e0;
+        .icon i {
+            transition: 0.3s ease;
         }
-        body.dark-mode .table-striped tbody tr:nth-of-type(odd) {
-            background-color: rgba(255, 255, 255, 0.02);
+        .icon:hover i {
+            transform: rotate(360deg);
         }
-        body.dark-mode .table-hover tbody tr:hover {
-            background-color: rgba(255, 255, 255, 0.05);
+        .two-inputs {
+            display: flex;
+            justify-content: space-between;
         }
-        body.dark-mode .replaced-row {
-            background-color: #1f1f1f !important;
+        .two-inputs .form-group {
+            flex: 1; /* Allow each input to take equal space */
+            margin-right: 10px; /* Add spacing between the two inputs */
         }
-        body.dark-mode .table-bordered td, body.dark-mode .table-bordered th {
-            border-color: #2d2d2d;
+        .two-inputs .form-group:last-child {
+            margin-right: 0; /* Remove margin for the last input */
         }
-        body.dark-mode .border-bottom {
-            border-bottom-color: #2d2d2d !important;
+        .course-inputs {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px; /* Spacing between course inputs */
         }
-        body.dark-mode .alert-warning {
-            background-color: #332701;
-            border-color: #664d03;
-            color: #ffda6a;
+        .course-inputs input, .course-inputs select {
+            flex: 1; /* Allow inputs to take equal space */
+            margin-right: 10px; /* Spacing between inputs */
+        }
+        .course-inputs input:last-child, .course-inputs select:last-child {
+            margin-right: 0; /* Remove margin for the last input */
+        }
+        .course-title {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px; /* Spacing for titles */
+        }
+        .course-title span {
+            flex: 1; /* Distribute space evenly */
+            font-weight: bold;
+        }
+        .course-title .grade-title {
+            flex: 0.5; /* Make grade title slightly smaller */
+        }
+        .datetime {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: black; /* Set text color to black */
+            text-align:right;
+            margin-top: 15px;
         }
     </style>
 </head>
 <body>
-
-    <div class="container main-container">
-        
-        <!-- Header -->
-        <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
-            <h2 class="m-0 font-weight-bold"><i class="fas fa-calculator text-primary mr-2"></i>IUB CGPA Calculator</h2>
-            <div>
-                <button class="btn btn-outline-secondary btn-sm mr-2" id="themeToggleBtn">
-                    <i class="fas fa-moon mr-1"></i> Dark Mode
-                </button>
-                <button class="btn btn-outline-info btn-sm" data-toggle="modal" data-target="#scaleModal">
-                    <i class="fas fa-info-circle mr-1"></i> IUB Grading Scale
-                </button>
-            </div>
+    <div class="container text-center">
+        <div class="icon">
+            <i class="fas fa-calculator"></i>
         </div>
+        <h1 class="text-center">IUB CGPA Calculator</h1>
 
-        <!-- Warning Alerts Container -->
-        <div id="warningAlerts"></div>
+        <h2 class="result" id="result"></h2>
+        <h3 class="result" id="totalCreditsResult"></h3>
 
-        <div class="row">
-            <!-- Left Column: Stats & Add Course Form -->
-            <div class="col-md-5">
-                
-                <!-- Simple Summary Stats -->
-                <div class="card">
-                    <div class="card-header">Academic Summary</div>
-                    <div class="card-body py-3">
-                        <div class="row">
-                            <div class="col-6 pr-2">
-                                <div class="results-box py-3 mb-0">
-                                    <div class="results-val" id="summaryCgpa">0.00</div>
-                                    <div class="results-label">CGPA</div>
-                                </div>
-                            </div>
-                            <div class="col-6 pl-2">
-                                <div class="results-box py-3 mb-0">
-                                    <div class="results-val" id="summaryCredits">0</div>
-                                    <div class="results-label">Earned Cr.</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="mt-3 text-center text-muted small" id="retakeCountLabel">
-                            No retakes processed.
-                        </div>
-                    </div>
+        <form id="cgpaForm" method="post">
+            <div class="two-inputs">
+                <div class="form-group">
+                    <label for="previous_cgpa">Previous CGPA:</label>
+                    <input type="number" step="0.01" class="form-control" id="previous_cgpa" placeholder="Enter CGPA">
                 </div>
-
-                <!-- Add Course Form -->
-                <div class="card">
-                    <div class="card-header" id="formHeader">Add Course</div>
-                    <div class="card-body">
-                        <form id="courseForm" onsubmit="onFormSubmit(event)">
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Course Code <span class="text-danger">*</span></label>
-                                <input type="text" id="courseCode" class="form-control form-control-sm" placeholder="e.g. CSE101" required oninput="checkRetakeMatches()">
-                            </div>
-                            <div class="form-group">
-                                <label class="font-weight-bold small">Course Title <span class="text-muted font-italic">(Optional)</span></label>
-                                <input type="text" id="courseTitle" class="form-control form-control-sm" placeholder="e.g. Structured Programming">
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">Semester Season <span class="text-danger">*</span></label>
-                                    <select id="semesterSeason" class="form-control form-control-sm" onchange="checkRetakeMatches()">
-                                        <option value="Spring">Spring</option>
-                                        <option value="Summer">Summer</option>
-                                        <option value="Autumn">Autumn</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">Semester Year <span class="text-danger">*</span></label>
-                                    <select id="semesterYear" class="form-control form-control-sm" onchange="checkRetakeMatches()">
-                                        <!-- Populated via JS -->
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">Credit Hours <span class="text-danger">*</span></label>
-                                    <select id="courseCredits" class="form-control form-control-sm">
-                                        <option value="1">1</option>
-                                        <option value="1.5">1.5</option>
-                                        <option value="3" selected>3</option>
-                                        <option value="4">4</option>
-                                    </select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                    <label class="font-weight-bold small">Grade Received <span class="text-danger">*</span></label>
-                                    <select id="courseGrade" class="form-control form-control-sm" onchange="checkRetakeMatches()">
-                                        <option value="A">A (4.00)</option>
-                                        <option value="A-">A- (3.67)</option>
-                                        <option value="B+">B+ (3.33)</option>
-                                        <option value="B">B (3.00)</option>
-                                        <option value="B-">B- (2.67)</option>
-                                        <option value="C+">C+ (2.33)</option>
-                                        <option value="C">C (2.00)</option>
-                                        <option value="C-">C- (1.67)</option>
-                                        <option value="D+">D+ (1.33)</option>
-                                        <option value="D">D (1.00)</option>
-                                        <option value="F">F (0.00)</option>
-                                    </select>
-                                </div>
-                            </div>
-                            
-                            <div class="form-group form-check mb-3">
-                                <input type="checkbox" class="form-check-input" id="isRetakeCheckbox">
-                                <label class="form-check-label small font-weight-bold" for="isRetakeCheckbox" style="cursor: pointer;">
-                                    Mark as Retake Course
-                                </label>
-                            </div>
-
-                            <!-- Live form notification for automatic retake detection -->
-                            <div id="formLiveFeedback" class="alert alert-info py-2 px-3 small" style="display:none;"></div>
-
-                            <div class="d-flex">
-                                <button type="button" id="cancelEditBtn" class="btn btn-light btn-sm mr-2 flex-grow-1" style="display:none;" onclick="resetForm()">
-                                    Cancel
-                                </button>
-                                <button type="submit" id="submitBtn" class="btn btn-primary btn-sm flex-grow-2">
-                                    Add Course
-                                </button>
-                            </div>
-                        </form>
-                    </div>
+                <div class="form-group">
+                    <label for="completed_credits">Earned Credits:</label>
+                    <input type="number" class="form-control" id="completed_credits" placeholder="Enter tolal credits">
                 </div>
-
+            </div>
+            <div class="form-group text-center">
+                <label for="num_courses">Number of New Courses:</label>
+                <input type="number" class="form-control" id="num_courses" min="1" max="10" required placeholder="Enter number of courses this semester">
             </div>
 
-            <!-- Right Column: Course Table & Semester GPAs -->
-            <div class="col-md-7">
-                
-                <!-- Course History Table -->
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span>Course Records</span>
-                        <button class="btn btn-outline-danger btn-sm py-0 px-2" style="font-size:0.75rem;" onclick="confirmResetAll()">
-                            Clear All
-                        </button>
-                    </div>
-                    <div class="card-body p-0">
-                        <div class="table-responsive">
-                            <table class="table table-striped table-hover mb-0" id="courseTable">
-                                <thead>
-                                    <tr>
-                                        <th>Semester</th>
-                                        <th>Code</th>
-                                        <th>Title</th>
-                                        <th>Cr.</th>
-                                        <th>Grade</th>
-                                        <th>Status</th>
-                                        <th class="text-right">Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="tableBody">
-                                    <!-- Rendered dynamically -->
-                                </tbody>
-                            </table>
-                        </div>
-                        <div id="emptyState" class="text-center py-5 text-muted small">
-                            <i class="fas fa-clipboard-list fa-2x mb-2 d-block"></i>
-                            No courses added yet. Please use the form to insert records.
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Semester wise breakdown -->
-                <div class="card">
-                    <div class="card-header">Semester GPA Breakdown</div>
-                    <div class="card-body py-2 px-3">
-                        <ul class="list-group list-group-flush" id="semesterList">
-                            <!-- Rendered dynamically -->
-                        </ul>
-                    </div>
-                </div>
-
+            <!-- Course Titles Section -->
+            <div class="course-title">
+                <span>Course Name </span>
+                <span class="grade-title">Grade</span>
+                <span>Credit</span>
             </div>
-        </div>
 
+            <div id="courseInputs"></div>
+            <button type="button" class="btn btn-primary btn-block" id="calculateBtn"><i class="fas fa-check-circle"></i> Calculate CGPA</button>
+        </form>
     </div>
 
-    <!-- IUB Grading Scale Modal -->
-    <div class="modal fade" id="scaleModal" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title font-weight-bold">IUB Grading Scheme & Honors</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-6">
-                            <table class="table table-bordered table-sm text-center small mb-0">
-                                <thead>
-                                    <tr><th>Grade</th><th>Points</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>A</td><td>4.00</td></tr>
-                                    <tr><td>A-</td><td>3.67</td></tr>
-                                    <tr><td>B+</td><td>3.33</td></tr>
-                                    <tr><td>B</td><td>3.00</td></tr>
-                                    <tr><td>B-</td><td>2.67</td></tr>
-                                    <tr><td>C+</td><td>2.33</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                        <div class="col-6">
-                            <table class="table table-bordered table-sm text-center small mb-0">
-                                <thead>
-                                    <tr><th>Grade</th><th>Points</th></tr>
-                                </thead>
-                                <tbody>
-                                    <tr><td>C</td><td>2.00</td></tr>
-                                    <tr><td>C-</td><td>1.67</td></tr>
-                                    <tr><td>D+</td><td>1.33</td></tr>
-                                    <tr><td>D</td><td>1.00</td></tr>
-                                    <tr><td>F</td><td>0.00</td></tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    
-                    <div class="border-top mt-4 pt-3">
-                        <h6 class="font-weight-bold text-primary mb-2">Graduation Honors Criteria</h6>
-                        <ul class="list-unstyled small">
-                            <li class="d-flex justify-content-between border-bottom py-1">
-                                <span>Summa Cum Laude</span>
-                                <strong>3.90 – 4.00</strong>
-                            </li>
-                            <li class="d-flex justify-content-between border-bottom py-1">
-                                <span>Magna Cum Laude</span>
-                                <strong>3.80 – 3.89</strong>
-                            </li>
-                            <li class="d-flex justify-content-between py-1">
-                                <span>Cum Laude</span>
-                                <strong>3.70 – 3.79</strong>
-                            </li>
-                        </ul>
-                        <p class="text-muted small mt-2 font-italic">
-                            * To graduate with honors, a student must complete a minimum of 100 credits at IUB and hold no "F" grade on record.
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="datetime" id="datetime"></div>
+
+    <div class="footer">
+        <p>&copy; 2024 IUB CGPA Calculator | <b>Alnilam<b> </p>
     </div>
 
-    <!-- Bootstrap & jQuery scripts -->
+    <!-- Bootstrap and jQuery JS -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- State & Calculation Logic -->
     <script>
-        // State store
-        let state = {
-            courses: [],
-            theme: 'light',
-            editingId: null
-        };
+        const grades = ["A", "A-", "B+", "B", "B-", "C+", "C", "C-", "D+", "D", "F"];
+        
+        function createCourseInputs(numCourses) {
+            const courseInputsDiv = document.getElementById('courseInputs');
+            courseInputsDiv.innerHTML = "";  // Clear previous inputs
 
-        const GRADES = {
-            "A": 4.00,
-            "A-": 3.67,
-            "B+": 3.33,
-            "B": 3.00,
-            "B-": 2.67,
-            "C+": 2.33,
-            "C": 2.00,
-            "C-": 1.67,
-            "D+": 1.33,
-            "D": 1.00,
-            "F": 0.00
-        };
-
-        const SEASONS = { 'Spring': 1, 'Summer': 2, 'Autumn': 3 };
-
-        // Helper: unique random ID
-        function generateId() {
-            return '_' + Math.random().toString(36).substr(2, 9);
+            for (let i = 0; i < numCourses; i++) {
+                const courseHTML = `
+                    <div class="course-inputs">
+                        <input type="text" class="form-control" id="course_name_${i}" placeholder="Optional">
+                        <select class="form-control" id="grade_${i}">
+                            ${grades.map(grade => `<option value="${grade}">${grade}</option>`).join('')}
+                        </select>
+                        <input type="number" class="form-control" id="credit_${i}" min="1" required placeholder="Credit Hours">
+                    </div>`;
+                courseInputsDiv.innerHTML += courseHTML;
+            }
         }
 
-        // Initialize script
-        window.addEventListener('DOMContentLoaded', () => {
-            initYearDropdown();
-            loadState();
-            
-            // Set theme switch triggers
-            document.getElementById('themeToggleBtn').addEventListener('click', toggleTheme);
-            
-            // Render initial screen
-            updateUI();
+        document.getElementById('num_courses').addEventListener('input', function() {
+            const numCourses = parseInt(this.value);
+            if (numCourses > 0 && numCourses <= 10) {
+                createCourseInputs(numCourses);
+            }
         });
 
-        // Setup dynamic years range
-        function initYearDropdown() {
-            const select = document.getElementById('semesterYear');
-            const currentYear = new Date().getFullYear();
-            for (let y = currentYear + 4; y >= currentYear - 8; y--) {
-                const opt = document.createElement('option');
-                opt.value = y;
-                opt.textContent = y;
-                if (y === currentYear) opt.selected = true;
-                select.appendChild(opt);
-            }
-        }
-
-        // Local storage saving/loading
-        function loadState() {
-            const data = localStorage.getItem('iub_cgpa_tracker_simple_state');
-            if (data) {
-                try {
-                    state = JSON.parse(data);
-                    if (!state.courses) state.courses = [];
-                    if (!state.theme) state.theme = 'light';
-                    state.editingId = null;
-                } catch (e) {
-                    console.error("Localstorage read error", e);
-                }
-            } else {
-                // Populate clean demo list on first open
-                prepopulateDemoCourses();
-            }
-        }
-
-        function saveState() {
-            localStorage.setItem('iub_cgpa_tracker_simple_state', JSON.stringify({
-                courses: state.courses,
-                theme: state.theme
-            }));
-        }
-
-        function prepopulateDemoCourses() {
-            state.courses = [
-                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'C+', semester: 'Autumn 2024', isRetake: false },
-                { id: generateId(), code: 'ENG101', title: 'English Composition', credits: 3, grade: 'A', semester: 'Autumn 2024', isRetake: false },
-                { id: generateId(), code: 'MAT101', title: 'Calculus I', credits: 3, grade: 'B', semester: 'Autumn 2024', isRetake: false },
-                { id: generateId(), code: 'CSE104', title: 'OOP', credits: 3, grade: 'B+', semester: 'Spring 2025', isRetake: false },
-                { id: generateId(), code: 'CSE101', title: 'Structured Programming', credits: 3, grade: 'A-', semester: 'Spring 2025', isRetake: true }
-            ];
-            state.theme = 'light';
-            saveState();
-        }
-
-        // Theme controllers
-        function toggleTheme() {
-            state.theme = state.theme === 'light' ? 'dark' : 'light';
-            applyTheme(state.theme);
-            saveState();
-        }
-
-        function applyTheme(theme) {
-            const btn = document.getElementById('themeToggleBtn');
-            if (theme === 'dark') {
-                document.body.classList.add('dark-mode');
-                btn.innerHTML = '<i class="fas fa-sun mr-1"></i> Light Mode';
-                btn.className = 'btn btn-outline-light btn-sm mr-2';
-            } else {
-                document.body.classList.remove('dark-mode');
-                btn.innerHTML = '<i class="fas fa-moon mr-1"></i> Dark Mode';
-                btn.className = 'btn btn-outline-secondary btn-sm mr-2';
-            }
-        }
-
-        // Semester comparator sorting utilities
-        function parseSemester(semStr) {
-            if (!semStr) return { year: 0, seasonValue: 0 };
-            const parts = semStr.split(' ');
-            if (parts.length < 2) return { year: 0, seasonValue: 0 };
-            return {
-                year: parseInt(parts[1]) || 0,
-                seasonValue: SEASONS[parts[0]] || 0
-            };
-        }
-
-        function compareSemesters(semA, semB) {
-            const a = parseSemester(semA);
-            const b = parseSemester(semB);
-            if (a.year !== b.year) return a.year - b.year;
-            return a.seasonValue - b.seasonValue;
-        }
-
-        // Retake & CGPA Engine Calculations
-        function runCgpaEngine() {
-            // Group attempts by course code
-            const codeGroups = {};
-            state.courses.forEach(c => {
-                const code = c.code.trim().toUpperCase();
-                if (!codeGroups[code]) codeGroups[code] = [];
-                codeGroups[code].push(c);
-            });
-
-            // Clone to execute mutations cleanly
-            const processedList = state.courses.map(c => ({
-                ...c,
-                isReplaced: false,
-                replacementSemester: null,
-                replacementGrade: null,
-                hasPreviousAttempt: false,
-                previousGrade: null,
-                previousSemester: null,
-                improved: false,
-                downgraded: false
-            }));
-
-            // Compare multiple attempts
-            Object.keys(codeGroups).forEach(code => {
-                const attempts = codeGroups[code];
-                if (attempts.length <= 1) return;
-
-                // Sort chronologically
-                attempts.sort((a, b) => compareSemesters(a.semester, b.semester));
-
-                // Latest is active attempt
-                const latest = attempts[attempts.length - 1];
-
-                processedList.forEach(c => {
-                    if (c.code.trim().toUpperCase() === code) {
-                        if (c.id !== latest.id) {
-                            // Old attempts get flagged as replaced
-                            c.isReplaced = true;
-                            c.replacementSemester = latest.semester;
-                            c.replacementGrade = latest.grade;
-                        } else {
-                            // Active retake record
-                            c.hasPreviousAttempt = true;
-                            const prev = attempts[attempts.length - 2];
-                            c.previousGrade = prev.grade;
-                            c.previousSemester = prev.semester;
-                            
-                            const oldGP = GRADES[prev.grade];
-                            const newGP = GRADES[c.grade];
-                            if (newGP > oldGP) c.improved = true;
-                            if (newGP < oldGP) c.downgraded = true;
-                        }
-                    }
-                });
-            });
-
-            // Calculate overall CGPA
+        document.getElementById('calculateBtn').addEventListener('click', function() {
+            const previousCgpa = parseFloat(document.getElementById('previous_cgpa').value) || 0;
+            const completedCredits = parseFloat(document.getElementById('completed_credits').value) || 0;
             let totalPoints = 0;
             let totalCredits = 0;
-            let retakeCount = 0;
-            const downgradeWarnings = [];
+            let totalNewCredits = 0;
 
-            processedList.forEach(c => {
-                if (c.isReplaced) return; // Disregard replaced attempts entirely from Cumulative CGPA
+            for (let i = 0; i < parseInt(document.getElementById('num_courses').value); i++) {
+                const grade = document.getElementById(`grade_${i}`).value;
+                const creditHours = parseFloat(document.getElementById(`credit_${i}`).value) || 0;
 
-                const gp = GRADES[c.grade];
-                const cr = parseFloat(c.credits) || 0;
-                totalPoints += (gp * cr);
-                totalCredits += cr;
-
-                if (c.hasPreviousAttempt) {
-                    retakeCount++;
-                    if (c.downgraded) {
-                        downgradeWarnings.push({
-                            code: c.code.toUpperCase(),
-                            oldGrade: c.previousGrade,
-                            newGrade: c.grade,
-                            oldSem: c.previousSemester,
-                            newSem: c.semester
-                        });
-                    }
-                }
-            });
-
-            const cgpa = totalCredits > 0 ? (totalPoints / totalCredits) : 0;
-
-            // Recalculate Semester-wise GPAs
-            const semestersMap = {};
-            processedList.forEach(c => {
-                if (!semestersMap[c.semester]) {
-                    semestersMap[c.semester] = { points: 0, credits: 0 };
-                }
-                const gp = GRADES[c.grade];
-                const cr = parseFloat(c.credits) || 0;
-                semestersMap[c.semester].points += (gp * cr);
-                semestersMap[c.semester].credits += cr;
-            });
-
-            const semesterGPAs = {};
-            Object.keys(semestersMap).forEach(sem => {
-                const s = semestersMap[sem];
-                semesterGPAs[sem] = s.credits > 0 ? (s.points / s.credits) : 0;
-            });
-
-            // Sort semester list keys chronologically
-            const sortedSemesters = Object.keys(semestersMap).sort(compareSemesters);
-
-            return {
-                processedList,
-                cgpa,
-                totalCredits,
-                retakeCount,
-                downgradeWarnings,
-                semesterGPAs,
-                sortedSemesters
-            };
-        }
-
-        // Live Retake Check as they type
-        function checkRetakeMatches() {
-            const codeInput = document.getElementById('courseCode').value.trim().toUpperCase();
-            const gradeSelect = document.getElementById('courseGrade').value;
-            const season = document.getElementById('semesterSeason').value;
-            const year = document.getElementById('semesterYear').value;
-            const isRetakeBox = document.getElementById('isRetakeCheckbox');
-            const feedback = document.getElementById('formLiveFeedback');
-
-            const currentSem = `${season} ${year}`;
-            
-            if (!codeInput) {
-                feedback.style.display = 'none';
-                return;
+                const gradePoints = getGradePoints(grade);
+                totalPoints += gradePoints * creditHours;
+                totalCredits += creditHours;
+                totalNewCredits += creditHours; // Keep track of total new credits
             }
 
-            const priorAttempts = state.courses.filter(c => 
-                c.code.trim().toUpperCase() === codeInput &&
-                c.id !== state.editingId &&
-                compareSemesters(c.semester, currentSem) < 0
-            );
+            const newCgpa = (totalPoints + (previousCgpa * completedCredits)) / (totalCredits + completedCredits);
+            const formattedCgpa = isNaN(newCgpa) ? "Please enter valid data" : newCgpa.toFixed(2);
+            const totalEarnedCredits = completedCredits + totalNewCredits;
 
-            if (priorAttempts.length > 0) {
-                priorAttempts.sort((a, b) => compareSemesters(a.semester, b.semester));
-                const prev = priorAttempts[priorAttempts.length - 1];
+            document.getElementById('result').innerText = `Your CGPA: ${formattedCgpa}`;
+            document.getElementById('totalCreditsResult').innerText = `Total Earned Credits: ${totalEarnedCredits}`;
+        });
 
-                // Auto check retake toggle box to assist student
-                if (!isRetakeBox.checked) {
-                    isRetakeBox.checked = true;
-                }
-
-                const prevGP = GRADES[prev.grade];
-                const curGP = GRADES[gradeSelect];
-
-                let feedbackText = `<strong>Previous Attempt Found:</strong> ${prev.semester} (Grade: ${prev.grade}).<br>`;
-                if (curGP > prevGP) {
-                    feedbackText += `<span class="text-success"><i class="fas fa-chevron-up"></i> Grade will improve from ${prev.grade} ➔ ${gradeSelect} (+${(curGP - prevGP).toFixed(2)} GP)</span>`;
-                } else if (curGP === prevGP) {
-                    feedbackText += `<span class="text-secondary"><i class="fas fa-arrows-alt-h"></i> Same grade received (${prev.grade} ➔ ${gradeSelect})</span>`;
-                } else {
-                    feedbackText += `<span class="text-danger font-weight-bold"><i class="fas fa-exclamation-triangle"></i> Warning: Retake grade (${gradeSelect}) is lower than previous attempt (${prev.grade}). IUB rules use latest grade!</span>`;
-                }
-
-                feedback.innerHTML = feedbackText;
-                feedback.style.display = 'block';
-            } else {
-                feedback.style.display = 'none';
+        function getGradePoints(grade) {
+            switch (grade) {
+                case "A": return 4.00;
+                case "A-": return 3.67;
+                case "B+": return 3.33;
+                case "B": return 3.00;
+                case "B-": return 2.67;
+                case "C+": return 2.33;
+                case "C": return 2.00;
+                case "C-": return 1.67;
+                case "D+": return 1.33;
+                case "D": return 1.00;
+                case "F": return 0.00;
+                default: return 0;
             }
         }
 
-        // Form Submit Handler
-        function onFormSubmit(e) {
-            e.preventDefault();
-
-            const code = document.getElementById('courseCode').value.trim();
-            const title = document.getElementById('courseTitle').value.trim();
-            const season = document.getElementById('semesterSeason').value;
-            const year = document.getElementById('semesterYear').value;
-            const credits = parseFloat(document.getElementById('courseCredits').value);
-            const grade = document.getElementById('courseGrade').value;
-            const isRetake = document.getElementById('isRetakeCheckbox').checked;
-
-            const semester = `${season} ${year}`;
-
-            if (state.editingId) {
-                const index = state.courses.findIndex(c => c.id === state.editingId);
-                if (index !== -1) {
-                    state.courses[index] = {
-                        ...state.courses[index],
-                        code,
-                        title, // Replaced
-                        credits,
-                        grade,
-                        semester,
-                        isRetake
-                    };
-                }
-                state.editingId = null;
-                document.getElementById('formHeader').textContent = 'Add Course';
-                document.getElementById('submitBtn').textContent = 'Add Course';
-                document.getElementById('cancelEditBtn').style.display = 'none';
-            } else {
-                const newCourse = {
-                    id: generateId(),
-                    code,
-                    title,
-                    credits,
-                    grade,
-                    semester,
-                    isRetake
-                };
-                state.courses.push(newCourse);
-            }
-
-            saveState();
-            resetFormInputs();
-            updateUI();
+        // Function to display current date and time
+        function showDateTime() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric', hour12: true };
+            const days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+            const dayName = days[now.getDay()]; // Get the day name
+            document.getElementById('datetime').innerText = `${dayName}, ${now.toLocaleString('en-US', options)}`;
         }
 
-        // Render dashboard values
-        function updateUI() {
-            const data = runCgpaEngine();
-
-            applyTheme(state.theme);
-
-            // Set main summary cards
-            document.getElementById('summaryCgpa').textContent = data.cgpa.toFixed(2);
-            document.getElementById('summaryCredits').textContent = data.totalCredits;
-            
-            const retakeLabel = document.getElementById('retakeCountLabel');
-            if (data.retakeCount > 0) {
-                retakeLabel.textContent = `${data.retakeCount} retake course(s) successfully processed and calculated.`;
-                retakeLabel.className = "mt-3 text-center text-success font-weight-bold small";
-            } else {
-                retakeLabel.textContent = "No retakes processed.";
-                retakeLabel.className = "mt-3 text-center text-muted small";
-            }
-
-            // Warnings Alert displays
-            const warningAlertsDiv = document.getElementById('warningAlerts');
-            warningAlertsDiv.innerHTML = '';
-            data.downgradeWarnings.forEach(w => {
-                const alert = document.createElement('div');
-                alert.className = 'alert alert-warning alert-dismissible fade show small font-weight-bold';
-                alert.role = 'alert';
-                alert.innerHTML = `
-                    <i class="fas fa-exclamation-triangle mr-2"></i>
-                    Retake Downgrade Alert: ${w.code} latest grade (${w.newGrade} in ${w.newSem}) is lower than the previous attempt (${w.oldGrade} in ${w.oldSem}). Under IUB precedence rules, this lower grade is used for CGPA calculations.
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                `;
-                warningAlertsDiv.appendChild(alert);
-            });
-
-            // Render Table Rows
-            const tbody = document.getElementById('tableBody');
-            const emptyState = document.getElementById('emptyState');
-            tbody.innerHTML = '';
-
-            if (data.processedList.length === 0) {
-                emptyState.style.display = 'block';
-            } else {
-                emptyState.style.display = 'none';
-                
-                // Sort chronologically for table listing
-                data.processedList.sort((a,b) => compareSemesters(a.semester, b.semester));
-
-                data.processedList.forEach(c => {
-                    const tr = document.createElement('tr');
-                    let statusBadge = '<span class="badge badge-light border">Normal</span>';
-                    let trClass = '';
-                    let textClass = '';
-
-                    if (c.isReplaced) {
-                        trClass = 'replaced-row';
-                        textClass = 'replaced-text';
-                        statusBadge = `<span class="badge badge-secondary" title="Replaced by attempt in ${c.replacementSemester}">Replaced (${c.replacementGrade})</span>`;
-                    } else if (c.hasPreviousAttempt) {
-                        if (c.improved) {
-                            statusBadge = `<span class="badge badge-success" title="Improved from ${c.previousGrade} in ${c.previousSemester}">Improved (${c.previousGrade}➔${c.grade})</span>`;
-                        } else if (c.downgraded) {
-                            statusBadge = `<span class="badge badge-danger" title="Downgraded from ${c.previousGrade} in ${c.previousSemester}">Degraded (${c.previousGrade}➔${c.grade})</span>`;
-                        } else {
-                            statusBadge = `<span class="badge badge-warning" title="Equal to previous attempt grade ${c.previousGrade} in ${c.previousSemester}">Retake Equal</span>`;
-                        }
-                    } else if (c.isRetake) {
-                        statusBadge = `<span class="badge badge-primary">Retake</span>`;
-                    }
-
-                    tr.className = trClass;
-                    tr.innerHTML = `
-                        <td class="${textClass}">${c.semester}</td>
-                        <td class="font-weight-bold ${textClass}">${c.code.toUpperCase()}</td>
-                        <td class="small ${textClass}">${c.title ? c.title : '<span class="text-muted font-italic">-</span>'}</td>
-                        <td class="${textClass}">${c.credits}</td>
-                        <td class="font-weight-bold ${textClass}">${c.grade}</td>
-                        <td>${statusBadge}</td>
-                        <td class="text-right">
-                            <button class="btn btn-outline-primary btn-sm py-0 px-2 mr-1" onclick="editCourse('${c.id}')" title="Edit">
-                                <i class="fas fa-edit"></i>
-                            </button>
-                            <button class="btn btn-outline-danger btn-sm py-0 px-2" onclick="deleteCourse('${c.id}')" title="Delete">
-                                <i class="fas fa-trash"></i>
-                            </button>
-                        </td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-            }
-
-            // Render Semester wise list GPAs
-            const semListUl = document.getElementById('semesterList');
-            semListUl.innerHTML = '';
-            
-            if (data.sortedSemesters.length === 0) {
-                semListUl.innerHTML = '<li class="list-group-item text-center text-muted small py-3">No semester GPAs to compute.</li>';
-            } else {
-                data.sortedSemesters.forEach(sem => {
-                    const li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between align-items-center py-2 px-0 bg-transparent';
-                    li.innerHTML = `
-                        <span class="font-weight-bold small">${sem}</span>
-                        <span class="badge badge-pill badge-primary px-3 py-2 font-weight-bold">GPA: ${data.semesterGPAs[sem].toFixed(2)}</span>
-                    `;
-                    semListUl.appendChild(li);
-                });
-            }
-        }
-
-        // CRUD Actions
-        function editCourse(id) {
-            const course = state.courses.find(c => c.id === id);
-            if (!course) return;
-
-            state.editingId = id;
-            document.getElementById('courseCode').value = course.code;
-            document.getElementById('courseTitle').value = course.title || '';
-            document.getElementById('courseCredits').value = course.credits;
-            document.getElementById('courseGrade').value = course.grade;
-            document.getElementById('isRetakeCheckbox').checked = course.isRetake;
-
-            const parts = course.semester.split(' ');
-            if (parts.length >= 2) {
-                document.getElementById('semesterSeason').value = parts[0];
-                document.getElementById('semesterYear').value = parts[1];
-            }
-
-            document.getElementById('formHeader').textContent = 'Edit Course';
-            document.getElementById('submitBtn').textContent = 'Update Course';
-            document.getElementById('cancelEditBtn').style.display = 'inline-block';
-            
-            // Scroll form card into focus on mobile
-            document.getElementById('courseForm').scrollIntoView({ behavior: 'smooth' });
-
-            checkRetakeMatches();
-        }
-
-        function deleteCourse(id) {
-            state.courses = state.courses.filter(c => c.id !== id);
-            saveState();
-            if (state.editingId === id) {
-                resetForm();
-            }
-            updateUI();
-        }
-
-        // Reset helpers
-        function resetForm() {
-            state.editingId = null;
-            document.getElementById('formHeader').textContent = 'Add Course';
-            document.getElementById('submitBtn').textContent = 'Add Course';
-            document.getElementById('cancelEditBtn').style.display = 'none';
-            resetFormInputs();
-            checkRetakeMatches();
-        }
-
-        function resetFormInputs() {
-            document.getElementById('courseCode').value = '';
-            document.getElementById('courseTitle').value = '';
-            document.getElementById('courseCredits').value = '3';
-            document.getElementById('courseGrade').selectedIndex = 0;
-            document.getElementById('isRetakeCheckbox').checked = false;
-        }
-
-        function confirmResetAll() {
-            if (confirm("Are you sure you want to delete all course records? This action cannot be undone.")) {
-                state.courses = [];
-                state.editingId = null;
-                saveState();
-                resetForm();
-                updateUI();
-            }
-        }
+        setInterval(showDateTime, 1000); // Update date and time every second
+        showDateTime(); // Initial call to display date and time immediately
     </script>
 </body>
 </html>
